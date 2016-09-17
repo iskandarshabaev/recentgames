@@ -1,10 +1,5 @@
 package com.recentgames.model;
 
-import rx.Observable;
-
-/**
- * Created by Iskandar on 18.09.2016.
- */
 public class QueryParams {
     public static final String FIELD = "field";
     public static final String ID = "id";
