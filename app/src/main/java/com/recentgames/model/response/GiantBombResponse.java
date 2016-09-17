@@ -5,9 +5,6 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Iskandar on 17.09.2016.
- */
 public class GiantBombResponse<T> {
 
     @SerializedName("error")

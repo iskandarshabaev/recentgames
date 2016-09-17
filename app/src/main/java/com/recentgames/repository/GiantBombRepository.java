@@ -16,6 +16,6 @@ public interface GiantBombRepository {
 
     Observable<List<GamePreview>> search();
 
-    Observable<List<ReviewDescription>> review();
+    Observable<ReviewDescription> review();
 
 }
