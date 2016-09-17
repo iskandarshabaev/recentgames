@@ -1,5 +1,6 @@
 package com.recentgames.model.content;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
@@ -32,7 +33,7 @@ public class ReviewDescription extends RealmObject {
         return mId;
     }
 
-    @Nullable
+    @NonNull
     public String getName() {
         return mName;
     }
@@ -41,10 +42,12 @@ public class ReviewDescription extends RealmObject {
         return mScore;
     }
 
+    @NonNull
     public String getReviewer() {
         return mReviewer;
     }
 
+    @NonNull
     public String getPublishDate() {
         return mPublishDate;
     }

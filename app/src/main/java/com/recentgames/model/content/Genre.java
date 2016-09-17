@@ -1,6 +1,7 @@
 package com.recentgames.model.content;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -28,6 +29,7 @@ public class Genre extends RealmObject {
         return mId;
     }
 
+    @NonNull
     public String getName() {
         return mName;
     }

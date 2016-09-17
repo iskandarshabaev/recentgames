@@ -21,7 +21,7 @@ public class Image extends RealmObject {
         mTinyUrl = tinyUrl;
     }
 
-    @Nullable
+    @NonNull
     public String getTinyUrl() {
         return mTinyUrl;
     }

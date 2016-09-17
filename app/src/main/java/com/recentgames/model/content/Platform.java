@@ -10,13 +10,15 @@ import io.realm.RealmObject;
 /**
  * Created by Iskandar on 17.09.2016.
  */
-public class Rating extends RealmObject{
+public class Platform extends RealmObject {
 
     @SerializedName("id")
     private int mId;
 
     @SerializedName("name")
-    private String name;
+    private String mName;
+
+    public Platform(){}
 
     public int getId() {
         return mId;
@@ -24,6 +26,6 @@ public class Rating extends RealmObject{
 
     @NonNull
     public String getName() {
-        return name;
+        return mName;
     }
 }
