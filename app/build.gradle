@@ -16,6 +16,7 @@ android {
 
         buildConfigField "String", "API_ENDPOINT", '"http://www.giantbomb.com/api/"'
         buildConfigField "String", "API_KEY", '"4efa001d8d9b0fff004f7b9d88565850e3b134e2"'
+        buildConfigField "String", "FORMAT", '"json"'
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }

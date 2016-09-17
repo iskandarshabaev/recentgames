@@ -8,23 +8,20 @@ import java.io.Serializable;
 
 import io.realm.RealmObject;
 
-/**
- * Created by Iskandar on 17.09.2016.
- */
 public class GamePreview extends RealmObject implements Serializable{
 
     @SerializedName("id")
     private int mId;
 
     @SerializedName("image")
-    private String mImage;
+    private Image mImage;
 
     @SerializedName("name")
     private String mName;
 
     public GamePreview(){}
 
-    public GamePreview(int id, @NonNull String image, @NonNull String name){
+    public GamePreview(int id, @NonNull Image image, @NonNull String name){
         mId = id;
         mImage = image;
         mName = name;
@@ -35,7 +32,7 @@ public class GamePreview extends RealmObject implements Serializable{
     }
 
     @NonNull
-    public String getImage() {
+    public Image getImage() {
         return mImage;
     }
 

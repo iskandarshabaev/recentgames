@@ -1,28 +1,24 @@
 package com.recentgames.model.content;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
 
-/**
- * Created by Iskandar on 17.09.2016.
- */
 public class Image extends RealmObject {
 
-    @SerializedName("tiny_url")
-    private String mTinyUrl;
+    @SerializedName("medium_url")
+    private String mMediumUrl;
 
     public Image(){}
 
     public Image(@NonNull String tinyUrl){
-        mTinyUrl = tinyUrl;
+        mMediumUrl = tinyUrl;
     }
 
     @NonNull
-    public String getTinyUrl() {
-        return mTinyUrl;
+    public String getMediumUrl() {
+        return mMediumUrl;
     }
 }
