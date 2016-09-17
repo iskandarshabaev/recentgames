@@ -36,4 +36,36 @@ public class GameDescription extends RealmObject {
     private List<ReviewPreview> reviews;
 
     public GameDescription(){}
+
+    public int getId() {
+        return mId;
+    }
+
+    public String getDeck() {
+        return mDeck;
+    }
+
+    public String getPlatforms() {
+        return mPlatforms;
+    }
+
+    public List<Genre> getGenres() {
+        return mGenres;
+    }
+
+    public List<Image> getImages() {
+        return mImages;
+    }
+
+    public String getOriginalReleaseDate() {
+        return mOriginalReleaseDate;
+    }
+
+    public List<Rating> getOriginalGameRating() {
+        return mOriginalGameRating;
+    }
+
+    public List<ReviewPreview> getReviews() {
+        return reviews;
+    }
 }
