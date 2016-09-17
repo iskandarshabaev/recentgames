@@ -26,7 +26,7 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
     }
 
     @Override
-    public Observable<List<ReviewDescription>> review() {
+    public Observable<ReviewDescription> review() {
         return Observable.empty();
     }
 }
