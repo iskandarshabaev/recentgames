@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RecentGames</string>
+
+    <!-- Games -->
+    <string name="menu_search">Search</string>
+
+    <!--GameDetails-->
+
+    <!--Search-->
+
+</resources>
