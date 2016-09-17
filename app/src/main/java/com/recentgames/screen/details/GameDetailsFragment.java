@@ -7,8 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.recentgames.R;
+import com.recentgames.router.GamesRouter;
+import com.recentgames.router.impl.GamesRouterImpl;
 
 public class GameDetailsFragment extends Fragment {
+
+    private GamesRouter mGamesRouter;
 
     public static GameDetailsFragment newInstance(/*SomeModel data*/) {
 
@@ -25,6 +29,8 @@ public class GameDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_game_details, container, false);
+
+        mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
 
         //SomeModel data = getArguments().getSerializable(KEY_DATA, defaultData);
 

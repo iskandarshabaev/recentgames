@@ -1,6 +1,5 @@
 package com.recentgames.screen.games;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,22 +16,11 @@ import android.view.ViewGroup;
 import com.recentgames.GamesType;
 import com.recentgames.R;
 import com.recentgames.router.GamesRouter;
+import com.recentgames.router.impl.GamesRouterImpl;
 
 public class GamesFragment extends Fragment {
 
     protected GamesRouter mGamesRouter;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        try {
-            mGamesRouter = (GamesRouter) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement GamesRouter");
-        }
-    }
 
     public static GamesFragment newInstance() {
         return new GamesFragment();
@@ -42,6 +30,7 @@ public class GamesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_games, container, false);
+        mGamesRouter= new GamesRouterImpl(getActivity().getSupportFragmentManager());
         setupGameFragments(layout);
         setHasOptionsMenu(true);
         initToolbar((Toolbar)layout.findViewById(R.id.games_toolbar), R.string.app_name);

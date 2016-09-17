@@ -19,6 +19,11 @@ public class GamesRouterImpl implements GamesRouter {
     }
 
     @Override
+    public void navigateBack() {
+        mFragmentManager.popBackStack();
+    }
+
+    @Override
     public void navigateToGames(int type) {
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
