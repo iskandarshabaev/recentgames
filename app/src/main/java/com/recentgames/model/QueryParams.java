@@ -1,6 +1,9 @@
 package com.recentgames.model;
 
 public class QueryParams {
+
+    public static final int LIMIT = 20;
+
     public static final String FIELD = "field";
     public static final String ID = "id";
     public static final String NAME = "name";

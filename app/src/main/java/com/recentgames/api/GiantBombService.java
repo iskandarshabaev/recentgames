@@ -15,7 +15,7 @@ import rx.Observable;
 public interface GiantBombService {
 
     @GET("game/{gameId}")
-    Observable<GiantBombResponse<GameDescription>> game(@Path("movieId") int gameId,
+    Observable<GiantBombResponse<GameDescription>> game(@Path("gameId") int gameId,
                                                         @Query("field_list") String fieldList);
 
     @GET("games/")
@@ -26,4 +26,10 @@ public interface GiantBombService {
     @GET("review/{reviewId}")
     Observable<GiantBombResponse<ReviewDescription>> review(@Path("reviewId") int reviewId,
                                                             @Query("field_list") String fieldList);
+
+    @GET("search/")
+    Observable<GiantBombResponse<List<GamePreview>>> search(@Query("query") String query,
+                                                            @Query("field_list") String fieldList,
+                                                            @Query("limit") int limit,
+                                                            @Query("offset") int offset);
 }
