@@ -1,6 +1,7 @@
 package com.recentgames.screen.games;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,25 +16,42 @@ import android.view.ViewGroup;
 
 import com.recentgames.GamesType;
 import com.recentgames.R;
-import com.recentgames.router.GamesRouter;
+import com.recentgames.router.OnSearchStateChanged;
 import com.recentgames.router.impl.GamesRouterImpl;
 
-public class GamesFragment extends Fragment {
+public class GamesFragment extends Fragment implements OnSearchStateChanged {
 
-    protected GamesRouter mGamesRouter;
+    @Override
+    public void onSearchRemoved() {
+        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
+        appBarLayout.setExpanded(true, true);
+    }
+
+    @Override
+    public void onSearchAdded() {
+        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
+        appBarLayout.setExpanded(false, true);
+    }
+
+    protected GamesRouterImpl mGamesRouter;
 
     public static GamesFragment newInstance() {
         return new GamesFragment();
     }
 
+    private View layout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_games, container, false);
-        mGamesRouter= new GamesRouterImpl(getActivity().getSupportFragmentManager());
+        layout = inflater.inflate(R.layout.fragment_games, container, false);
+        mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
         setupGameFragments(layout);
         setHasOptionsMenu(true);
-        initToolbar((Toolbar)layout.findViewById(R.id.games_toolbar), R.string.app_name);
+        initToolbar((Toolbar) layout.findViewById(R.id.games_toolbar), R.string.app_name);
+
+        mGamesRouter.addSearchStateListener(this);
+
         return layout;
     }
 
