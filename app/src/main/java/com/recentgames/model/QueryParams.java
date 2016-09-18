@@ -18,18 +18,13 @@ public class QueryParams {
     public static final String DATA_REF_ID = "data-ref-id";
     public static final String DESCRIPTION = "description";
 
-    public static String gamesFieldList(){
-        return ID + "," + NAME + "," + IMAGE;
-    }
+    public static final String GAMES_FILED_LIST = ID + "," + NAME + "," + IMAGE;
 
-    public static String gameFieldList(){
-        return ID + "," + NAME + "," + IMAGES + "," + DECK + "," +
-                PLATFORMS + "," + GENRES + "," + RELEASE_DATE + "," +
-                RATING + "," + REVIEWS;
-    }
+    public static final String GAME_FILED_LIST = ID + "," + NAME + "," + IMAGES + "," + DECK + "," +
+            PLATFORMS + "," + GENRES + "," + RELEASE_DATE + "," +
+            RATING + "," + REVIEWS;
 
-    public static String reviewFieldList(){
-        return DESCRIPTION + "," + SCORE + "," + REVIEWER + "," +
-                PUBLISH_DATE;
-    }
+    public static final String REVIEW_FILED_LIST = DESCRIPTION + "," + SCORE + "," + REVIEWER + "," +
+            PUBLISH_DATE;
+
 }
