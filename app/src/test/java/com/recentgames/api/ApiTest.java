@@ -1,6 +1,6 @@
 package com.recentgames.api;
 
-import com.recentgames.model.QueryParams;
+import static com.recentgames.model.QueryParams.*;
 import com.recentgames.model.response.GiantBombResponse;
 import com.recentgames.util.RxSchedulers;
 import com.recentgames.utils.RxSchedulersHooks;
@@ -19,7 +19,8 @@ public class ApiTest {
 
     @Test
     public void testApiGetGame(){
-        ApiFactory.getGiantBombService().game(5, QueryParams.GAME_FILED_LIST)
+        int gameId = 5;
+        ApiFactory.getGiantBombService().game(gameId,GAME_FILED_LIST)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -30,7 +31,8 @@ public class ApiTest {
 
     @Test
     public void testApiGetGameException(){
-        ApiFactory.getGiantBombService().game(599987787, QueryParams.GAME_FILED_LIST)
+        int gameId = 599987787;
+        ApiFactory.getGiantBombService().game(gameId,GAME_FILED_LIST)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -41,7 +43,9 @@ public class ApiTest {
 
     @Test
     public void testApiGetGames(){
-        ApiFactory.getGiantBombService().games(QueryParams.GAMES_FILED_LIST,5,0)
+        int limit = LIMIT;
+        int offset = 0;
+        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST,limit,offset)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -52,7 +56,9 @@ public class ApiTest {
 
     @Test
     public void testApiGetGamesException(){
-        ApiFactory.getGiantBombService().games(QueryParams.GAMES_FILED_LIST, 5, 999999999)
+        int limit = LIMIT;
+        int offset = 999999999;
+        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST,limit,offset)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -63,7 +69,8 @@ public class ApiTest {
 
     @Test
     public void testApiGetReview(){
-        ApiFactory.getGiantBombService().review(5,QueryParams.REVIEW_FILED_LIST)
+        int reviewId = 5;
+        ApiFactory.getGiantBombService().review(reviewId, REVIEW_FILED_LIST)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -74,7 +81,8 @@ public class ApiTest {
 
     @Test
     public void testApiGetReviewNotFound(){
-        ApiFactory.getGiantBombService().review(589980890,QueryParams.REVIEW_FILED_LIST)
+        int reviewId = 589980890;
+        ApiFactory.getGiantBombService().review(reviewId, REVIEW_FILED_LIST)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -85,9 +93,10 @@ public class ApiTest {
 
     @Test
     public void testApiSearchGame(){
-        ApiFactory.getGiantBombService().search("Deus",
-                QueryParams.REVIEW_FILED_LIST,
-                QueryParams.LIMIT,0)
+        String gameName = "Deus";
+        int limit = LIMIT;
+        int offset = 0;
+        ApiFactory.getGiantBombService().search(gameName, REVIEW_FILED_LIST, limit,offset)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -98,10 +107,11 @@ public class ApiTest {
 
     @Test
     public void testApiSearchGameNotFound(){
+        String gameName = "Defdsfjsdfhdsfjsdhfjsdfjus";
+        int limit = LIMIT;
+        int offset = 0;
         ApiFactory.getGiantBombService()
-                .search("Defdsfjsdfhdsfjsdhfjsdfjus",
-                        QueryParams.REVIEW_FILED_LIST,
-                        QueryParams.LIMIT,0)
+                .search(gameName, REVIEW_FILED_LIST,limit,offset)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
