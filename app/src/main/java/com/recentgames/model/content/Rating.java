@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
 
-public class Rating extends RealmObject{
+public class Rating extends RealmObject {
 
     @SerializedName("id")
     private int mId;

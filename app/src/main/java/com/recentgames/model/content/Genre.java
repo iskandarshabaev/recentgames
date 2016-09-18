@@ -14,9 +14,10 @@ public class Genre extends RealmObject {
     @SerializedName("name")
     private String mName;
 
-    public Genre(){}
+    public Genre() {
+    }
 
-    public Genre(int id, @NonNull String name){
+    public Genre(int id, @NonNull String name) {
         mId = id;
         mName = name;
     }

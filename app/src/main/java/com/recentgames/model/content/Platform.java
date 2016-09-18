@@ -14,7 +14,8 @@ public class Platform extends RealmObject {
     @SerializedName("name")
     private String mName;
 
-    public Platform(){}
+    public Platform() {
+    }
 
     public int getId() {
         return mId;

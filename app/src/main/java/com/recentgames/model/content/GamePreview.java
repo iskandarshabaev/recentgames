@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 import io.realm.RealmObject;
 
-public class GamePreview extends RealmObject implements Serializable{
+public class GamePreview extends RealmObject implements Serializable {
 
     @SerializedName("id")
     private int mId;
@@ -19,9 +19,10 @@ public class GamePreview extends RealmObject implements Serializable{
     @SerializedName("name")
     private String mName;
 
-    public GamePreview(){}
+    public GamePreview() {
+    }
 
-    public GamePreview(int id, @NonNull Image image, @NonNull String name){
+    public GamePreview(int id, @NonNull Image image, @NonNull String name) {
         mId = id;
         mImage = image;
         mName = name;

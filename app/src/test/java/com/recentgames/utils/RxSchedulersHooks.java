@@ -10,9 +10,9 @@ public class RxSchedulersHooks {
 
     private static RxAndroidSchedulersHook hook;
 
-    public static void immediate(){
+    public static void immediate() {
         RxJavaHooks.setOnIOScheduler(scheduler -> Schedulers.immediate());
-        if(hook == null){
+        if (hook == null) {
             hook = new RxAndroidSchedulersHook() {
                 @Override
                 public Scheduler getMainThreadScheduler() {

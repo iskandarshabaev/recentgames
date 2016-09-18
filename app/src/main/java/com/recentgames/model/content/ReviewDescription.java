@@ -20,7 +20,8 @@ public class ReviewDescription extends RealmObject {
     @SerializedName("description")
     private String mDescription;
 
-    public ReviewDescription(){}
+    public ReviewDescription() {
+    }
 
     public int getScore() {
         return mScore;

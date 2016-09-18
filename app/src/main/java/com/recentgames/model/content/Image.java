@@ -11,9 +11,10 @@ public class Image extends RealmObject {
     @SerializedName("medium_url")
     private String mMediumUrl;
 
-    public Image(){}
+    public Image() {
+    }
 
-    public Image(@NonNull String tinyUrl){
+    public Image(@NonNull String tinyUrl) {
         mMediumUrl = tinyUrl;
     }
 

@@ -34,7 +34,8 @@ public class GameDescription extends RealmObject {
     @SerializedName("reviews")
     private RealmList<ReviewPreview> reviews;
 
-    public GameDescription(){}
+    public GameDescription() {
+    }
 
     public int getId() {
         return mId;
