@@ -16,28 +16,17 @@ import android.view.ViewGroup;
 
 import com.recentgames.GamesType;
 import com.recentgames.R;
+import com.recentgames.router.GamesRouter;
 import com.recentgames.router.OnSearchStateChanged;
 import com.recentgames.router.impl.GamesRouterImpl;
 
 public class GamesFragment extends Fragment implements OnSearchStateChanged {
 
-    @Override
-    public void onSearchRemoved() {
-        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
-        appBarLayout.setExpanded(true, true);
-    }
-
-    @Override
-    public void onSearchAdded() {
-        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
-        appBarLayout.setExpanded(false, true);
-    }
-
-    protected GamesRouterImpl mGamesRouter;
-
     public static GamesFragment newInstance() {
         return new GamesFragment();
     }
+
+    private GamesRouter mGamesRouter;
 
     private View layout;
 
@@ -71,6 +60,18 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged {
             default:
                 return super.onOptionsItemSelected(menuItem);
         }
+    }
+
+    @Override
+    public void onSearchRemoved() {
+        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
+        appBarLayout.setExpanded(true, true);
+    }
+
+    @Override
+    public void onSearchAdded() {
+        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
+        appBarLayout.setExpanded(false, true);
     }
 
     public void initToolbar(Toolbar toolbar, int titleResId) {
