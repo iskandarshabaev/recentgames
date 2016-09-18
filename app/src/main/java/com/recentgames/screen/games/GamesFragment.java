@@ -20,14 +20,14 @@ import com.recentgames.router.GamesRouter;
 import com.recentgames.router.OnSearchStateChanged;
 import com.recentgames.router.impl.GamesRouterImpl;
 
-public class GamesFragment extends Fragment implements OnSearchStateChanged {
+public class GamesFragment extends Fragment implements OnSearchStateChanged, GamesView {
 
     public static GamesFragment newInstance() {
         return new GamesFragment();
     }
 
     private GamesRouter mGamesRouter;
-
+    private GamesPresenter mGamesPresenter;
     private View layout;
 
     @Override
@@ -38,7 +38,7 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged {
         setupGameFragments(layout);
         setHasOptionsMenu(true);
         initToolbar((Toolbar) layout.findViewById(R.id.games_toolbar), R.string.app_name);
-
+        mGamesPresenter = new GamesPresenter(this);
         mGamesRouter.addSearchStateListener(this);
 
         return layout;
@@ -54,8 +54,7 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.menu_search:
-                //mPresenter.onMenuSearchClick();
-                mGamesRouter.navigateToSearch();
+                mGamesPresenter.onMenuSearchClick();
                 return true;
             default:
                 return super.onOptionsItemSelected(menuItem);
@@ -64,14 +63,12 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged {
 
     @Override
     public void onSearchRemoved() {
-        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
-        appBarLayout.setExpanded(true, true);
+        mGamesPresenter.onSearchRemoved();
     }
 
     @Override
     public void onSearchAdded() {
-        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
-        appBarLayout.setExpanded(false, true);
+        mGamesPresenter.onSearchAdded();
     }
 
     public void initToolbar(Toolbar toolbar, int titleResId) {
@@ -96,4 +93,30 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged {
         gameFragmentsTabs.setupWithViewPager(gameFragmentsPages);
     }
 
+    @Override
+    public void collapseAppBar() {
+        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
+        appBarLayout.setExpanded(false, true);
+    }
+
+    @Override
+    public void expandAppBar() {
+        AppBarLayout appBarLayout = (AppBarLayout) layout.findViewById(R.id.games_appbar);
+        appBarLayout.setExpanded(true, true);
+    }
+
+    @Override
+    public void openSearchFragment() {
+        mGamesRouter.navigateToSearch();
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
 }
