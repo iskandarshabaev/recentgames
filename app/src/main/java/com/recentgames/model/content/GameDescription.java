@@ -5,13 +5,9 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
-/**
- * Created by Iskandar on 17.09.2016.
- */
 public class GameDescription extends RealmObject {
 
     @SerializedName("id")
@@ -21,24 +17,25 @@ public class GameDescription extends RealmObject {
     private String mDeck;
 
     @SerializedName("platforms")
-    private List<Platform> mPlatforms;
+    private RealmList<Platform> mPlatforms;
 
     @SerializedName("genres")
-    private List<Genre> mGenres;
+    private RealmList<Genre> mGenres;
 
     @SerializedName("images")
-    private List<Image> mImages;
+    private RealmList<Image> mImages;
 
     @SerializedName("original_release_date")
     private String mOriginalReleaseDate;
 
     @SerializedName("original_game_rating")
-    private List<Rating> mOriginalGameRating;
+    private RealmList<Rating> mOriginalGameRating;
 
     @SerializedName("reviews")
-    private List<ReviewPreview> reviews;
+    private RealmList<ReviewPreview> reviews;
 
-    public GameDescription(){}
+    public GameDescription() {
+    }
 
     public int getId() {
         return mId;
@@ -50,17 +47,17 @@ public class GameDescription extends RealmObject {
     }
 
     @NonNull
-    public List<Platform> getPlatforms() {
+    public RealmList<Platform> getPlatforms() {
         return mPlatforms;
     }
 
     @NonNull
-    public List<Genre> getGenres() {
+    public RealmList<Genre> getGenres() {
         return mGenres;
     }
 
     @Nullable
-    public List<Image> getImages() {
+    public RealmList<Image> getImages() {
         return mImages;
     }
 
@@ -70,12 +67,12 @@ public class GameDescription extends RealmObject {
     }
 
     @Nullable
-    public List<Rating> getOriginalGameRating() {
+    public RealmList<Rating> getOriginalGameRating() {
         return mOriginalGameRating;
     }
 
     @Nullable
-    public List<ReviewPreview> getReviews() {
+    public RealmList<ReviewPreview> getReviews() {
         return reviews;
     }
 }
