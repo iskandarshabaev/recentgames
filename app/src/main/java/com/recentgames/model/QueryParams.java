@@ -16,7 +16,7 @@ public class QueryParams {
     public static final String REVIEWER = "reviewer";
     public static final String PUBLISH_DATE = "publish_date";
     public static final String DATA_REF_ID = "data-ref-id";
-
+    public static final String DESCRIPTION = "description";
 
     public static String gamesFieldList(){
         return ID + "," + NAME + "," + IMAGE;
@@ -29,7 +29,7 @@ public class QueryParams {
     }
 
     public static String reviewFieldList(){
-        return ID + "," + NAME + "," + SCORE + "," + REVIEWER + "," +
+        return DESCRIPTION + "," + SCORE + "," + REVIEWER + "," +
                 PUBLISH_DATE;
     }
 }
