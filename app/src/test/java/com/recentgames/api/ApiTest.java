@@ -1,5 +1,6 @@
 package com.recentgames.api;
 
+import com.recentgames.model.QueryParams;
 import com.recentgames.model.response.GiantBombResponse;
 import com.recentgames.util.RxSchedulers;
 import com.recentgames.utils.RxSchedulersHooks;
@@ -9,10 +10,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.recentgames.model.QueryParams.GAMES_FILED_LIST;
-import static com.recentgames.model.QueryParams.GAME_FILED_LIST;
-import static com.recentgames.model.QueryParams.LIMIT;
-import static com.recentgames.model.QueryParams.REVIEW_FILED_LIST;
+import static com.recentgames.model.QueryParams.*;
 
 public class ApiTest {
 
@@ -35,8 +33,8 @@ public class ApiTest {
 
     @Test
     public void testApiGetGameException() {
-        int gameId = 599987787;
-        ApiFactory.getGiantBombService().game(gameId, GAME_FILED_LIST)
+        int invalidGameId = 599987787;
+        ApiFactory.getGiantBombService().game(invalidGameId, GAME_FILED_LIST)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -46,10 +44,42 @@ public class ApiTest {
     }
 
     @Test
-    public void testApiGetGames() {
-        int limit = LIMIT;
+    public void testApiGetWeekGames() {
+        int limit = LIMIT_COUNT;
         int offset = 0;
-        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST, limit, offset)
+        String sort = QueryParams.GAME_SORT_BY_REVIEWS_COUNT;
+        String filter = getWeekFilter();
+        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST, filter, sort, limit, offset)
+                .map(GiantBombResponse::getResults)
+                .compose(RxSchedulers.async())
+                .subscribe(
+                        Assert::assertNotNull,
+                        Assert::assertNull
+                );
+    }
+
+    @Test
+    public void testApiGetMonthGames() {
+        int limit = LIMIT_COUNT;
+        int offset = 0;
+        String sort = QueryParams.GAME_SORT_BY_REVIEWS_COUNT;
+        String filter = getMonthFilter();
+        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST, filter, sort, limit, offset)
+                .map(GiantBombResponse::getResults)
+                .compose(RxSchedulers.async())
+                .subscribe(
+                        Assert::assertNotNull,
+                        Assert::assertNull
+                );
+    }
+
+    @Test
+    public void testApiGetYearGames() {
+        int limit = LIMIT_COUNT;
+        int offset = 0;
+        String sort = QueryParams.GAME_SORT_BY_REVIEWS_COUNT;
+        String filter = getYearFilter();
+        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST, filter, sort, limit, offset)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -60,9 +90,11 @@ public class ApiTest {
 
     @Test
     public void testApiGetGamesException() {
-        int limit = LIMIT;
-        int offset = 999999999;
-        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST, limit, offset)
+        int limit = LIMIT_COUNT;
+        int invalidOffset = 999999999;
+        String sort = QueryParams.GAME_SORT_BY_REVIEWS_COUNT;
+        String filter = getWeekFilter();
+        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST, filter, sort, limit, invalidOffset)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -85,8 +117,8 @@ public class ApiTest {
 
     @Test
     public void testApiGetReviewNotFound() {
-        int reviewId = 589980890;
-        ApiFactory.getGiantBombService().review(reviewId, REVIEW_FILED_LIST)
+        int invalidReviewId = 589980890;
+        ApiFactory.getGiantBombService().review(invalidReviewId, REVIEW_FILED_LIST)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -98,7 +130,7 @@ public class ApiTest {
     @Test
     public void testApiSearchGame() {
         String gameName = "Deus";
-        int limit = LIMIT;
+        int limit = LIMIT_COUNT;
         int offset = 0;
         ApiFactory.getGiantBombService().search(gameName, REVIEW_FILED_LIST, limit, offset)
                 .map(GiantBombResponse::getResults)
@@ -111,11 +143,11 @@ public class ApiTest {
 
     @Test
     public void testApiSearchGameNotFound() {
-        String gameName = "Defdsfjsdfhdsfjsdhfjsdfjus";
-        int limit = LIMIT;
+        String invalidGameName = "Defdsfjsdfhdsfjsdhfjsdfjus";
+        int limit = LIMIT_COUNT;
         int offset = 0;
         ApiFactory.getGiantBombService()
-                .search(gameName, REVIEW_FILED_LIST, limit, offset)
+                .search(invalidGameName, REVIEW_FILED_LIST, limit, offset)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(

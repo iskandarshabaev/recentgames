@@ -20,6 +20,8 @@ public interface GiantBombService {
 
     @GET("games/")
     Observable<GiantBombResponse<List<GamePreview>>> games(@Query("field_list") String fieldList,
+                                                           @Query("filter") String filter,
+                                                           @Query("sort") String sort,
                                                            @Query("limit") int limit,
                                                            @Query("offset") int offset);
 
