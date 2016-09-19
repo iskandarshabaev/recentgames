@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.recentgames.R;
+import com.recentgames.model.content.GamePreview;
 import com.recentgames.router.GamesRouter;
 import com.recentgames.screen.details.GameDetailsFragment;
 import com.recentgames.screen.games.GamesFragment;
@@ -34,20 +35,20 @@ public class GamesRouterImpl implements GamesRouter {
     }
 
     @Override
-    public void navigateFromSearchToGameDetails() {
+    public void navigateFromSearchToGameDetails(GamePreview gamePreview) {
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 //.addToBackStack(null)
-                .replace(R.id.fragment_container, GameDetailsFragment.newInstance())
+                .replace(R.id.fragment_container, GameDetailsFragment.newInstance(gamePreview))
                 .commit();
     }
 
     @Override
-    public void navigateFromGamesToGameDetails() {
+    public void navigateFromGamesToGameDetails(GamePreview gamePreview) {
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
-                .replace(R.id.fragment_container, GameDetailsFragment.newInstance())
+                .replace(R.id.fragment_container, GameDetailsFragment.newInstance(gamePreview))
                 .commit();
     }
 

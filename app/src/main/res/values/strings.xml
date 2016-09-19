@@ -6,6 +6,16 @@
 
     <!--GameDetails-->
 
+    <string name="platforms">Platforms</string>
+    <string name="genres">Genres: </string>
+    <string name="release_date">Release date: </string>
+    <string name="rating">Rating: </string>
+    <string name="reviews">Reviews</string>
+    <string name="similar_games">Similar games</string>
+    <string name="images">Images</string>
+
+
+
     <!--Search-->
 
 </resources>

@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.recentgames.GamesType;
 import com.recentgames.R;
+import com.recentgames.model.content.GamePreview;
+import com.recentgames.model.content.Image;
 import com.recentgames.router.GamesRouter;
 import com.recentgames.router.impl.GamesRouterImpl;
 
@@ -30,10 +32,10 @@ public class GamesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_games, container, false);
-        mGamesRouter= new GamesRouterImpl(getActivity().getSupportFragmentManager());
+        mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
         setupGameFragments(layout);
         setHasOptionsMenu(true);
-        initToolbar((Toolbar)layout.findViewById(R.id.games_toolbar), R.string.app_name);
+        initToolbar((Toolbar) layout.findViewById(R.id.games_toolbar), R.string.app_name);
         return layout;
     }
 
@@ -60,7 +62,9 @@ public class GamesFragment extends Fragment {
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(titleResId);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar.setOnClickListener(v -> mGamesRouter.navigateFromGamesToGameDetails());
+        Image image = new Image("http://www.giantbomb.com/api/image/screen_medium/2883851-recore%20v1.jpg");
+        GamePreview preview = new GamePreview(49962, image, "ReCore");
+        toolbar.setOnClickListener(v -> mGamesRouter.navigateFromGamesToGameDetails(preview));
     }
 
     private void setupGameFragments(View layout) {
