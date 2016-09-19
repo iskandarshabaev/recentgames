@@ -7,5 +7,6 @@
     <!--GameDetails-->
 
     <!--Search-->
+    <string name="enter_name_game">Введите название игры</string>
 
 </resources>
