@@ -100,6 +100,8 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
         }
         Toolbar toolbar = (Toolbar) layout.findViewById(R.id.toolbar);
         initToolbar(toolbar);
+        initRecyclerView();
+        initImagesViewPager();
         mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
         GamePreview game = (GamePreview) getArguments().getSerializable(GAME_PREVIEW_KEY);
         if (game != null) {
@@ -108,8 +110,6 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
             toolbar.setTitle("");
             mGameNameTextView.setText(game.getName());
         }
-        initRecyclerView();
-        initImagesViewPager();
         return layout;
     }
 
