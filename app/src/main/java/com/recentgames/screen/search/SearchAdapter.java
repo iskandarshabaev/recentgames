@@ -36,7 +36,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchGamesHolder> {
 
     @Override
     public SearchGamesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return SearchGamesHolder.create(parent.getContext());
+        return SearchGamesHolder.create(parent);
     }
 
     @Override

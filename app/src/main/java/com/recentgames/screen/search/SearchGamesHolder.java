@@ -3,7 +3,9 @@ package com.recentgames.screen.search;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,8 +26,8 @@ public class SearchGamesHolder extends RecyclerView.ViewHolder {
     TextView mTextView;
 
     @NonNull
-    public static SearchGamesHolder create(@NonNull Context context) {
-        View view = View.inflate(context, R.layout.item_search_game, null);
+    public static SearchGamesHolder create(@NonNull ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_game, parent, false);
         return new SearchGamesHolder(view);
     }
 
