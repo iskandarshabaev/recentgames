@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 
 import com.recentgames.GamesType;
 import com.recentgames.R;
+import com.recentgames.model.content.GamePreview;
+import com.recentgames.model.content.Image;
 import com.recentgames.router.GamesRouter;
 import com.recentgames.router.OnSearchStateChanged;
 import com.recentgames.router.impl.GamesRouterImpl;
@@ -79,7 +81,9 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged {
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(titleResId);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar.setOnClickListener(v -> mGamesRouter.navigateFromGamesToGameDetails());
+        Image image = new Image("http://www.giantbomb.com/api/image/screen_medium/2883851-recore%20v1.jpg");
+        GamePreview preview = new GamePreview(49962, image, "ReCore");
+        toolbar.setOnClickListener(v -> mGamesRouter.navigateFromGamesToGameDetails(preview));
     }
 
     private void setupGameFragments(View layout) {

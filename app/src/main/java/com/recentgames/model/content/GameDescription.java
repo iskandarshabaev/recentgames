@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
@@ -33,6 +35,9 @@ public class GameDescription extends RealmObject {
 
     @SerializedName("reviews")
     private RealmList<ReviewPreview> reviews;
+
+    @SerializedName("similar_games")
+    private RealmList<GamePreview> mSimilarGames;
 
     public GameDescription() {
     }
@@ -74,5 +79,10 @@ public class GameDescription extends RealmObject {
     @Nullable
     public RealmList<ReviewPreview> getReviews() {
         return reviews;
+    }
+
+    @Nullable
+    public RealmList<GamePreview> getSimilarGames() {
+        return mSimilarGames;
     }
 }

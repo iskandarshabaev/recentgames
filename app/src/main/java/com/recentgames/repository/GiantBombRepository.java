@@ -10,7 +10,7 @@ import rx.Observable;
 
 public interface GiantBombRepository {
 
-    Observable<GameDescription> game();
+    Observable<GameDescription> game(int gameId);
 
     Observable<List<GamePreview>> games();
 
