@@ -82,6 +82,9 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     ViewPager mImagesViewPager;
     private ImagesViewPagerAdapter mImagesAdapter;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
     public static GameDetailsFragment newInstance(GamePreview game) {
         Bundle args = new Bundle();
         args.putSerializable(GAME_PREVIEW_KEY, game);
@@ -98,8 +101,8 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
-        Toolbar toolbar = (Toolbar) layout.findViewById(R.id.toolbar);
-        initToolbar(toolbar);
+        mToolbar = (Toolbar) layout.findViewById(R.id.toolbar);
+        initToolbar(mToolbar);
         initRecyclerView();
         initImagesViewPager();
         mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
@@ -107,7 +110,7 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
         if (game != null) {
             initPresenter(game);
             initPoster(game.getImage());
-            toolbar.setTitle("");
+            mToolbar.setTitle("");
             mGameNameTextView.setText(game.getName());
         }
         return layout;
@@ -145,7 +148,6 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     @Override
     public void onPause() {
         super.onPause();
-        mPresenter.unsubscribe();
     }
 
     @Override
@@ -156,6 +158,7 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mPresenter.unsubscribe();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int color = ContextCompat.getColor(getContext(), R.color.colorPrimaryDark);
             getActivity().getWindow().setStatusBarColor(color);
