@@ -14,4 +14,6 @@ public interface GamesRouter {
 
     void navigateToSearch();
 
+    void addSearchStateListener(OnSearchStateChanged onSearchStateChanged);
+
 }

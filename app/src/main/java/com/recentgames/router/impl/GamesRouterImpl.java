@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.router.GamesRouter;
+import com.recentgames.router.OnSearchStateChanged;
 import com.recentgames.screen.details.GameDetailsFragment;
 import com.recentgames.screen.games.GamesFragment;
 import com.recentgames.screen.search.SearchFragment;
@@ -57,8 +58,19 @@ public class GamesRouterImpl implements GamesRouter {
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
-                .replace(R.id.fragment_container, SearchFragment.newInstance())
+                .add(R.id.fragment_container, SearchFragment.newInstance())
                 .commit();
+    }
+
+    public void addSearchStateListener(OnSearchStateChanged onSearchStateChanged) {
+        mFragmentManager.addOnBackStackChangedListener(() -> {
+            if (onSearchStateChanged == null) return;
+            if (mFragmentManager.getBackStackEntryCount() == 0) {
+                onSearchStateChanged.onSearchRemoved();
+            } else {
+                onSearchStateChanged.onSearchAdded();
+            }
+        });
     }
 
 }

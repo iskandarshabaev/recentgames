@@ -22,7 +22,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_search, container, false);
-        mGamesRouter= new GamesRouterImpl(getActivity().getSupportFragmentManager());
+        mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
         return layout;
     }
 
