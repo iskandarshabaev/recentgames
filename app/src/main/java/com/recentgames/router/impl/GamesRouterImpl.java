@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.recentgames.R;
+import com.recentgames.model.content.GamePreview;
 import com.recentgames.router.GamesRouter;
 import com.recentgames.screen.details.GameDetailsFragment;
 import com.recentgames.screen.games.GamesFragment;
@@ -34,7 +35,7 @@ public class GamesRouterImpl implements GamesRouter {
     }
 
     @Override
-    public void navigateFromSearchToGameDetails() {
+    public void navigateFromSearchToGameDetails(GamePreview game) {
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 //.addToBackStack(null)
