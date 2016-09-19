@@ -60,6 +60,8 @@ dependencies {
 
     compile "com.github.orhanobut:hawk:$hawkVersion"
 
+    compile "com.amulyakhare:com.amulyakhare.textdrawable:$textdrawableVersion"
+
     compile "com.jakewharton:butterknife:$butterKnifeVersion"
     apt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
 
