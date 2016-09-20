@@ -30,7 +30,7 @@ public class SearchPresenter {
                 .search(name)
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .compose(mLifecycleHandler.reload(R.id.search_toolbar))
-                .compose(RxSchedulers.async(mSearchView))
+                .compose(RxSchedulers.async())
                 .subscribe(mSearchView::showGames, throwable -> mSearchView.showError());
     }
 

@@ -5,6 +5,9 @@ import android.support.annotation.DrawableRes;
 
 import com.recentgames.R;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Iskandar on 19.09.2016.
  */
@@ -24,6 +27,9 @@ public class PlatformUtils {
     public static final int IPAD = 121;
     public static final int ANDROID = 123;
     public static final int WIIU = 139;
+
+    public static final List<Integer> platforms =
+            Arrays.asList(PC, XBOX_ONE, PS4, WIIU, ANDROID, IPHONE, MAC);
 
     @DrawableRes
     public static int getDrawableResId(int id) {

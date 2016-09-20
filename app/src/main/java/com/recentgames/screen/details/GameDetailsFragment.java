@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -103,6 +103,9 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     @BindView(R.id.description_card)
     CardView mDescriptionCard;
 
+    @BindView(R.id.contentScrollPanel)
+    NestedScrollView mContentNestedScrollView;
+
     public static GameDetailsFragment newInstance(GamePreview game) {
         Bundle args = new Bundle();
         args.putSerializable(GAME_PREVIEW_KEY, game);
@@ -117,7 +120,8 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
         View layout = inflater.inflate(R.layout.fragment_game_details, container, false);
         mUnbinder = ButterKnife.bind(this, layout);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getActivity().getWindow().setStatusBarColor(Color.TRANSPARENT);
+            int color = ContextCompat.getColor(getContext(), R.color.game_details_status_color);
+            getActivity().getWindow().setStatusBarColor(color);
         }
         mToolbar = (Toolbar) layout.findViewById(R.id.toolbar);
         initToolbar(mToolbar);
@@ -128,8 +132,9 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
         initRecyclerView(mReviewsRecyclerView, mReviewsAdapter);
 
 
-        mSimilarGamesAdapter = new SimilarGamesAdapter(new ArrayList<>(), game ->{
-
+        mSimilarGamesAdapter = new SimilarGamesAdapter(new ArrayList<>(), game -> {
+            mPresenter.navigateBack();
+            mGamesRouter.navigateFromGamesDetailsToGameDetails(game);
         });
         initRecyclerView(mSimilarGamesRecyclerView, mSimilarGamesAdapter);
 
@@ -138,7 +143,9 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
         GamePreview game = (GamePreview) getArguments().getSerializable(GAME_PREVIEW_KEY);
         if (game != null) {
             initPresenter(game);
-            initPoster(game.getImage());
+            if(game.getImage() != null) {
+                initPoster(game.getImage());
+            }
             mToolbar.setTitle("");
             mGameNameTextView.setText(game.getName());
         }
@@ -165,7 +172,6 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     }
 
     private void initImagesViewPager() {
-
         ImagesViewPagerAdapter.OnImageClickListener listener = image -> {
 
         };
@@ -196,7 +202,9 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     }
 
     private void initPoster(@NonNull Image image) {
-        ImageHelper.loadImage(mPosterImageView, image.getMediumUrl());
+        if(image.getMediumUrl() != null) {
+            ImageHelper.loadImage(mPosterImageView, image.getMediumUrl());
+        }
     }
 
     private void initPresenter(@NonNull GamePreview game) {
@@ -221,6 +229,7 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     public void showImages(@NonNull List<Image> images) {
         mImagesCard.setVisibility(View.VISIBLE);
         mImagesAdapter.changeDataSet(images);
+        scrollToHead(mImagesViewPager);
     }
 
     @Override
@@ -232,6 +241,7 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     public void showPlatforms(@NonNull List<Platform> platforms) {
         Observable.from(platforms)
                 .map(Platform::getId)
+                .filter(PlatformUtils.platforms::contains)
                 .subscribe(
                         this::addPlatform,
                         Throwable::printStackTrace);
@@ -253,8 +263,9 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
 
     @Override
     public void showReviews(@NonNull List<ReviewPreview> previews) {
-        mReviewsAdapter.changeDataSet(previews);
         mReviewsCard.setVisibility(View.VISIBLE);
+        mReviewsAdapter.changeDataSet(previews);
+        scrollToHead(mContentNestedScrollView);
     }
 
     @Override
@@ -279,6 +290,11 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     public void showSimilarGames(@NonNull List<GamePreview> similarGames) {
         mSimilarGamesCard.setVisibility(View.VISIBLE);
         mSimilarGamesAdapter.changeDataSet(similarGames);
+        scrollToHead(mContentNestedScrollView);
+    }
+
+    private void scrollToHead(View view){
+        view.post(() -> view.scrollTo(0, 0));
     }
 
     @Override

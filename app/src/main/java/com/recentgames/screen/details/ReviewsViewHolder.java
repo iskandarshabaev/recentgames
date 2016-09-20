@@ -34,7 +34,7 @@ public class ReviewsViewHolder extends RecyclerView.ViewHolder {
         mReviewName.setText(preview.getName());
         if (preview.getName() != null) {
             ColorGenerator generator = ColorGenerator.MATERIAL;
-            int color = generator.getRandomColor();
+            int color = generator.getColor(preview.getName());
             String text = preview.getName().substring(0, 2);
             TextDrawable drawable = TextDrawable.builder().buildRound(text, color);
             mIconImageView.setImageDrawable(drawable);

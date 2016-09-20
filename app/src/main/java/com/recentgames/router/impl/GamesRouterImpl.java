@@ -54,6 +54,14 @@ public class GamesRouterImpl implements GamesRouter {
     }
 
     @Override
+    public void navigateFromGamesDetailsToGameDetails(GamePreview gamePreview) {
+        mFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.fragment_container, GameDetailsFragment.newInstance(gamePreview))
+                .commit();
+    }
+
+    @Override
     public void navigateToSearch() {
         mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)

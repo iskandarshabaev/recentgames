@@ -12,6 +12,8 @@ public interface GamesRouter {
 
     void navigateFromGamesToGameDetails(GamePreview gamePreview);
 
+    void navigateFromGamesDetailsToGameDetails(GamePreview gamePreview);
+
     void navigateToSearch();
 
     void addSearchStateListener(OnSearchStateChanged onSearchStateChanged);

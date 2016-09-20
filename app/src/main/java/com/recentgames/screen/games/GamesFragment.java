@@ -90,7 +90,7 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged {
         ViewPager gameFragmentsPages = (ViewPager) layout.findViewById(R.id.view_pager);
         TabLayout gameFragmentsTabs = (TabLayout) layout.findViewById(R.id.tab_layout);
 
-        GameFragmentsAdapter gameFragmentsAdapter = new GameFragmentsAdapter(getActivity().getSupportFragmentManager());
+        GameFragmentsAdapter gameFragmentsAdapter = new GameFragmentsAdapter(getChildFragmentManager());
         gameFragmentsAdapter.addFragment(GameItemFragment.newInstance(GamesType.WEEK));
         gameFragmentsAdapter.addFragment(GameItemFragment.newInstance(GamesType.MONTH));
         gameFragmentsAdapter.addFragment(GameItemFragment.newInstance(GamesType.YEAR));

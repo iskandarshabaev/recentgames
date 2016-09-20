@@ -8,10 +8,8 @@ import rx.schedulers.Schedulers;
 
 public class RxSchedulers {
 
-    public static <T> Observable.Transformer<T, T> async(LoadingView view){
+    public static <T> Observable.Transformer<T, T> async(){
         return observable -> observable
-                .doOnSubscribe(view::showLoading)
-                .doAfterTerminate(view::hideLoading)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
