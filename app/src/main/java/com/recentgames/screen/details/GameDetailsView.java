@@ -2,6 +2,7 @@ package com.recentgames.screen.details;
 
 import android.support.annotation.NonNull;
 
+import com.recentgames.model.content.GamePreview;
 import com.recentgames.model.content.Genre;
 import com.recentgames.model.content.Image;
 import com.recentgames.model.content.Platform;
@@ -13,6 +14,8 @@ import java.util.List;
 public interface GameDetailsView extends LoadingView {
 
     void showError();
+
+    void showPoster(@NonNull Image image);
 
     void showRating(@NonNull String ratings);
 
@@ -27,5 +30,7 @@ public interface GameDetailsView extends LoadingView {
     void showReviews(@NonNull List<ReviewPreview> previews);
 
     void showImages(@NonNull List<Image> images);
+
+    void showSimilarGames(@NonNull List<GamePreview> similarGames);
 
 }

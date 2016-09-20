@@ -17,4 +17,9 @@ ext {
 
     runnerVersion = '0.5'
     espressoVersion = '2.2.2'
+
+    textdrawableVersion = '1.0.1'
+    circleimageviewVersion = '2.1.0'
+
+    multiviewpager = '1.0'
 }

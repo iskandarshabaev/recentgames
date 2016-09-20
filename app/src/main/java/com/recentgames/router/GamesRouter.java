@@ -1,5 +1,7 @@
 package com.recentgames.router;
 
+import android.content.Context;
+
 import com.recentgames.model.content.GamePreview;
 
 public interface GamesRouter {
@@ -8,9 +10,11 @@ public interface GamesRouter {
 
     void navigateToGames(int type);
 
-    void navigateFromSearchToGameDetails(GamePreview gamePreview);
+    void navigateFromSearchToGameDetails(Context context, GamePreview gamePreview);
 
-    void navigateFromGamesToGameDetails(GamePreview gamePreview);
+    void navigateFromGamesToGameDetails(Context context, GamePreview gamePreview);
+
+    void navigateFromGamesDetailsToGameDetails(Context context, GamePreview gamePreview);
 
     void navigateToSearch();
 

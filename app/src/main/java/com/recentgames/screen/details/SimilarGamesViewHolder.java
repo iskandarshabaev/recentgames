@@ -9,12 +9,12 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.recentgames.R;
-import com.recentgames.model.content.ReviewPreview;
+import com.recentgames.model.content.GamePreview;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ReviewsViewHolder extends RecyclerView.ViewHolder {
+public class SimilarGamesViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.review_name)
     TextView mReviewName;
@@ -24,20 +24,18 @@ public class ReviewsViewHolder extends RecyclerView.ViewHolder {
 
     View mView;
 
-    public ReviewsViewHolder(View view) {
+    public SimilarGamesViewHolder(View view) {
         super(view);
         ButterKnife.bind(this, view);
         mView = view;
     }
 
-    public void bind(@NonNull ReviewPreview preview) {
-        mReviewName.setText(preview.getName());
-        if (preview.getName() != null) {
-            ColorGenerator generator = ColorGenerator.MATERIAL;
-            int color = generator.getColor(preview.getName());
-            String text = preview.getName().substring(0, 2);
-            TextDrawable drawable = TextDrawable.builder().buildRound(text, color);
-            mIconImageView.setImageDrawable(drawable);
-        }
+    public void bind(@NonNull GamePreview game) {
+        mReviewName.setText(game.getName());
+        ColorGenerator generator = ColorGenerator.MATERIAL;
+        String text = game.getName().substring(0, 2);
+        int color = generator.getColor(game.getName());
+        TextDrawable drawable = TextDrawable.builder().buildRound(text, color);
+        mIconImageView.setImageDrawable(drawable);
     }
 }

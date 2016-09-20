@@ -1,6 +1,7 @@
 package com.recentgames.model.content;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -32,7 +33,7 @@ public class GamePreview extends RealmObject implements Serializable {
         return mId;
     }
 
-    @NonNull
+    @Nullable
     public Image getImage() {
         return mImage;
     }

@@ -1,5 +1,6 @@
 package com.recentgames.screen.search;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.recentgames.R;
@@ -30,12 +31,12 @@ public class SearchPresenter {
                 .search(name)
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .compose(mLifecycleHandler.reload(R.id.search_toolbar))
-                .compose(RxSchedulers.async(mSearchView))
+                .compose(RxSchedulers.async())
                 .subscribe(mSearchView::showGames, throwable -> mSearchView.showError());
     }
 
-    public void onGameClick(GamesRouter router, GamePreview game) {
-        router.navigateFromSearchToGameDetails(game);
+    public void onGameClick(GamesRouter router, Context context, GamePreview game) {
+        router.navigateFromSearchToGameDetails(context, game);
     }
 
     public void onTextChanged(String text) {

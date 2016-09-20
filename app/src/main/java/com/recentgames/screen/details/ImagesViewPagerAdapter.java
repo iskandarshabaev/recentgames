@@ -16,36 +16,34 @@ import java.util.List;
 
 public class ImagesViewPagerAdapter extends PagerAdapter {
 
-    private Context mContext;
     private List<Image> mImages;
     private OnImageClickListener mOnClickListener;
 
-    public ImagesViewPagerAdapter(@NonNull Context context,
-                                  @NonNull OnImageClickListener onClickListener,
-                                  @NonNull List<Image> images) {
-        mContext = context;
+    public ImagesViewPagerAdapter(@NonNull List<Image> images,
+                                  @NonNull OnImageClickListener onClickListener) {
         mImages = images;
         mOnClickListener = onClickListener;
     }
 
     @Override
     public Object instantiateItem(ViewGroup collection, int position) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
+        LayoutInflater inflater = LayoutInflater.from(collection.getContext());
         View view = inflater.inflate(R.layout.item_image, collection, false);
-        view.setOnClickListener(v -> {
+        ImageView imageView = (ImageView) view.findViewById(R.id.image);
+        imageView.setOnClickListener(v -> {
             if(mOnClickListener != null){
                 mOnClickListener.onClick(mImages.get(position));
             }
         });
-        ImageHelper.loadImage((ImageView)view, mImages.get(position).getMediumUrl());
+        ImageHelper.loadImage(imageView, mImages.get(position).getMediumUrl());
         collection.addView(view);
         return view;
     }
 
-    @Override
+    /*@Override
     public float getPageWidth(int position) {
         return 0.4f;
-    }
+    }*/
 
     public void changeDataSet(@NonNull List<Image> images){
         mImages.clear();

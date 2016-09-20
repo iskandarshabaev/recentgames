@@ -1,5 +1,6 @@
 package com.recentgames.router.impl;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +9,7 @@ import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.router.GamesRouter;
 import com.recentgames.router.OnSearchStateChanged;
+import com.recentgames.screen.details.GameDetailsActivity;
 import com.recentgames.screen.details.GameDetailsFragment;
 import com.recentgames.screen.games.GamesFragment;
 import com.recentgames.screen.search.SearchFragment;
@@ -36,21 +38,33 @@ public class GamesRouterImpl implements GamesRouter {
     }
 
     @Override
-    public void navigateFromSearchToGameDetails(GamePreview gamePreview) {
-        mFragmentManager.beginTransaction()
+    public void navigateFromSearchToGameDetails(Context context, GamePreview gamePreview) {
+        /*mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 //.addToBackStack(null)
                 .replace(R.id.fragment_container, GameDetailsFragment.newInstance(gamePreview))
-                .commit();
+                .commit();*/
+        GameDetailsActivity.showActivity(context, gamePreview);
     }
 
     @Override
-    public void navigateFromGamesToGameDetails(GamePreview gamePreview) {
-        mFragmentManager.beginTransaction()
+    public void navigateFromGamesToGameDetails(Context context, GamePreview gamePreview) {
+        /*mFragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .addToBackStack(null)
                 .replace(R.id.fragment_container, GameDetailsFragment.newInstance(gamePreview))
-                .commit();
+                .commit();*/
+
+            GameDetailsActivity.showActivity(context, gamePreview);
+    }
+
+    @Override
+    public void navigateFromGamesDetailsToGameDetails(Context context, GamePreview gamePreview) {
+        /*mFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .replace(R.id.fragment_container, GameDetailsFragment.newInstance(gamePreview))
+                .commit();*/
+        GameDetailsActivity.showActivity(context, gamePreview);
     }
 
     @Override

@@ -81,16 +81,16 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged {
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(titleResId);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        Image image = new Image("http://www.giantbomb.com/api/image/screen_medium/2883851-recore%20v1.jpg");
-        GamePreview preview = new GamePreview(49962, image, "ReCore");
-        toolbar.setOnClickListener(v -> mGamesRouter.navigateFromGamesToGameDetails(preview));
+        Image image = new Image("http://www.giantbomb.com/api/image/scale_medium/2669576-destiny%20v2.jpg");
+        GamePreview preview = new GamePreview(36067, image, "Destiny");
+        toolbar.setOnClickListener(v -> mGamesRouter.navigateFromGamesToGameDetails(getActivity(),preview));
     }
 
     private void setupGameFragments(View layout) {
         ViewPager gameFragmentsPages = (ViewPager) layout.findViewById(R.id.view_pager);
         TabLayout gameFragmentsTabs = (TabLayout) layout.findViewById(R.id.tab_layout);
 
-        GameFragmentsAdapter gameFragmentsAdapter = new GameFragmentsAdapter(getActivity().getSupportFragmentManager());
+        GameFragmentsAdapter gameFragmentsAdapter = new GameFragmentsAdapter(getChildFragmentManager());
         gameFragmentsAdapter.addFragment(GameItemFragment.newInstance(GamesType.WEEK));
         gameFragmentsAdapter.addFragment(GameItemFragment.newInstance(GamesType.MONTH));
         gameFragmentsAdapter.addFragment(GameItemFragment.newInstance(GamesType.YEAR));
