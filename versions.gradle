@@ -9,6 +9,8 @@ ext {
     picassoVersion = '2.5.2'
     picassoDownloaderVersion = '1.0.2'
     hawkVersion = '1.23'
+    textdrawableVersion = '1.0.1'
+    circleimageviewVersion = '2.1.0'
 
     junitVersion = '4.12'
     mockitoVersion = '2.0.111-beta'

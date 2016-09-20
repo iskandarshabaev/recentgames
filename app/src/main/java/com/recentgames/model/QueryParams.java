@@ -21,6 +21,7 @@ public class QueryParams {
     public static final String DATA_REF_ID = "data-ref-id";
     public static final String DESCRIPTION = "description";
     public static final String SIMILAR_GAMES = "similar_games";
+    public static final String RESOURCES = "game";
 
     public static final String GAMES_FILED_LIST = ID + "," + NAME + "," + IMAGE;
 

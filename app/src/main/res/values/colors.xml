@@ -12,4 +12,6 @@
     <color name="xbox">#91DC5A</color>
     <color name="android">#91DC5A</color>
 
+
+    <color name="translucent">#7000</color>
 </resources>
