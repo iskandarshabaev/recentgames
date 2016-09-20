@@ -1,5 +1,8 @@
 package com.recentgames.model;
 
+import com.recentgames.GamesType;
+import com.recentgames.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +33,7 @@ public class QueryParams {
     public static final String DESCRIPTION = "description";
 
     //todo:  add release_date and filter date at cache
-    public static final String GAMES_FILED_LIST = ID + "," + NAME + "," + IMAGE;
+    public static final String GAMES_FILED_LIST = ID + "," + NAME + "," + IMAGE + "," + RELEASE_DATE;
 
     public static final String GAME_FILED_LIST = ID + "," + NAME + "," + IMAGES + "," + DECK + "," +
             PLATFORMS + "," + GENRES + "," + RELEASE_DATE + "," +
@@ -43,43 +46,41 @@ public class QueryParams {
 
     private static final String FILTER_DATE = "original_release_date:";
 
-    public static String getWeekFilter() {
-        Calendar calendar = Calendar.getInstance(Locale.US);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM-dd", Locale.US);
-
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        String currentDate = simpleDateFormat.format(new Date(calendar.getTimeInMillis()));
-
-        calendar.add(Calendar.DATE, -7);
-        String startDate = simpleDateFormat.format(new Date(calendar.getTimeInMillis()));
-
-        return FILTER_DATE + startDate + "|" + currentDate;
+    public static Date getCurrentDate() {
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        return new Date(calendar.getTimeInMillis());
     }
 
-    public static String getMonthFilter() {
-        Calendar calendar = Calendar.getInstance(Locale.US);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM-dd", Locale.US);
-
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        String currentDate = simpleDateFormat.format(new Date(calendar.getTimeInMillis()));
-
-        calendar.add(Calendar.MONTH, -1);
-        String startDate = simpleDateFormat.format(new Date(calendar.getTimeInMillis()));
-
-        return FILTER_DATE + startDate + "|" + currentDate;
+    public static String getFilter(int type) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM-dd", Locale.getDefault());
+        return FILTER_DATE + simpleDateFormat.format(getStartDate(type)) + "|" + simpleDateFormat.format(getCurrentDate());
     }
 
-    public static String getYearFilter() {
-        Calendar calendar = Calendar.getInstance(Locale.US);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy:MM-dd", Locale.US);
+    public static Date getStartDate(int type) {
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        if (type == GamesType.WEEK) {
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.add(Calendar.DATE, -7);
+            return new Date(calendar.getTimeInMillis());
+        } else if (type == GamesType.MONTH) {
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.add(Calendar.MONTH, -1);
+            return new Date(calendar.getTimeInMillis());
+        } else { // year
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.add(Calendar.YEAR, -1);
+            return new Date(calendar.getTimeInMillis());
+        }
+    }
 
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        String currentDate = simpleDateFormat.format(new Date(calendar.getTimeInMillis()));
-
-        calendar.add(Calendar.YEAR, -1);
-        String startDate = simpleDateFormat.format(new Date(calendar.getTimeInMillis()));
-
-        return FILTER_DATE + startDate + "|" + currentDate;
+    public static int getLoaderId(@GamesType int type) {
+        if (type == GamesType.WEEK) {
+            return R.id.get_games_week;
+        } else if (type == GamesType.MONTH) {
+            return R.id.get_games_month;
+        } else { // year
+            return R.id.get_games_year;
+        }
     }
 
 }
