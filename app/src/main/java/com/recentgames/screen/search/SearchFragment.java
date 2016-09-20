@@ -16,8 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
@@ -29,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import ru.arturvasilov.rxloader.LifecycleHandler;
 import ru.arturvasilov.rxloader.LoaderLifecycleHandler;
 
@@ -36,13 +39,14 @@ public class SearchFragment extends Fragment
         implements SearchView, SearchAdapter.OnItemClickListener {
 
     @BindView(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+    RecyclerView mSearchRecyclerView;
 
     @BindView(R.id.search_toolbar)
     Toolbar mToolbar;
 
     private SearchPresenter mPresenter;
     private SearchAdapter mAdapter;
+    private Unbinder mUnbind;
 
     protected GamesRouter mGamesRouter;
 
@@ -56,13 +60,12 @@ public class SearchFragment extends Fragment
         View layout = inflater.inflate(R.layout.fragment_search, container, false);
         mGamesRouter= new GamesRouterImpl(getActivity().getSupportFragmentManager());
 
-        ButterKnife.bind(this, layout);
-
+        mUnbind = ButterKnife.bind(this, layout);
         initToolbar();
 
         mAdapter = new SearchAdapter(this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(mAdapter);
+        mSearchRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mSearchRecyclerView.setAdapter(mAdapter);
 
         LifecycleHandler lifecycleHandler = LoaderLifecycleHandler.create(getActivity(), getActivity().getSupportLoaderManager());
         mPresenter = new SearchPresenter(this,lifecycleHandler);
@@ -70,6 +73,13 @@ public class SearchFragment extends Fragment
         setHasOptionsMenu(true);
 
         return layout;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        mUnbind.unbind();
     }
 
     public void initToolbar() {
@@ -103,7 +113,7 @@ public class SearchFragment extends Fragment
 
     @Override
     public void onItemClick(@NonNull View view, @NonNull GamePreview game) {
-        mGamesRouter.navigateFromSearchToGameDetails(game);
+        mPresenter.onGameClick(mGamesRouter,game);
     }
 
     @Override
@@ -118,17 +128,12 @@ public class SearchFragment extends Fragment
         search.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-                if(newText.length() == 0)
-                    mPresenter.clear();
-                else if(newText.length() >= 3)
-                    mPresenter.searchGame(newText);
+                mPresenter.onTextChanged(newText);
                 return true;
             }
         });
