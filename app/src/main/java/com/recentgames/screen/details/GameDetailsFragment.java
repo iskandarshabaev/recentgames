@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,11 +16,12 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.pixplicity.multiviewpager.MultiViewPager;
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.model.content.Genre;
@@ -68,22 +70,38 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     @BindView(R.id.rating)
     TextView mRating;
 
-    @BindView(R.id.progressFrame)
-    FrameLayout mProgressFrame;
+    @BindView(R.id.progress)
+    ProgressBar mProgressFrame;
 
     @BindView(R.id.game_name)
     TextView mGameNameTextView;
 
     @BindView(R.id.review_list)
     RecyclerView mReviewsRecyclerView;
-    private ReviewsAdapter mAdapter;
+    private ReviewsAdapter mReviewsAdapter;
 
     @BindView(R.id.images)
-    ViewPager mImagesViewPager;
+    MultiViewPager mImagesViewPager;
     private ImagesViewPagerAdapter mImagesAdapter;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+
+    @BindView(R.id.images_card)
+    CardView mImagesCard;
+
+    @BindView(R.id.similar_games)
+    RecyclerView mSimilarGamesRecyclerView;
+    SimilarGamesAdapter mSimilarGamesAdapter;
+
+    @BindView(R.id.similar_games_card)
+    CardView mSimilarGamesCard;
+
+    @BindView(R.id.reviews_card)
+    CardView mReviewsCard;
+
+    @BindView(R.id.description_card)
+    CardView mDescriptionCard;
 
     public static GameDetailsFragment newInstance(GamePreview game) {
         Bundle args = new Bundle();
@@ -103,7 +121,18 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
         }
         mToolbar = (Toolbar) layout.findViewById(R.id.toolbar);
         initToolbar(mToolbar);
-        initRecyclerView();
+
+        mReviewsAdapter = new ReviewsAdapter(new ArrayList<>(), reviewPreview -> {
+
+        });
+        initRecyclerView(mReviewsRecyclerView, mReviewsAdapter);
+
+
+        mSimilarGamesAdapter = new SimilarGamesAdapter(new ArrayList<>(), game ->{
+
+        });
+        initRecyclerView(mSimilarGamesRecyclerView, mSimilarGamesAdapter);
+
         initImagesViewPager();
         mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
         GamePreview game = (GamePreview) getArguments().getSerializable(GAME_PREVIEW_KEY);
@@ -126,13 +155,13 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
         });
     }
 
-    private void initRecyclerView() {
-        mAdapter = new ReviewsAdapter(new ArrayList<>());
+    private void initRecyclerView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.Adapter adapter) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         RecyclerView.ItemAnimator animator = new DefaultItemAnimator();
-        mReviewsRecyclerView.setLayoutManager(layoutManager);
-        mReviewsRecyclerView.setItemAnimator(animator);
-        mReviewsRecyclerView.setAdapter(mAdapter);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(animator);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(adapter);
     }
 
     private void initImagesViewPager() {
@@ -140,9 +169,9 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
         ImagesViewPagerAdapter.OnImageClickListener listener = image -> {
 
         };
-        mImagesAdapter = new ImagesViewPagerAdapter(getContext(), listener, new ArrayList<>());
+        mImagesAdapter = new ImagesViewPagerAdapter(new ArrayList<>(), listener);
         mImagesViewPager.setAdapter(mImagesAdapter);
-        mImagesViewPager.setOffscreenPageLimit(4);
+        //mImagesViewPager.setOffscreenPageLimit(4);
     }
 
     @Override
@@ -190,6 +219,7 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
 
     @Override
     public void showImages(@NonNull List<Image> images) {
+        mImagesCard.setVisibility(View.VISIBLE);
         mImagesAdapter.changeDataSet(images);
     }
 
@@ -223,11 +253,13 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
 
     @Override
     public void showReviews(@NonNull List<ReviewPreview> previews) {
-        mAdapter.changeDataSet(previews);
+        mReviewsAdapter.changeDataSet(previews);
+        mReviewsCard.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showDeck(@NonNull String text) {
+        mDescriptionCard.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= 24) {
             mDeckTextView.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
         } else {
@@ -244,8 +276,18 @@ public class GameDetailsFragment extends Fragment implements GameDetailsView {
     }
 
     @Override
+    public void showSimilarGames(@NonNull List<GamePreview> similarGames) {
+        mSimilarGamesCard.setVisibility(View.VISIBLE);
+        mSimilarGamesAdapter.changeDataSet(similarGames);
+    }
+
+    @Override
     public void showLoading() {
         mProgressFrame.setVisibility(View.VISIBLE);
+        mDescriptionCard.setVisibility(View.GONE);
+        mImagesCard.setVisibility(View.GONE);
+        mSimilarGamesCard.setVisibility(View.GONE);
+        mReviewsCard.setVisibility(View.GONE);
     }
 
     @Override

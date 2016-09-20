@@ -20,12 +20,13 @@ public class QueryParams {
     public static final String PUBLISH_DATE = "publish_date";
     public static final String DATA_REF_ID = "data-ref-id";
     public static final String DESCRIPTION = "description";
+    public static final String SIMILAR_GAMES = "similar_games";
 
     public static final String GAMES_FILED_LIST = ID + "," + NAME + "," + IMAGE;
 
     public static final String GAME_FILED_LIST = ID + "," + NAME + "," + IMAGES + "," + DECK + "," +
             PLATFORMS + "," + GENRES + "," + RELEASE_DATE + "," +
-            RATING + "," + REVIEWS;
+            RATING + "," + REVIEWS + "," + SIMILAR_GAMES;
 
     public static final String REVIEW_FILED_LIST = DESCRIPTION + "," + SCORE + "," + REVIEWER + "," +
             PUBLISH_DATE;

@@ -14,9 +14,12 @@ import java.util.List;
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsViewHolder> {
 
     private List<ReviewPreview> mPreviews;
+    private OnReviewClickListener mClickListener;
 
-    public ReviewsAdapter(@NonNull List<ReviewPreview> previews){
+    public ReviewsAdapter(@NonNull List<ReviewPreview> previews,
+                          @NonNull OnReviewClickListener clickListener) {
         mPreviews = previews;
+        mClickListener = clickListener;
     }
 
     @Override
@@ -25,7 +28,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsViewHolder> {
         return new ReviewsViewHolder(view);
     }
 
-    public void changeDataSet(@NonNull List<ReviewPreview> previews){
+    public void changeDataSet(@NonNull List<ReviewPreview> previews) {
         mPreviews.clear();
         mPreviews.addAll(previews);
         notifyDataSetChanged();
@@ -34,10 +37,19 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsViewHolder> {
     @Override
     public void onBindViewHolder(ReviewsViewHolder holder, int position) {
         holder.bind(mPreviews.get(position));
+        holder.mView.setOnClickListener(v -> {
+            if (mClickListener != null) {
+                mClickListener.onClick(mPreviews.get(position));
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mPreviews.size();
+    }
+
+    public interface OnReviewClickListener {
+        void onClick(ReviewPreview reviewPreview);
     }
 }

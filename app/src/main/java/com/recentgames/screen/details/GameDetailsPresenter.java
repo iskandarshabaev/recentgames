@@ -70,12 +70,16 @@ public class GameDetailsPresenter {
         if(ratings != null) {
             showRatings(ratings);
         }
+        if(description.getImages() != null) {
+            mView.showImages(description.getImages());
+        }
         List<ReviewPreview> reviews = description.getReviews();
         if(reviews != null) {
             mView.showReviews(reviews);
         }
-        if(description.getImages() != null) {
-            mView.showImages(description.getImages());
+        List<GamePreview> similarGames = description.getSimilarGames();
+        if(similarGames!= null) {
+            mView.showSimilarGames(similarGames);
         }
     }
 

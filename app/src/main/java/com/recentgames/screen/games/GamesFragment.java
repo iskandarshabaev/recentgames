@@ -81,8 +81,8 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged {
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(titleResId);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        Image image = new Image("http://www.giantbomb.com/api/image/screen_medium/2883851-recore%20v1.jpg");
-        GamePreview preview = new GamePreview(49962, image, "ReCore");
+        Image image = new Image("http://www.giantbomb.com/api/image/screen_medium/2669576-destiny%20v2.jpg");
+        GamePreview preview = new GamePreview(36067, image, "Destiny");
         toolbar.setOnClickListener(v -> mGamesRouter.navigateFromGamesToGameDetails(preview));
     }
 
