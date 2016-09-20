@@ -7,6 +7,12 @@
     <color name="black">@android:color/black</color>
     <color name="white">@android:color/white</color>
 
+    <color name="amber_500">#FFC107</color>
+    <color name="pc">#006DF0</color>
+    <color name="xbox">#91DC5A</color>
+    <color name="android">#91DC5A</color>
+
+
     <color name="black_half_transparent">#c8000000</color>
 
 </resources>

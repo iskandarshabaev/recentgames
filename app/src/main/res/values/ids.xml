@@ -3,4 +3,5 @@
     <item name="get_games_week" type="id"/>
     <item name="get_games_month" type="id"/>
     <item name="get_games_year" type="id"/>
+    <item name="game_details_id" type="id"/>
 </resources>
