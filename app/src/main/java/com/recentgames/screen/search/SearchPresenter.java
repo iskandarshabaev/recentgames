@@ -12,14 +12,13 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import ru.arturvasilov.rxloader.LifecycleHandler;
-import ru.arturvasilov.rxloader.RxUtils;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class SearchPresenter {
 
     private final SearchView mSearchView;
     private final LifecycleHandler mLifecycleHandler;
+
+    private final static int MIN_SEARCH_LENGTH = 3;
 
     public SearchPresenter(@NonNull  SearchView searchView,@NonNull LifecycleHandler lifecycleHandler) {
         mSearchView = searchView;
@@ -42,7 +41,7 @@ public class SearchPresenter {
     public void onTextChanged(String text) {
         if(text.length() == 0)
             mSearchView.showGames(new ArrayList<>());
-        else if(text.length() >= 3)
+        else if(text.length() >= MIN_SEARCH_LENGTH)
             searchGame(text);
     }
 }
