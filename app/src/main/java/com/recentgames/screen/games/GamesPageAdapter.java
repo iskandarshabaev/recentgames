@@ -2,7 +2,6 @@ package com.recentgames.screen.games;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.TextView;
 
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
-import com.squareup.picasso.Picasso;
+import com.recentgames.util.ImageHelper;
 
 import java.util.List;
 
@@ -34,10 +33,10 @@ public class GamesPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
-            final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.game_item, parent, false);
+            final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_game, parent, false);
             return new GameViewHolder(itemView);
         } else if (viewType == TYPE_BOTTOM) {
-            final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.game_item, parent, false);
+            final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_game, parent, false);
             return new BottomViewHolder(itemView);
         }
 
@@ -100,13 +99,8 @@ public class GamesPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public void bind(@NonNull GamePreview game) {
             mName.setText(game.getName());
-            try {
-                Log.d("TAG", "name=" + game.getName() + " url=" + game.getImage().getMediumUrl());
-                Picasso.with(mCover.getContext()).load(game.getImage().getMediumUrl()).into(mCover);
-            } catch (NullPointerException e) {
-                Log.d("TAG", "name=" + game.getName() + " url=null");
-                e.printStackTrace();
-            }
+            if (game.getImage() == null || game.getImage().getMediumUrl() == null) return;
+            ImageHelper.loadImage(mCover, game.getImage().getMediumUrl());
         }
     }
 
