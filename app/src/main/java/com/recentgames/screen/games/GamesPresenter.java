@@ -8,15 +8,7 @@ public class GamesPresenter {
         mGamesView = gamesView;
     }
 
-    public void onSearchRemoved() {
-        mGamesView.expandAppBar();
-    }
-
-    public void onSearchAdded() {
-        mGamesView.collapseAppBar();
-    }
-
     public void onMenuSearchClick() {
-        mGamesView.openSearchFragment();
+        mGamesView.openSearchScreen();
     }
 }

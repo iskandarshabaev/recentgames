@@ -15,7 +15,7 @@
     <string name="images">Images</string>
 
 
-
     <!--Search-->
+    <string name="enter_name_game">Введите название игры</string>
 
 </resources>

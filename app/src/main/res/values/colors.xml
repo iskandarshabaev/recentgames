@@ -12,6 +12,8 @@
     <color name="xbox">#91DC5A</color>
     <color name="android">#91DC5A</color>
 
+    <color name="game_details_status_color">@android:color/transparent</color>
+    <color name="translucent">#7000</color>
 
     <color name="black_half_transparent">#c8000000</color>
 

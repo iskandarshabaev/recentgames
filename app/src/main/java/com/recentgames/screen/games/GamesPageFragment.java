@@ -11,8 +11,6 @@ import android.widget.ProgressBar;
 
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
-import com.recentgames.router.GamesRouter;
-import com.recentgames.router.impl.GamesRouterImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +26,6 @@ public class GamesPageFragment extends Fragment implements GamesPageView {
     ProgressBar mProgressBar;
     @BindView(R.id.games_page_recycler)
     RecyclerView mGamesPageRecyclerView;
-
-    protected GamesRouter mGamesRouter;
 
     private GamesPagePresenter mGamesPagePresenter;
     private GamesPageAdapter mGamesAdapter;
@@ -54,7 +50,6 @@ public class GamesPageFragment extends Fragment implements GamesPageView {
         View layout = inflater.inflate(R.layout.fragment_games_page, container, false);
         ButterKnife.bind(this, layout);
         type = getArguments().getInt(KEY_TYPE, TYPE_DEFAULT);
-        mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
 
         mGamesAdapter = new GamesPageAdapter(new ArrayList<>());
         mGamesPageRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));

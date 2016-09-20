@@ -24,6 +24,9 @@ public class GameDescription extends RealmObject {
     @SerializedName("genres")
     private RealmList<Genre> mGenres;
 
+    @SerializedName("image")
+    private Image mImage;
+
     @SerializedName("images")
     private RealmList<Image> mImages;
 
@@ -84,5 +87,9 @@ public class GameDescription extends RealmObject {
     @Nullable
     public RealmList<GamePreview> getSimilarGames() {
         return mSimilarGames;
+    }
+
+    public Image getImage() {
+        return mImage;
     }
 }

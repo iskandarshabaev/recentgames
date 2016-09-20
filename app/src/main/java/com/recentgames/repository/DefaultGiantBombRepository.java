@@ -23,8 +23,16 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
                 .map(GiantBombResponse::getResults)
                 .flatMap(game ->{
                     Realm realmInstance = Realm.getDefaultInstance();
-                    realmInstance.executeTransaction(realm -> realm.insert(game));
+                    realmInstance.executeTransaction(realm -> realm.insertOrUpdate(game));
                     return Observable.just(game);
+                })
+                .onErrorResumeNext(throwable -> {
+                    Realm realmInstance = Realm.getDefaultInstance();
+                    GameDescription game = realmInstance.where(GameDescription.class)
+                            .equalTo("mId", gameId)
+                            .findAll()
+                            .first();
+                    return Observable.just(realmInstance.copyFromRealm(game));
                 })
                 .compose(RxSchedulers.async());
     }
@@ -59,7 +67,11 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
     }
 
     @Override
-    public Observable<List<GamePreview>> search() {
+    public Observable<List<GamePreview>> search(String name) {
+        /*int offset = 0;
+        return ApiFactory.getGiantBombService()
+                .search(name, QueryParams.GAMES_FILED_LIST,QueryParams.LIMIT,offset,QueryParams.RESOURCES)
+                .map(GiantBombResponse::getResults);*/
         return Observable.empty();
     }
 

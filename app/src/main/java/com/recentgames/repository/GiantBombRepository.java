@@ -15,7 +15,7 @@ public interface GiantBombRepository {
 
     Observable<List<GamePreview>> games(@GamesType int type, int offset);
 
-    Observable<List<GamePreview>> search();
+    Observable<List<GamePreview>> search(String name);
 
     Observable<ReviewDescription> review();
 
