@@ -31,7 +31,6 @@ public class GamesRouterImpl implements GamesRouter {
                 //.addToBackStack(null)
                 .replace(R.id.fragment_container, GamesFragment.newInstance())
                 .commit();
-
     }
 
     @Override

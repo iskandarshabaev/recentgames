@@ -6,4 +6,7 @@
 
     <color name="black">@android:color/black</color>
     <color name="white">@android:color/white</color>
+
+    <color name="black_half_transparent">#c8000000</color>
+
 </resources>

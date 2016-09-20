@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GameFragmentsAdapter  extends FragmentPagerAdapter {
 
-    private final List<Fragment> mFragmentsList = new ArrayList<>();
+    private final int PAGES_COUNT = 3;
 
     GameFragmentsAdapter(FragmentManager manager) {
         super(manager);
@@ -19,21 +19,22 @@ public class GameFragmentsAdapter  extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return mFragmentsList.get(position);
+        if (position == GamesType.WEEK) {
+            return GamesPageFragment.newInstance(GamesType.WEEK);
+        } else if (position == GamesType.MONTH) {
+            return GamesPageFragment.newInstance(GamesType.MONTH);
+        } else {
+            return GamesPageFragment.newInstance(GamesType.YEAR);
+        }
     }
 
     @Override
     public int getCount() {
-        return mFragmentsList.size();
-    }
-
-    void addFragment(Fragment fragment) {
-        mFragmentsList.add(fragment);
+        return PAGES_COUNT;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        mFragmentsList.get(position);
         if (position == GamesType.WEEK) {
             return "WEEK";
         } else if (position == GamesType.MONTH) {

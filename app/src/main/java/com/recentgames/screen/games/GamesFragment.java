@@ -1,6 +1,7 @@
 package com.recentgames.screen.games;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.recentgames.GamesType;
 import com.recentgames.R;
 import com.recentgames.router.GamesRouter;
 import com.recentgames.router.OnSearchStateChanged;
@@ -35,13 +35,24 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged, Gam
                              Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_games, container, false);
         mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
-        setupGameFragments(layout);
+
         setHasOptionsMenu(true);
         initToolbar((Toolbar) layout.findViewById(R.id.games_toolbar), R.string.app_name);
         mGamesPresenter = new GamesPresenter(this);
         mGamesRouter.addSearchStateListener(this);
 
         return layout;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupGameFragments(layout);
     }
 
     @Override
@@ -83,13 +94,9 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged, Gam
         ViewPager gameFragmentsPages = (ViewPager) layout.findViewById(R.id.view_pager);
         TabLayout gameFragmentsTabs = (TabLayout) layout.findViewById(R.id.tab_layout);
 
-        GameFragmentsAdapter gameFragmentsAdapter = new GameFragmentsAdapter(getActivity().getSupportFragmentManager());
-        gameFragmentsAdapter.addFragment(GameItemFragment.newInstance(GamesType.WEEK));
-        gameFragmentsAdapter.addFragment(GameItemFragment.newInstance(GamesType.MONTH));
-        gameFragmentsAdapter.addFragment(GameItemFragment.newInstance(GamesType.YEAR));
+        GameFragmentsAdapter gameFragmentsAdapter = new GameFragmentsAdapter(getChildFragmentManager());
 
         gameFragmentsPages.setAdapter(gameFragmentsAdapter);
-        gameFragmentsPages.offsetLeftAndRight(2);
         gameFragmentsTabs.setupWithViewPager(gameFragmentsPages);
     }
 

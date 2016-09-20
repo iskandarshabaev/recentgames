@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="get_games_week" type="id"/>
+    <item name="get_games_month" type="id"/>
+    <item name="get_games_year" type="id"/>
+</resources>
