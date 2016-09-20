@@ -1,10 +1,12 @@
 package com.recentgames.model.content;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import io.realm.RealmObject;
 
@@ -19,20 +21,24 @@ public class GamePreview extends RealmObject implements Serializable {
     @SerializedName("name")
     private String mName;
 
+    @SerializedName("original_release_date")
+    private Date mReleaseDate;
+
     public GamePreview() {
     }
 
-    public GamePreview(int id, @NonNull Image image, @NonNull String name) {
+    public GamePreview(int id, @NonNull Image image, @NonNull String name, @NonNull Date releaseDate) {
         mId = id;
         mImage = image;
         mName = name;
+        mReleaseDate = releaseDate;
     }
 
     public int getId() {
         return mId;
     }
 
-    @NonNull
+    @Nullable
     public Image getImage() {
         return mImage;
     }
@@ -40,5 +46,10 @@ public class GamePreview extends RealmObject implements Serializable {
     @NonNull
     public String getName() {
         return mName;
+    }
+
+    @NonNull
+    public Date getReleaseDate() {
+        return mReleaseDate;
     }
 }

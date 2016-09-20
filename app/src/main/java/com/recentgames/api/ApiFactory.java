@@ -2,6 +2,8 @@ package com.recentgames.api;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.recentgames.BuildConfig;
 
 import okhttp3.OkHttpClient;
@@ -11,6 +13,8 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class ApiFactory {
+
+    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
     private static OkHttpClient sClient;
 
@@ -35,7 +39,7 @@ public final class ApiFactory {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_ENDPOINT)
                 .client(getClient())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(GSON))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build()
                 .create(GiantBombService.class);
