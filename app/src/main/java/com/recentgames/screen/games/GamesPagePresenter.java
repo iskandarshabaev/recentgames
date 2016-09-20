@@ -2,12 +2,8 @@ package com.recentgames.screen.games;
 
 import android.support.annotation.NonNull;
 
-import com.recentgames.GamesType;
-import com.recentgames.R;
-import com.recentgames.api.ApiFactory;
 import com.recentgames.model.QueryParams;
-import com.recentgames.model.response.GiantBombResponse;
-import com.recentgames.util.RxSchedulers;
+import com.recentgames.repository.RepositoryProvider;
 
 import ru.arturvasilov.rxloader.LifecycleHandler;
 
@@ -23,29 +19,12 @@ public class GamesPagePresenter {
     }
 
     public void getGames(int type) {
-
-        int id;
-        if (type == GamesType.WEEK) {
-            id = R.id.get_games_week;
-        } else if (type == GamesType.MONTH) {
-            id = R.id.get_games_month;
-        } else if (type == GamesType.YEAR) {
-            id = R.id.get_games_year;
-        } else {
-            return;
-        }
-
         int offset = 0;
-        ApiFactory.getGiantBombService()
-                .games(
-                        QueryParams.GAMES_FILED_LIST,
-                        QueryParams.getWeekFilter(),
-                        QueryParams.GAME_SORT_BY_REVIEWS_COUNT,
-                        QueryParams.LIMIT_COUNT,
-                        offset)
-                .map(GiantBombResponse::getResults)
-                .compose(RxSchedulers.async())
-                .compose(mLifecycleHandler.load(id))
+        RepositoryProvider.provideGiantBombRepository()
+                .games(type, offset)
+                .compose(mLifecycleHandler.load(QueryParams.getLoaderId(type)))
+                .doOnSubscribe(mGamesPageView::showLoading)
+                .doOnTerminate(mGamesPageView::hideLoading)
                 .subscribe(gamePreviews -> {
                     mGamesPageView.updateAdapter(gamePreviews);
                 }, throwable -> {
@@ -53,6 +32,4 @@ public class GamesPagePresenter {
                     mGamesPageView.showError();
                 });
     }
-
-
 }
