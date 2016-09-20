@@ -54,11 +54,12 @@ public class GameDetailsPresenter {
         mSubscription.unsubscribe();
     }
 
-    public void navigateBack(){
+    public void clear(){
         mLifecycleHandler.clear(R.id.game_details_id);
     }
 
     private void showGameDescription(GameDescription description){
+        mView.showPoster(description.getImage());
         mView.showPlatforms(description.getPlatforms());
         mView.showGenres(description.getGenres());
         mView.showDeck(description.getDeck());

@@ -113,7 +113,7 @@ public class SearchFragment extends Fragment
 
     @Override
     public void onItemClick(@NonNull View view, @NonNull GamePreview game) {
-        mPresenter.onGameClick(mGamesRouter,game);
+        mPresenter.onGameClick(mGamesRouter, getActivity(), game);
     }
 
     @Override

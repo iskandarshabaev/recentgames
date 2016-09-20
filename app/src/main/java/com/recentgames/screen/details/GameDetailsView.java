@@ -15,6 +15,8 @@ public interface GameDetailsView extends LoadingView {
 
     void showError();
 
+    void showPoster(@NonNull Image image);
+
     void showRating(@NonNull String ratings);
 
     void showReleaseDate(@NonNull String dateString);

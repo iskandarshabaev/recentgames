@@ -25,7 +25,7 @@ public class QueryParams {
 
     public static final String GAMES_FILED_LIST = ID + "," + NAME + "," + IMAGE;
 
-    public static final String GAME_FILED_LIST = ID + "," + NAME + "," + IMAGES + "," + DECK + "," +
+    public static final String GAME_FILED_LIST = ID + "," + NAME + "," + IMAGE + "," + IMAGES + "," + DECK + "," +
             PLATFORMS + "," + GENRES + "," + RELEASE_DATE + "," +
             RATING + "," + REVIEWS + "," + SIMILAR_GAMES;
 

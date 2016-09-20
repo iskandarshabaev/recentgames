@@ -11,6 +11,7 @@ import com.recentgames.util.RxSchedulers;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -23,8 +24,16 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
                 .map(GiantBombResponse::getResults)
                 .flatMap(game ->{
                     Realm realmInstance = Realm.getDefaultInstance();
-                    realmInstance.executeTransaction(realm -> realm.insert(game));
+                    realmInstance.executeTransaction(realm -> realm.insertOrUpdate(game));
                     return Observable.just(game);
+                })
+                .onErrorResumeNext(throwable -> {
+                    Realm realmInstance = Realm.getDefaultInstance();
+                    GameDescription game = realmInstance.where(GameDescription.class)
+                            .equalTo("mId", gameId)
+                            .findAll()
+                            .first();
+                    return Observable.just(realmInstance.copyFromRealm(game));
                 })
                 .compose(RxSchedulers.async());
     }
