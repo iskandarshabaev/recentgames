@@ -12,6 +12,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import rx.Observable;
+import rx.functions.Func1;
 
 public class DefaultGiantBombRepository implements GiantBombRepository {
 
@@ -34,8 +35,10 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
     }
 
     @Override
-    public Observable<List<GamePreview>> search() {
-        return Observable.empty();
+    public Observable<List<GamePreview>> search(String name) {
+        return ApiFactory.getGiantBombService()
+                .search(name, QueryParams.GAMES_FILED_LIST,QueryParams.LIMIT,0,QueryParams.RESOURCES)
+                .map(GiantBombResponse::getResults);
     }
 
     @Override
