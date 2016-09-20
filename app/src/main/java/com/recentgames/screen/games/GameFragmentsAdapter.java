@@ -6,9 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.recentgames.GamesType;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class GameFragmentsAdapter  extends FragmentPagerAdapter {
 
     private final int PAGES_COUNT = 3;
@@ -19,13 +16,7 @@ public class GameFragmentsAdapter  extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == GamesType.WEEK) {
-            return GamesPageFragment.newInstance(GamesType.WEEK);
-        } else if (position == GamesType.MONTH) {
-            return GamesPageFragment.newInstance(GamesType.MONTH);
-        } else {
-            return GamesPageFragment.newInstance(GamesType.YEAR);
-        }
+        return getFragment(position);
     }
 
     @Override
@@ -35,12 +26,26 @@ public class GameFragmentsAdapter  extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
+        return getTypeName(position);
+    }
+
+    private String getTypeName(int position) {
         if (position == GamesType.WEEK) {
             return "WEEK";
         } else if (position == GamesType.MONTH) {
             return "MONTH";
         } else {
             return "YEAR";
+        }
+    }
+
+    private Fragment getFragment(int position) {
+        if (position == GamesType.WEEK) {
+            return GamesPageFragment.newInstance(GamesType.WEEK);
+        } else if (position == GamesType.MONTH) {
+            return GamesPageFragment.newInstance(GamesType.MONTH);
+        } else {
+            return GamesPageFragment.newInstance(GamesType.YEAR);
         }
     }
 }

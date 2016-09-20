@@ -1,7 +1,6 @@
 package com.recentgames.screen.games;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -22,6 +21,8 @@ import com.recentgames.router.GamesRouter;
 import com.recentgames.router.OnSearchStateChanged;
 import com.recentgames.router.impl.GamesRouterImpl;
 
+import java.util.Date;
+
 public class GamesFragment extends Fragment implements OnSearchStateChanged, GamesView {
 
     public static GamesFragment newInstance() {
@@ -37,24 +38,13 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged, Gam
                              Bundle savedInstanceState) {
         layout = inflater.inflate(R.layout.fragment_games, container, false);
         mGamesRouter = new GamesRouterImpl(getActivity().getSupportFragmentManager());
-
         setHasOptionsMenu(true);
         initToolbar((Toolbar) layout.findViewById(R.id.games_toolbar), R.string.app_name);
+        setupGameFragments(layout);
         mGamesPresenter = new GamesPresenter(this);
         mGamesRouter.addSearchStateListener(this);
 
         return layout;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setupGameFragments(layout);
     }
 
     @Override
@@ -88,10 +78,15 @@ public class GamesFragment extends Fragment implements OnSearchStateChanged, Gam
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         toolbar.setTitle(titleResId);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setTitleTextColor(R.color.white);
+        toolbar.setOnClickListener(v -> mGamesRouter.navigateFromGamesToGameDetails(getFakeGamePreview()));
+    }
+
+    private GamePreview getFakeGamePreview() {
+        int id = 49962;
         Image image = new Image("http://www.giantbomb.com/api/image/screen_medium/2883851-recore%20v1.jpg");
-        GamePreview preview = new GamePreview(49962, image, "ReCore");
-        toolbar.setOnClickListener(v -> mGamesRouter.navigateFromGamesToGameDetails(preview));
+        String gameName = "ReCore";
+        return new GamePreview(id, image, gameName, new Date());
     }
 
     private void setupGameFragments(View layout) {
