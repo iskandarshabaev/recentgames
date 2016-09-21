@@ -32,6 +32,14 @@ public class RxSearchView extends SearchView {
         super(context, attrs, defStyle);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mSubscription != null) {
+            mSubscription.unsubscribe();
+        }
+    }
+
     public void setOnRxQueryTextListener(OnRxQueryTextListener listener) {
         if (mSubscription != null) {
             mSubscription.unsubscribe();

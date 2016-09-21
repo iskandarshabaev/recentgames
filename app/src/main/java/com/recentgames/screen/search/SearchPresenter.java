@@ -1,23 +1,22 @@
 package com.recentgames.screen.search;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.repository.RepositoryProvider;
-import com.recentgames.util.RxSchedulers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import ru.arturvasilov.rxloader.LifecycleHandler;
+import rx.Subscription;
 
 public class SearchPresenter {
 
     private final SearchView mSearchView;
     private final LifecycleHandler mLifecycleHandler;
+    private Subscription mSubscription;
 
     private final static int MIN_SEARCH_LENGTH = 3;
     private final static int DEBOUNCE_TIMEOUT = 300;
@@ -28,18 +27,18 @@ public class SearchPresenter {
     }
 
     private void searchGame(String name) {
-        RepositoryProvider.provideGiantBombRepository()
+        mSubscription = RepositoryProvider.provideGiantBombRepository()
                 .search(name)
+                .compose(mLifecycleHandler.reload(R.id.search_toolbar))
                 .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
                 .doOnSubscribe(mSearchView::showLoading)
                 .doAfterTerminate(mSearchView::hideLoading)
-                .compose(mLifecycleHandler.reload(R.id.search_toolbar))
-                .subscribe(mSearchView::showGames, throwable -> mSearchView.showError());
+                .subscribe(this::showGames, throwable -> mSearchView.showError());
     }
 
-    /*public void onGameClick(GamesRouter router, Context context, GamePreview game) {
-        router.navigateFromSearchToGameDetails(context, game);
-    }*/
+    public void unsubscribe(){
+        mSubscription.unsubscribe();
+    }
 
     public void onTextChanged(String text) {
         if(text.length() == 0)
@@ -48,9 +47,11 @@ public class SearchPresenter {
             searchGame(text);
     }
 
-    public void notifyIsNotFound(List<GamePreview> games) {
+    private void showGames(List<GamePreview> games) {
         if(games.size() == 0) {
             mSearchView.notifyIsNotFound();
         }
+
+        mSearchView.showGames(games);
     }
 }
