@@ -19,7 +19,6 @@ public class SearchPresenter {
     private Subscription mSubscription;
 
     private final static int MIN_SEARCH_LENGTH = 3;
-    private final static int DEBOUNCE_TIMEOUT = 300;
 
     public SearchPresenter(@NonNull  SearchView searchView,@NonNull LifecycleHandler lifecycleHandler) {
         mSearchView = searchView;
@@ -30,14 +29,14 @@ public class SearchPresenter {
         mSubscription = RepositoryProvider.provideGiantBombRepository()
                 .search(name)
                 .compose(mLifecycleHandler.reload(R.id.search_toolbar))
-                .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
                 .doOnSubscribe(mSearchView::showLoading)
                 .doAfterTerminate(mSearchView::hideLoading)
                 .subscribe(this::showGames, throwable -> mSearchView.showError());
     }
 
     public void unsubscribe(){
-        mSubscription.unsubscribe();
+        if(mSubscription != null)
+            mSubscription.unsubscribe();
     }
 
     public void onTextChanged(String text) {

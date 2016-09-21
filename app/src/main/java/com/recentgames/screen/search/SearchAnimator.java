@@ -23,9 +23,9 @@ public class SearchAnimator {
     }
 
     @NonNull
-    public static AnimatorSet fade(@NonNull View view,Action anim) {
+    public static AnimatorSet fade(@NonNull View view, Action anim) {
 
-        float startY = (anim == Action.FADEIN )? -view.getHeight() : 0f;
+        float startY = (anim == Action.FADEIN ) ? -view.getHeight() : 0f;
         float endY = (anim == Action.FADEIN) ? 0f : -view.getHeight();
         float startAlpha = (anim == Action.FADEIN) ? 0f : 1f;
         float endAlpha = (anim == Action.FADEIN) ? 1f : 0f;
