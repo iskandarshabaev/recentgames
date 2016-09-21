@@ -9,6 +9,7 @@ import com.recentgames.repository.RepositoryProvider;
 import com.recentgames.util.RxSchedulers;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import ru.arturvasilov.rxloader.LifecycleHandler;
@@ -19,18 +20,20 @@ public class SearchPresenter {
     private final LifecycleHandler mLifecycleHandler;
 
     private final static int MIN_SEARCH_LENGTH = 3;
+    private final static int DEBOUNCE_TIMEOUT = 300;
 
     public SearchPresenter(@NonNull  SearchView searchView,@NonNull LifecycleHandler lifecycleHandler) {
         mSearchView = searchView;
         mLifecycleHandler = lifecycleHandler;
     }
 
-    public void searchGame(String name) {
+    private void searchGame(String name) {
         RepositoryProvider.provideGiantBombRepository()
                 .search(name)
-                .debounce(300, TimeUnit.MILLISECONDS)
+                .debounce(DEBOUNCE_TIMEOUT, TimeUnit.MILLISECONDS)
+                .doOnSubscribe(mSearchView::showLoading)
+                .doAfterTerminate(mSearchView::hideLoading)
                 .compose(mLifecycleHandler.reload(R.id.search_toolbar))
-                .compose(RxSchedulers.async())
                 .subscribe(mSearchView::showGames, throwable -> mSearchView.showError());
     }
 
@@ -40,8 +43,14 @@ public class SearchPresenter {
 
     public void onTextChanged(String text) {
         if(text.length() == 0)
-            mSearchView.showGames(new ArrayList<>());
+            mSearchView.clearSearchResult();
         else if(text.length() >= MIN_SEARCH_LENGTH)
             searchGame(text);
+    }
+
+    public void notifyIsNotFound(List<GamePreview> games) {
+        if(games.size() == 0) {
+            mSearchView.notifyIsNotFound();
+        }
     }
 }

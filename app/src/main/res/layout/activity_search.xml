@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/translucent"
     android:orientation="vertical"
-    tools:context="com.recentgames.screen.search.SearchFragment">
+    tools:context="com.recentgames.screen.search.SearchActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -29,7 +29,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         tools:listitem="@layout/item_search_game"/>
 
 </LinearLayout>
