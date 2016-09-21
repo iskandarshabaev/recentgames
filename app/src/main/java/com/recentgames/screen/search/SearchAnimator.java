@@ -17,24 +17,18 @@ public class SearchAnimator {
     private static final String PROP_TRANSLATIONY = "translationY";
     private static final String PROP_ALPHA = "alpha";
 
-    @NonNull
-    public static AnimatorSet fadeIn(@NonNull View view) {
-
-        float startY = -view.getHeight();
-        float endY = 0f;
-        float startAlpha = 0f;
-        float endAlpha = 1f;
-
-        return init(view,startY,endY,startAlpha,endAlpha);
+    public enum Action {
+        FADEIN,
+        FADEOUT
     }
 
     @NonNull
-    public static AnimatorSet fadeOut(@NonNull View view) {
+    public static AnimatorSet fade(@NonNull View view,Action anim) {
 
-        float startY = 0f;
-        float endY = -view.getHeight();
-        float startAlpha = 1f;
-        float endAlpha = 0f;
+        float startY = (anim == Action.FADEIN )? -view.getHeight() : 0f;
+        float endY = (anim == Action.FADEIN) ? 0f : -view.getHeight();
+        float startAlpha = (anim == Action.FADEIN) ? 0f : 1f;
+        float endAlpha = (anim == Action.FADEIN) ? 1f : 0f;
 
         return init(view,startY,endY,startAlpha,endAlpha);
     }

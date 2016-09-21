@@ -29,6 +29,8 @@ import butterknife.Unbinder;
 import ru.arturvasilov.rxloader.LifecycleHandler;
 import ru.arturvasilov.rxloader.LoaderLifecycleHandler;
 
+import com.recentgames.screen.search.SearchAnimator.Action;
+
 public class SearchActivity extends AppCompatActivity implements SearchView, SearchAdapter.OnItemClickListener {
 
     public static void showActivity(Context context) {
@@ -120,7 +122,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Sea
     @Override
     public void showGames(List<GamePreview> games) {
         mAdapter.changeDataSet(games);
-        SearchAnimator.fadeIn(mSearchRecyclerView).start();
+        SearchAnimator.fade(mSearchRecyclerView, Action.FADEIN).start();
     }
 
     @Override
@@ -132,7 +134,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Sea
 
     @Override
     public void clearSearchResult() {
-        SearchAnimator.fadeOut(mSearchRecyclerView).start();
+        SearchAnimator.fade(mSearchRecyclerView, Action.FADEOUT).start();
     }
 
     @Override
