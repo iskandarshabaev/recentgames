@@ -7,7 +7,6 @@ import com.recentgames.model.content.GamePreview;
 import com.recentgames.repository.RepositoryProvider;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import ru.arturvasilov.rxloader.LifecycleHandler;
 import rx.Subscription;
