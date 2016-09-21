@@ -35,7 +35,9 @@ public class RequestsHandler {
     public Response proceed(@NonNull Request request, @NonNull String path) {
         Set<String> keys = mResponsesMap.keySet();
         for (String interceptUrl : keys) {
-            if (path.contains(interceptUrl)) {
+            if(path.contains("game/")){
+                return proceedGameRequest(request, path);
+            }else if (path.contains(interceptUrl)) {
                 String mockResponsePath = mResponsesMap.get(interceptUrl);
                 return createResponseFromAssets(request, mockResponsePath);
             }
@@ -56,6 +58,14 @@ public class RequestsHandler {
             }
         } catch (IOException e) {
             return OkHttpResponse.error(request, 500, e.getMessage());
+        }
+    }
+
+    private Response proceedGameRequest(@NonNull Request request, @NonNull String path){
+        if(path.contains("game/36067")){
+            return createResponseFromAssets(request, "game.json");
+        }else {
+            return createResponseFromAssets(request, "game_not_found.json");
         }
     }
 }

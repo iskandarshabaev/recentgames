@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import io.realm.Realm;
+import rx.observers.TestSubscriber;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -41,6 +42,14 @@ public class GiantBombRepositoryTest {
                 .findFirst();
         assertNotNull(gameDescription);
         assertEquals(gameDescription.getId(), id);
+    }
+
+    @Test
+    public void testGameDescriptionNotFound()throws Exception{
+        int id = 999778769;
+        TestSubscriber<GameDescription> testSubscriber = new TestSubscriber<>();
+        mRepository.game(id).subscribe(testSubscriber);
+        testSubscriber.assertNotCompleted();
     }
 
 }

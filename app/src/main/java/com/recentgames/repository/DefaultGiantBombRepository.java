@@ -31,9 +31,12 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
                     Realm realmInstance = Realm.getDefaultInstance();
                     GameDescription game = realmInstance.where(GameDescription.class)
                             .equalTo("mId", gameId)
-                            .findAll()
-                            .first();
-                    return Observable.just(realmInstance.copyFromRealm(game));
+                            .findFirst();
+                    if(game != null) {
+                        return Observable.just(realmInstance.copyFromRealm(game));
+                    }else {
+                        return Observable.error(new Exception("Load failed"));
+                    }
                 })
                 .compose(RxSchedulers.async());
     }
