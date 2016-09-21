@@ -68,11 +68,10 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
 
     @Override
     public Observable<List<GamePreview>> search(String name) {
-        /*int offset = 0;
         return ApiFactory.getGiantBombService()
-                .search(name, QueryParams.GAMES_FILED_LIST,QueryParams.LIMIT,offset,QueryParams.RESOURCES)
-                .map(GiantBombResponse::getResults);*/
-        return Observable.empty();
+                .search(name, QueryParams.GAMES_FILED_LIST,QueryParams.LIMIT_COUNT,QueryParams.RESOURCES)
+                .map(GiantBombResponse::getResults)
+                .compose(RxSchedulers.async());
     }
 
     @Override

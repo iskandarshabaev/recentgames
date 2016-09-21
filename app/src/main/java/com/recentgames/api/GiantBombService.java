@@ -33,6 +33,6 @@ public interface GiantBombService {
     Observable<GiantBombResponse<List<GamePreview>>> search(@Query("query") String query,
                                                             @Query("field_list") String fieldList,
                                                             @Query("limit") int limit,
-                                                            @Query("offset") int offset,
+                                                            /*@Query("offset") int offset,*/
                                                             @Query("resources") String resources);
 }

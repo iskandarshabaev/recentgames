@@ -16,6 +16,7 @@
 
 
     <!--Search-->
-    <string name="enter_name_game">Введите название игры</string>
+    <string name="enter_name_game">Enter the name of the game</string>
+    <string name="game_not_found">Game with name %s not found</string>
 
 </resources>

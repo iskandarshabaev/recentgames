@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
+import com.recentgames.util.ImageHelper;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -38,12 +39,8 @@ public class SearchGamesHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull GamePreview game) {
 
-        if(game.getImage() != null) {
-            Picasso.with(mImageView.getContext())
-                    .load(game.getImage().getMediumUrl())
-                    .noFade()
-                    .into(mImageView);
-        }
+        if(game.getImage() != null && game.getImage().getMediumUrl() != null)
+            ImageHelper.loadImage(mImageView,game.getImage().getMediumUrl());
 
         mTextView.setText(game.getName());
     }
