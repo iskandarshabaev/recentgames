@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class ApiFactory {
 
-    private static OkHttpClient sClient;
+    //private static OkHttpClient sClient;
 
     private static GiantBombService sService;
 
@@ -34,14 +34,14 @@ public final class ApiFactory {
     private static GiantBombService createService() {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_ENDPOINT)
-                .client(getClient())
+                .client(OkHttpProvider.provideClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build()
                 .create(GiantBombService.class);
     }
 
-    @NonNull
+    /*@NonNull
     private static OkHttpClient getClient() {
         OkHttpClient client = sClient;
         if (client == null) {
@@ -53,14 +53,14 @@ public final class ApiFactory {
             }
         }
         return client;
-    }
+    }*/
 
-    @NonNull
+   /* @NonNull
     private static OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
-                .addInterceptor(new ApiKeyInterceptor())
-                .addInterceptor(new ApiFormatInterceptor())
+                    .addInterceptor(ApiKeyInterceptor.create())
+                    .addInterceptor(ApiFormatInterceptor.create())
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .build();
-    }
+    }*/
 }

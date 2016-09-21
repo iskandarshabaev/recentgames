@@ -12,7 +12,14 @@ public class Rating extends RealmObject {
     private int mId;
 
     @SerializedName("name")
-    private String name;
+    private String mName;
+
+    public Rating(){}
+
+    public Rating(int id, @NonNull String name){
+        mId = id;
+        mName = name;
+    }
 
     public int getId() {
         return mId;
@@ -20,6 +27,6 @@ public class Rating extends RealmObject {
 
     @NonNull
     public String getName() {
-        return name;
+        return mName;
     }
 }

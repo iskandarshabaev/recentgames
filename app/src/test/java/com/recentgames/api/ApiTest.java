@@ -100,7 +100,7 @@ public class ApiTest {
         String gameName = "Deus";
         int limit = LIMIT;
         int offset = 0;
-        ApiFactory.getGiantBombService().search(gameName, REVIEW_FILED_LIST, limit, offset)
+        ApiFactory.getGiantBombService().search(gameName, REVIEW_FILED_LIST, limit, offset, "")
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -115,7 +115,7 @@ public class ApiTest {
         int limit = LIMIT;
         int offset = 0;
         ApiFactory.getGiantBombService()
-                .search(gameName, REVIEW_FILED_LIST, limit, offset)
+                .search(gameName, REVIEW_FILED_LIST, limit, offset, "")
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(

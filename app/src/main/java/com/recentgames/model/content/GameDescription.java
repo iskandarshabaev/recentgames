@@ -92,4 +92,44 @@ public class GameDescription extends RealmObject {
     public Image getImage() {
         return mImage;
     }
+
+    public void setId(int id) {
+        mId = id;
+    }
+
+    public void setDeck(String deck) {
+        mDeck = deck;
+    }
+
+    public void setPlatforms(RealmList<Platform> platforms) {
+        mPlatforms = platforms;
+    }
+
+    public void setGenres(RealmList<Genre> genres) {
+        mGenres = genres;
+    }
+
+    public void setImage(Image image) {
+        mImage = image;
+    }
+
+    public void setImages(RealmList<Image> images) {
+        mImages = images;
+    }
+
+    public void setOriginalReleaseDate(String originalReleaseDate) {
+        mOriginalReleaseDate = originalReleaseDate;
+    }
+
+    public void setOriginalGameRating(RealmList<Rating> originalGameRating) {
+        mOriginalGameRating = originalGameRating;
+    }
+
+    public void setReviews(RealmList<ReviewPreview> reviews) {
+        this.reviews = reviews;
+    }
+
+    public void setSimilarGames(RealmList<GamePreview> similarGames) {
+        mSimilarGames = similarGames;
+    }
 }

@@ -11,6 +11,8 @@ import okhttp3.Response;
 
 public final class ApiFormatInterceptor implements Interceptor {
 
+    private ApiFormatInterceptor(){}
+
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
@@ -19,5 +21,9 @@ public final class ApiFormatInterceptor implements Interceptor {
                 .build();
         request = request.newBuilder().url(url).build();
         return chain.proceed(request);
+    }
+
+    public static Interceptor create(){
+        return new ApiFormatInterceptor();
     }
 }
