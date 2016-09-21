@@ -37,7 +37,8 @@ public class SearchPresenter {
     }
 
     public void unsubscribe(){
-        mSubscription.unsubscribe();
+        if(mSubscription != null)
+            mSubscription.unsubscribe();
     }
 
     public void onTextChanged(String text) {
