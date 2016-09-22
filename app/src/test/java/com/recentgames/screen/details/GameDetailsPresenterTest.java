@@ -174,4 +174,9 @@ public class GameDetailsPresenterTest {
         mPresenter.clear();
         //verify(mLifecycleHandler).clear(anyInt());
     }
+
+    @Test
+    public void unsubscribeTest(){
+        mPresenter.unsubscribe();
+    }
 }
