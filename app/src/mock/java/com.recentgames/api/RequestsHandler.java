@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.recentgames.App;
+import com.recentgames.repository.RepositoryProvider;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +22,12 @@ public class RequestsHandler {
         mResponsesMap.put("/game", "game.json");
     }
 
+    private static boolean sGenerateException;
+
+    public static void setGenerateException(boolean value){
+        sGenerateException = value;
+    }
+
     public boolean shouldIntercept(@NonNull String path) {
         Set<String> keys = mResponsesMap.keySet();
         for (String interceptUrl : keys) {
@@ -33,6 +40,9 @@ public class RequestsHandler {
 
     @NonNull
     public Response proceed(@NonNull Request request, @NonNull String path) {
+        if(sGenerateException){
+            return OkHttpResponse.error(request, 1, "");
+        }
         Set<String> keys = mResponsesMap.keySet();
         for (String interceptUrl : keys) {
             if(path.contains("game/")){

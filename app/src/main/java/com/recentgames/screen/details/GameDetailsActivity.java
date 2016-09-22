@@ -32,7 +32,6 @@ import com.recentgames.model.content.Image;
 import com.recentgames.model.content.Platform;
 import com.recentgames.model.content.ReviewPreview;
 import com.recentgames.repository.RepositoryProvider;
-import com.recentgames.router.impl.GamesRouterImpl;
 import com.recentgames.util.ImageHelper;
 import com.recentgames.util.PlatformUtils;
 
@@ -96,7 +95,6 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
     CardView mDescriptionCard;
     @BindView(R.id.contentScrollPanel)
     NestedScrollView mContentNestedScrollView;
-    private GamesRouterImpl mGamesRouter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +104,6 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
         paintStatusBar(R.color.game_details_status_color);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         initToolbar(mToolbar);
-        mGamesRouter = new GamesRouterImpl(getSupportFragmentManager());
 
         mReviewsAdapter = new ReviewsAdapter(new ArrayList<>(), reviewPreview -> {
 
@@ -115,7 +112,7 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
 
         mSimilarGamesAdapter = new SimilarGamesAdapter(new ArrayList<>(), game -> {
             mPresenter.clear();
-            mGamesRouter.navigateFromGamesDetailsToGameDetails(this, game);
+            GameDetailsActivity.showActivity(GameDetailsActivity.this, game);
             finish();
         });
         initRecyclerView(mSimilarGamesRecyclerView, mSimilarGamesAdapter);

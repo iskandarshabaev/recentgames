@@ -10,7 +10,6 @@ import com.recentgames.model.content.GamePreview;
 import com.recentgames.router.GamesRouter;
 import com.recentgames.router.OnSearchStateChanged;
 import com.recentgames.screen.details.GameDetailsActivity;
-import com.recentgames.screen.details.GameDetailsFragment;
 import com.recentgames.screen.games.GamesFragment;
 import com.recentgames.screen.search.SearchFragment;
 
