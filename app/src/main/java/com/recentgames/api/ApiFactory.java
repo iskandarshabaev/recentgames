@@ -7,14 +7,13 @@ import com.google.gson.GsonBuilder;
 import com.recentgames.BuildConfig;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class ApiFactory {
 
-    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+    private static final Gson GSON_DATE = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
     private static OkHttpClient sClient;
     //private static OkHttpClient sClient;
@@ -40,7 +39,7 @@ public final class ApiFactory {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_ENDPOINT)
                 .client(OkHttpProvider.provideClient())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(GSON_DATE))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build()
                 .create(GiantBombService.class);

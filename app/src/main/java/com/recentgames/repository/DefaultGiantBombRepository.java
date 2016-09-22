@@ -13,6 +13,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import rx.Observable;
+import rx.functions.Func1;
 
 public class DefaultGiantBombRepository implements GiantBombRepository {
 
@@ -51,7 +52,12 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
                         offset)
                 .map(GiantBombResponse::getResults)
                 .flatMap(this::cacheGamePreviews)
-                .onErrorResumeNext(throwable -> getCachedGamePreviews(type))
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<GamePreview>>>() {
+                    @Override
+                    public Observable<? extends List<GamePreview>> call(Throwable throwable) {
+                        return getCachedGamePreviews(type);
+                    }
+                })
                 .compose(RxSchedulers.async());
     }
 

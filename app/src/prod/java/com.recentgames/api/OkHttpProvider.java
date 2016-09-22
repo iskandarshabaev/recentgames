@@ -3,6 +3,7 @@ package com.recentgames.api;
 import android.support.annotation.NonNull;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class OkHttpProvider {
 
@@ -34,6 +35,7 @@ public class OkHttpProvider {
         return new OkHttpClient.Builder()
                 .addInterceptor(ApiKeyInterceptor.create())
                 .addInterceptor(ApiFormatInterceptor.create())
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
     }
 }
