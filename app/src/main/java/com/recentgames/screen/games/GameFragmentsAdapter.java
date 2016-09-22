@@ -39,13 +39,7 @@ public class GameFragmentsAdapter  extends FragmentPagerAdapter {
         }
     }
 
-    private Fragment getFragment(int position) {
-        if (position == GamesType.WEEK) {
-            return GamesPageFragment.newInstance(GamesType.WEEK);
-        } else if (position == GamesType.MONTH) {
-            return GamesPageFragment.newInstance(GamesType.MONTH);
-        } else {
-            return GamesPageFragment.newInstance(GamesType.YEAR);
-        }
+    private Fragment getFragment(@GamesType int position) {
+        return GamesPageFragment.newInstance(position);
     }
 }

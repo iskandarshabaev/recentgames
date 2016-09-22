@@ -12,6 +12,7 @@ import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.util.ImageHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,13 +22,23 @@ public class GamesPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private int FOOTER_COUNT = 0;
 
-    private static final int TYPE_BOTTOM = 2;
-    private static final int TYPE_ITEM = 1;
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_BOTTOM = 1;
 
     private List<GamePreview> mGames;
+    private final OnItemClickListener mOnItemClickListener;
 
-    public GamesPageAdapter(List<GamePreview> games) {
-        mGames = games;
+    private final View.OnClickListener mInternalListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            GamePreview game = (GamePreview) view.getTag();
+            mOnItemClickListener.onItemClick(view, game);
+        }
+    };
+
+    public GamesPageAdapter(@NonNull OnItemClickListener onItemClickListener) {
+        mGames = new ArrayList<>();
+        mOnItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -36,7 +47,7 @@ public class GamesPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_game, parent, false);
             return new GameViewHolder(itemView);
         } else if (viewType == TYPE_BOTTOM) {
-            final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_game, parent, false);
+            final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
             return new BottomViewHolder(itemView);
         }
 
@@ -50,14 +61,19 @@ public class GamesPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         GameViewHolder holder = (GameViewHolder) viewHolder;
         GamePreview game = mGames.get(position);
         holder.bind(game);
+
+        holder.mCover.setOnClickListener(mInternalListener);
+        holder.mCover.setTag(game);
     }
 
     public void addFooter() {
         FOOTER_COUNT = 1;
+        notifyDataSetChanged();
     }
 
     public void removeFooter() {
         FOOTER_COUNT = 0;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -70,7 +86,6 @@ public class GamesPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void changeDataSet(@NonNull List<GamePreview> games) {
-        mGames.clear();
         mGames.addAll(games);
         notifyDataSetChanged();
     }
@@ -108,5 +123,11 @@ public class GamesPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         BottomViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    public interface OnItemClickListener {
+
+        void onItemClick(@NonNull View view, @NonNull GamePreview game);
+
     }
 }

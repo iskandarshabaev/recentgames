@@ -43,7 +43,6 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
                 .games(
                         QueryParams.GAMES_FILED_LIST,
                         QueryParams.getFilter(type),
-                        QueryParams.GAME_SORT_BY_REVIEWS_COUNT,
                         QueryParams.LIMIT_COUNT,
                         offset)
                 .map(GiantBombResponse::getResults)

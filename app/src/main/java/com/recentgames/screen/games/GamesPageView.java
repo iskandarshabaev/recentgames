@@ -7,10 +7,14 @@ import java.util.List;
 
 public interface GamesPageView extends LoadingView {
 
-    void getGames();
-
     void updateAdapter(List<GamePreview> gamePreviews);
 
     void showError();
+
+    void showRecyclerLoading();
+
+    void hideRecyclerLoading();
+
+    void openGameDetailsScreen(GamePreview gamePreview);
 
 }
