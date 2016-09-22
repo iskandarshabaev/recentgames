@@ -39,6 +39,9 @@ public class GameDetailsPresenter {
 
     public void init(){
         int gameId = mGame.getId();
+        if(mSubscription != null){
+            mSubscription.unsubscribe();
+        }
         mSubscription = mRepository.game(gameId)
                 .compose(mLifecycleHandler.load(R.id.game_details_id))
                 .doOnSubscribe(this::showProgress)
@@ -51,7 +54,9 @@ public class GameDetailsPresenter {
     }
 
     public void unsubscribe(){
-        mSubscription.unsubscribe();
+        if(mSubscription != null) {
+            mSubscription.unsubscribe();
+        }
     }
 
     public void clear(){

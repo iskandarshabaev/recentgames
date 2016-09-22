@@ -1,6 +1,5 @@
 package com.recentgames.api;
 
-import com.recentgames.model.QueryParams;
 import com.recentgames.model.response.GiantBombResponse;
 import com.recentgames.util.RxSchedulers;
 import com.recentgames.utils.RxSchedulersHooks;
@@ -132,7 +131,7 @@ public class ApiTest {
         String gameName = "Deus";
         int limit = LIMIT_COUNT;
         int offset = 0;
-        ApiFactory.getGiantBombService().search(gameName, REVIEW_FILED_LIST, limit, offset)
+        ApiFactory.getGiantBombService().search(gameName, REVIEW_FILED_LIST, limit, offset, "")
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -147,7 +146,7 @@ public class ApiTest {
         int limit = LIMIT_COUNT;
         int offset = 0;
         ApiFactory.getGiantBombService()
-                .search(invalidGameName, REVIEW_FILED_LIST, limit, offset)
+                .search(gameName, REVIEW_FILED_LIST, limit, offset)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(

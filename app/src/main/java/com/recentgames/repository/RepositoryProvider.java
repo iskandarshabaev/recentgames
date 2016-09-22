@@ -21,9 +21,4 @@ public final class RepositoryProvider {
     public static void setGiantBombRepository(@NonNull GiantBombRepository giantBombRepository) {
         sGiantBombRepository = giantBombRepository;
     }
-
-    @MainThread
-    public static void init() {
-        sGiantBombRepository = new DefaultGiantBombRepository();
-    }
 }
