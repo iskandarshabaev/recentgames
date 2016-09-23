@@ -7,9 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 
-import com.recentgames.model.content.GamePreview;
+import com.recentgames.model.content.GamePreviewCached;
 
-import java.util.List;
 
 import rx.Observable;
 
@@ -38,10 +37,10 @@ public class GamePreviewLoaderLifecycleHandler implements GamePreviewLifecycleHa
 
     @NonNull
     @Override
-    public Observable.Transformer<List<GamePreview>, List<GamePreview>> load(@IdRes final int loaderId) {
-        return new Observable.Transformer<List<GamePreview>, List<GamePreview>>() {
+    public Observable.Transformer<GamePreviewCached, GamePreviewCached> load(@IdRes final int loaderId) {
+        return new Observable.Transformer<GamePreviewCached, GamePreviewCached>() {
             @Override
-            public Observable<List<GamePreview>> call(final Observable<List<GamePreview>> observable) {
+            public Observable<GamePreviewCached> call(final Observable<GamePreviewCached> observable) {
                 if (mLoaderManager.getLoader(loaderId) == null) {
                     mLoaderManager.initLoader(loaderId, Bundle.EMPTY, new RxLoaderCallbacks<>(observable));
                 }
@@ -54,22 +53,22 @@ public class GamePreviewLoaderLifecycleHandler implements GamePreviewLifecycleHa
 
     @NonNull
     @Override
-    public Observable.Transformer<List<GamePreview>, List<GamePreview>> reload(@IdRes final int loaderId) {
-        return new Observable.Transformer<List<GamePreview>, List<GamePreview>>() {
+    public Observable.Transformer<GamePreviewCached, GamePreviewCached> reload(@IdRes final int loaderId) {
+        return new Observable.Transformer<GamePreviewCached, GamePreviewCached>() {
             @Override
-            public Observable<List<GamePreview>> call(final Observable<List<GamePreview>> observable) {
+            public Observable<GamePreviewCached> call(final Observable<GamePreviewCached> observable) {
                 mLoaderManager.restartLoader(loaderId, Bundle.EMPTY, new RxLoaderCallbacks<>(observable));
-                final RxLoaderGamePreview<List<GamePreview>> loader = (RxLoaderGamePreview) mLoaderManager.getLoader(loaderId);
+                final RxLoaderGamePreview<GamePreviewCached> loader = (RxLoaderGamePreview) mLoaderManager.getLoader(loaderId);
                 return loader.createObservable();
             }
         };
     }
 
     @NonNull
-    public Observable.Transformer<List<GamePreview>, List<GamePreview>> add(@IdRes final int loaderId) {
-        return new Observable.Transformer<List<GamePreview>, List<GamePreview>>() {
+    public Observable.Transformer<GamePreviewCached, GamePreviewCached> add(@IdRes final int loaderId) {
+        return new Observable.Transformer<GamePreviewCached, GamePreviewCached>() {
             @Override
-            public Observable<List<GamePreview>> call(final Observable<List<GamePreview>> observable) {
+            public Observable<GamePreviewCached> call(final Observable<GamePreviewCached> observable) {
                 if (mLoaderManager.getLoader(loaderId) == null) {
                     mLoaderManager.initLoader(loaderId, Bundle.EMPTY, new RxLoaderCallbacks<>(observable));
                 }

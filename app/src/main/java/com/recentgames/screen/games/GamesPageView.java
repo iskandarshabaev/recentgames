@@ -9,11 +9,17 @@ public interface GamesPageView extends LoadingView {
 
     void updateAdapter(List<GamePreview> gamePreviews);
 
+    void changeGames(List<GamePreview> gamePreviews);
+
     void showError();
 
-    void showRecyclerLoading();
+    void showRefreshing();
 
-    void hideRecyclerLoading();
+    void hideRefreshing();
+
+    void deactivateBottomRefresh();
+
+    void activateBottomRefresh();
 
     void openGameDetailsScreen(GamePreview gamePreview);
 

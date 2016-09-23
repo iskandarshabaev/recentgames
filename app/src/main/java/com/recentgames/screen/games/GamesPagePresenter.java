@@ -2,6 +2,7 @@ package com.recentgames.screen.games;
 
 import android.support.annotation.NonNull;
 
+import com.recentgames.exception.LimitReachedException;
 import com.recentgames.model.QueryParams;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.repository.RepositoryProvider;
@@ -25,14 +26,36 @@ public class GamesPagePresenter {
     }
 
     public void getGames(int type, int offset) {
-        if (offset % QueryParams.LIMIT_COUNT != 0) return; //means that we have no more games
+        if (type != 0) return;
+        //if (/*offset % QueryParams.LIMIT_COUNT != 0 || */mIsCache) mGamesPageView.deactivateBottomRefresh(); //means that we have no more games (or just we don't wanna show their, lol)
         RepositoryProvider.provideGiantBombRepository()
                 .games(type, offset)
                 .compose(offset == 0 ? mLifecycleHandler.load(QueryParams.getLoaderId(type)) : mLifecycleHandler.add(QueryParams.getLoaderId(type)))
-                .doOnSubscribe(offset == 0 ? mShowLoading : mShowRecyclerLoading)
-                .doOnTerminate(offset == 0 ? mHideLoading : mHideRecyclerLoading)
+                .doOnSubscribe(offset == 0 ? mShowLoading : mShowRefreshing)
+                .doOnTerminate(offset == 0 ? mHideLoading : mHideRefreshing)
                 .subscribe(gamePreviews -> {
-                    mGamesPageView.updateAdapter(gamePreviews);
+                    if (gamePreviews.isCached()) mGamesPageView.deactivateBottomRefresh();
+                    mGamesPageView.updateAdapter(gamePreviews.getGamePreviews());
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    if (throwable instanceof LimitReachedException) {
+                        mGamesPageView.deactivateBottomRefresh();
+                    } else {
+                        mGamesPageView.showError();
+                    }
+                });
+    }
+
+    public void refreshGames(int type) {
+        int offset = 0;
+        RepositoryProvider.provideGiantBombRepository()
+                .games(type, offset)
+                .compose(mLifecycleHandler.reload(QueryParams.getLoaderId(type)))
+                .doOnTerminate(mHideRefreshing)
+                .subscribe(gamePreviews -> {
+                    if (gamePreviews.isCached()) mGamesPageView.deactivateBottomRefresh();
+                    mGamesPageView.changeGames(gamePreviews.getGamePreviews());
+                    mGamesPageView.activateBottomRefresh();
                 }, throwable -> {
                     throwable.printStackTrace();
                     mGamesPageView.showError();
@@ -46,10 +69,10 @@ public class GamesPagePresenter {
         }
     };
 
-    private Action0 mShowRecyclerLoading = new Action0() {
+    private Action0 mShowRefreshing = new Action0() {
         @Override
         public void call() {
-            mGamesPageView.showRecyclerLoading();
+            mGamesPageView.showRefreshing();
         }
     };
 
@@ -60,10 +83,10 @@ public class GamesPagePresenter {
         }
     };
 
-    private Action0 mHideRecyclerLoading = new Action0() {
+    private Action0 mHideRefreshing = new Action0() {
         @Override
         public void call() {
-            mGamesPageView.hideRecyclerLoading();
+            mGamesPageView.hideRefreshing();
         }
     };
 }

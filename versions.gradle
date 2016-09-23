@@ -22,4 +22,6 @@ ext {
     circleimageviewVersion = '2.1.0'
 
     multiviewpager = '1.0'
+
+    swipyRefreshVersion = '1.2.3@aar'
 }

@@ -1,9 +1,12 @@
 package com.recentgames.repository;
 
 import com.recentgames.api.ApiFactory;
+import com.recentgames.exception.LimitReachedException;
+import com.recentgames.exception.RefreshException;
 import com.recentgames.model.QueryParams;
 import com.recentgames.model.content.GameDescription;
 import com.recentgames.model.content.GamePreview;
+import com.recentgames.model.content.GamePreviewCached;
 import com.recentgames.model.content.ReviewDescription;
 import com.recentgames.model.response.GiantBombResponse;
 import com.recentgames.util.RxSchedulers;
@@ -38,7 +41,7 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
     }
 
     @Override
-    public Observable<List<GamePreview>> games(int type, int offset) {
+    public Observable<GamePreviewCached> games(int type, int offset) {
         return ApiFactory.getGiantBombService()
                 .games(
                         QueryParams.GAMES_FILED_LIST,
@@ -47,22 +50,25 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
                         offset)
                 .map(GiantBombResponse::getResults)
                 .flatMap(this::cacheGamePreviews)
-                .onErrorResumeNext(throwable -> getCachedGamePreviews(type))
+                .onErrorResumeNext(throwable -> getCachedGamePreviews(throwable, offset, type))
                 .compose(RxSchedulers.async());
     }
 
-    private Observable<List<GamePreview>> cacheGamePreviews(List<GamePreview> gamePreviews) {
+    private Observable<GamePreviewCached> cacheGamePreviews(List<GamePreview> gamePreviews) {
+        if (gamePreviews.isEmpty()) throw new LimitReachedException("No more games for you guys");
         Realm realmInstance = Realm.getDefaultInstance();
-        realmInstance.executeTransaction(realm -> realm.insert(gamePreviews));
-        return Observable.just(gamePreviews);
+        realmInstance.executeTransaction(realm -> realm.insertOrUpdate(gamePreviews));
+        return Observable.just(new GamePreviewCached(gamePreviews));
     }
 
-    private Observable<List<GamePreview>> getCachedGamePreviews(int type) {
+    private Observable<GamePreviewCached> getCachedGamePreviews(Throwable throwable, int offset, int type) {
+        if (throwable instanceof LimitReachedException) throw new LimitReachedException("No more games for you guys");
+        if (offset != 0) throw new RefreshException("Useless cache");
         Realm realm = Realm.getDefaultInstance();
         RealmResults<GamePreview> repositories = realm.where(GamePreview.class)
                 .between("mReleaseDate", QueryParams.getStartDate(type), QueryParams.getCurrentDate())
                 .findAll();
-        return Observable.just(realm.copyFromRealm(repositories));
+        return Observable.just(new GamePreviewCached(realm.copyFromRealm(repositories), true));
     }
 
     @Override

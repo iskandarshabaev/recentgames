@@ -2,6 +2,7 @@ package com.recentgames.screen.games;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,22 +11,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.rxloader.GamePreviewLifecycleHandler;
 import com.recentgames.rxloader.GamePreviewLoaderLifecycleHandler;
 import com.recentgames.screen.details.GameDetailsActivity;
-import com.recentgames.util.HidingScrollListener;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GamesPageFragment extends Fragment implements GamesPageView, GamesPageAdapter.OnItemClickListener {
+public class GamesPageFragment extends Fragment implements
+        GamesPageView,
+        GamesPageAdapter.OnItemClickListener,
+        SwipyRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.games_page_progress)
     ProgressBar mProgressBar;
+    @BindView(R.id.refresh)
+    SwipyRefreshLayout mSwipyRefreshLayout;
     @BindView(R.id.games_page_recycler)
     RecyclerView mGamesPageRecyclerView;
 
@@ -36,7 +43,6 @@ public class GamesPageFragment extends Fragment implements GamesPageView, GamesP
     private static final int TYPE_DEFAULT = -1;
     private int mType;
     private int mSpanCount = 2;
-    private boolean mIsLoading = false; //todo: move to presenter
 
     public static GamesPageFragment newInstance(int type) {
 
@@ -57,28 +63,9 @@ public class GamesPageFragment extends Fragment implements GamesPageView, GamesP
 
         mGamesAdapter = new GamesPageAdapter(this);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), mSpanCount);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                // FIXME: 9/22/16 true should means footer
-                if (mGamesAdapter.isFooter(position)) {
-                    return layoutManager.getSpanCount();
-                } else {
-                    return 1;
-                }
-            }
-        });
         mGamesPageRecyclerView.setLayoutManager(layoutManager);
         mGamesPageRecyclerView.setAdapter(mGamesAdapter);
-        mGamesPageRecyclerView.addOnScrollListener(new HidingScrollListener() {
-            @Override
-            public void onBottomReached() {
-                if (mIsLoading) return;
-                mIsLoading = true;
-                mGamesPagePresenter.getGames(mType, mGamesAdapter.getItemCount());
-            }
-        });
-
+        mSwipyRefreshLayout.setOnRefreshListener(this);
         GamePreviewLifecycleHandler lifecycleHandler = GamePreviewLoaderLifecycleHandler.create(getContext(), getActivity().getSupportLoaderManager());
         mGamesPagePresenter = new GamesPagePresenter(lifecycleHandler, this);
 
@@ -90,23 +77,38 @@ public class GamesPageFragment extends Fragment implements GamesPageView, GamesP
 
     @Override
     public void updateAdapter(List<GamePreview> gamePreviews) {
-        mGamesAdapter.changeDataSet(gamePreviews);
+        mGamesAdapter.addGames(gamePreviews);
+    }
+
+    @Override
+    public void changeGames(List<GamePreview> gamePreviews) {
+        mGamesAdapter.refreshGames(gamePreviews);
     }
 
     @Override
     public void showError() {
-
+        Snackbar.make(mGamesPageRecyclerView, "Loading error", Snackbar.LENGTH_SHORT)
+                .show();
     }
 
     @Override
-    public void showRecyclerLoading() {
-        mGamesAdapter.addFooter();
+    public void showRefreshing() {
+        mSwipyRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void hideRecyclerLoading() {
-        mGamesAdapter.removeFooter();
-        mIsLoading = false;
+    public void hideRefreshing() {
+        mSwipyRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void deactivateBottomRefresh() {
+        mSwipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.TOP);
+    }
+
+    @Override
+    public void activateBottomRefresh() {
+        mSwipyRefreshLayout.setDirection(SwipyRefreshLayoutDirection.BOTH);
     }
 
     @Override
@@ -129,5 +131,14 @@ public class GamesPageFragment extends Fragment implements GamesPageView, GamesP
     @Override
     public void onItemClick(@NonNull View view, @NonNull GamePreview gamePreview) {
         mGamesPagePresenter.onItemClick(gamePreview);
+    }
+
+    @Override
+    public void onRefresh(SwipyRefreshLayoutDirection direction) {
+        if (direction == SwipyRefreshLayoutDirection.TOP) {
+            mGamesPagePresenter.refreshGames(mType);
+        } else {
+            mGamesPagePresenter.getGames(mType, mGamesAdapter.getItemCount());
+        }
     }
 }

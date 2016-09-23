@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 
 import com.recentgames.model.content.GamePreview;
+import com.recentgames.model.content.GamePreviewCached;
 
 import java.util.List;
 
@@ -19,16 +20,16 @@ import rx.functions.Action1;
 /**
  * @author Artur Vasilov
  */
-class RxLoaderGamePreview<T> extends Loader<List<GamePreview>> {
+class RxLoaderGamePreview<T> extends Loader<GamePreviewCached> {
 
-    private Observable<List<GamePreview>> mObservable;
+    private Observable<GamePreviewCached> mObservable;
 
-    private AsyncEmitter<List<GamePreview>> mEmitter;
+    private AsyncEmitter<GamePreviewCached> mEmitter;
 
     private Subscription mSubscription;
 
     @Nullable
-    private List<GamePreview> mData;
+    private GamePreviewCached mData;
 
     private boolean mIsErrorReported = false;
 
@@ -85,10 +86,10 @@ class RxLoaderGamePreview<T> extends Loader<List<GamePreview>> {
     }
 
     @NonNull
-    Observable<List<GamePreview>> createObservable() {
-        return Observable.fromEmitter(new Action1<AsyncEmitter<List<GamePreview>>>() {
+    Observable<GamePreviewCached> createObservable() {
+        return Observable.fromEmitter(new Action1<AsyncEmitter<GamePreviewCached>>() {
             @Override
-            public void call(AsyncEmitter<List<GamePreview>> asyncEmitter) {
+            public void call(AsyncEmitter<GamePreviewCached> asyncEmitter) {
                 mEmitter = asyncEmitter;
                 mEmitter.setSubscription(new MainThreadSubscription() {
                     @Override
@@ -125,12 +126,15 @@ class RxLoaderGamePreview<T> extends Loader<List<GamePreview>> {
         }
     }
 
-    private class LoaderSubscriber extends Subscriber<List<GamePreview>> {
+    private class LoaderSubscriber extends Subscriber<GamePreviewCached> {
 
         @Override
-        public void onNext(List<GamePreview> d) {
+        public void onNext(GamePreviewCached d) {
             if (mAddData && mData != null) {
-                mData.addAll(d);
+                List<GamePreview> temp = mData.getGamePreviews();
+                temp.addAll(d.getGamePreviews());
+                boolean isCached = mData.isCached();
+                mData = new GamePreviewCached(temp, isCached);
             } else if (mData == null) {
                 mData = d;
             }
