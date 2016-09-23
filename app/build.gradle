@@ -72,6 +72,7 @@ dependencies {
     compile "de.hdodenhof:circleimageview:$circleimageviewVersion"
     compile "com.pixplicity.multiviewpager:library:$multiviewpager"
     compile "com.github.orangegangsters:swipy:$swipyRefreshVersion"
+    compile "com.github.chrisbanes:PhotoView:$photoViewVersion"
 
     compile "com.jakewharton:butterknife:$butterKnifeVersion"
     apt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"

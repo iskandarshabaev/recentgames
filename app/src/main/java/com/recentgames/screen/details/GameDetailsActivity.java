@@ -32,6 +32,7 @@ import com.recentgames.model.content.Image;
 import com.recentgames.model.content.Platform;
 import com.recentgames.model.content.ReviewPreview;
 import com.recentgames.repository.RepositoryProvider;
+import com.recentgames.screen.gallery.GalleryActivity;
 import com.recentgames.util.ImageHelper;
 import com.recentgames.util.PlatformUtils;
 
@@ -154,9 +155,9 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
     }
 
     private void initImagesViewPager() {
-        ImagesViewPagerAdapter.OnImageClickListener listener = image -> {
-
-        };
+        ImagesViewPagerAdapter.OnImageClickListener listener =
+                (position, view) ->
+                        GalleryActivity.showActivity(this, view, position, (ArrayList<Image>)mPresenter.getImages());
         mImagesAdapter = new ImagesViewPagerAdapter(new ArrayList<>(), listener);
         mImagesViewPager.setAdapter(mImagesAdapter);
         mImagesViewPager.setOffscreenPageLimit(4);

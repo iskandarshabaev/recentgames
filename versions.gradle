@@ -24,4 +24,5 @@ ext {
     multiviewpager = '1.0'
 
     swipyRefreshVersion = '1.2.3@aar'
+    photoViewVersion = '1.3.0'
 }
