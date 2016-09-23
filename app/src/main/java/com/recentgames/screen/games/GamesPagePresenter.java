@@ -26,7 +26,6 @@ public class GamesPagePresenter {
     }
 
     public void getGames(int type, int offset) {
-        if (type != 0) return;
         //if (/*offset % QueryParams.LIMIT_COUNT != 0 || */mIsCache) mGamesPageView.deactivateBottomRefresh(); //means that we have no more games (or just we don't wanna show their, lol)
         RepositoryProvider.provideGiantBombRepository()
                 .games(type, offset)
