@@ -7,5 +7,5 @@
         android:icon="@drawable/ic_search"
         android:title="@string/enter_name_game"
         app:showAsAction="always|collapseActionView"
-        app:actionViewClass="com.recentgames.util.RxSearchView" />
+        app:actionViewClass="com.recentgames.util.RxSearchView"/>
 </menu>

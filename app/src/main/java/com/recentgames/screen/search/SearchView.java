@@ -8,7 +8,10 @@ import java.util.List;
 public interface SearchView extends LoadingView {
 
     void showGames(List<GamePreview> list);
+
     void showError();
+
     void clearSearchResult();
+
     void notifyIsNotFound();
 }

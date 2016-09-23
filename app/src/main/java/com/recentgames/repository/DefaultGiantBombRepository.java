@@ -24,7 +24,7 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
         return ApiFactory.getGiantBombService()
                 .game(gameId, QueryParams.GAME_FILED_LIST)
                 .map(GiantBombResponse::getResults)
-                .flatMap(game ->{
+                .flatMap(game -> {
                     Realm realmInstance = Realm.getDefaultInstance();
                     realmInstance.executeTransaction(realm -> realm.insertOrUpdate(game));
                     return Observable.just(game);
@@ -62,7 +62,8 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
     }
 
     private Observable<GamePreviewCached> getCachedGamePreviews(Throwable throwable, int offset, int type) {
-        if (throwable instanceof LimitReachedException) throw new LimitReachedException("No more games for you guys");
+        if (throwable instanceof LimitReachedException)
+            throw new LimitReachedException("No more games for you guys");
         if (offset != 0) throw new RefreshException("Useless cache");
         Realm realm = Realm.getDefaultInstance();
         RealmResults<GamePreview> repositories = realm.where(GamePreview.class)
@@ -74,7 +75,7 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
     @Override
     public Observable<List<GamePreview>> search(String name) {
         return ApiFactory.getGiantBombService()
-                .search(name, QueryParams.GAMES_FILED_LIST,QueryParams.LIMIT_COUNT,QueryParams.RESOURCES)
+                .search(name, QueryParams.GAMES_FILED_LIST, QueryParams.LIMIT_COUNT, QueryParams.RESOURCES)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async());
     }

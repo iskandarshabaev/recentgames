@@ -19,7 +19,7 @@ public class SearchPresenter {
 
     private final static int MIN_SEARCH_LENGTH = 3;
 
-    public SearchPresenter(@NonNull  SearchView searchView,@NonNull LifecycleHandler lifecycleHandler) {
+    public SearchPresenter(@NonNull SearchView searchView, @NonNull LifecycleHandler lifecycleHandler) {
         mSearchView = searchView;
         mLifecycleHandler = lifecycleHandler;
     }
@@ -33,20 +33,20 @@ public class SearchPresenter {
                 .subscribe(this::showGames, throwable -> mSearchView.showError());
     }
 
-    public void unsubscribe(){
-        if(mSubscription != null)
+    public void unsubscribe() {
+        if (mSubscription != null)
             mSubscription.unsubscribe();
     }
 
     public void onTextChanged(String text) {
-        if(text.length() == 0)
+        if (text.length() == 0)
             mSearchView.clearSearchResult();
-        else if(text.length() >= MIN_SEARCH_LENGTH)
+        else if (text.length() >= MIN_SEARCH_LENGTH)
             searchGame(text);
     }
 
     private void showGames(List<GamePreview> games) {
-        if(games.size() == 0) {
+        if (games.size() == 0) {
             mSearchView.notifyIsNotFound();
         }
 

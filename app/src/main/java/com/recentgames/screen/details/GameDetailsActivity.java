@@ -45,7 +45,7 @@ import ru.arturvasilov.rxloader.LifecycleHandler;
 import ru.arturvasilov.rxloader.LoaderLifecycleHandler;
 import rx.Observable;
 
-public class GameDetailsActivity extends AppCompatActivity implements GameDetailsView{
+public class GameDetailsActivity extends AppCompatActivity implements GameDetailsView {
 
     public static void showActivity(Context context, GamePreview game) {
         //Bundle args = new Bundle();
@@ -122,7 +122,7 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
         GamePreview game = (GamePreview) getIntent().getSerializableExtra(GAME_PREVIEW_KEY);
         if (game != null) {
             initPresenter(game);
-            if(game.getImage() != null) {
+            if (game.getImage() != null) {
                 showPoster(game.getImage());
             }
             mGameNameTextView.setText(game.getName());
@@ -139,7 +139,7 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
         }
     }
 
-    private void paintStatusBar(@ColorRes int colorResId){
+    private void paintStatusBar(@ColorRes int colorResId) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             int color = ContextCompat.getColor(this, colorResId);
             getWindow().setStatusBarColor(color);
@@ -184,7 +184,7 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
 
     @Override
     public void showPoster(Image image) {
-        if(image != null && image.getMediumUrl() != null) {
+        if (image != null && image.getMediumUrl() != null) {
             ImageHelper.loadImage(mPosterImageView, image.getMediumUrl());
         }
     }
@@ -279,7 +279,7 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
         scrollToHead(mContentNestedScrollView);
     }
 
-    private void scrollToHead(View view){
+    private void scrollToHead(View view) {
         view.post(() -> view.scrollTo(0, 0));
     }
 

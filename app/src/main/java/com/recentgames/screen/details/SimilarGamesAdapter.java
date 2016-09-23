@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
-import com.recentgames.model.content.ReviewPreview;
 
 import java.util.List;
 

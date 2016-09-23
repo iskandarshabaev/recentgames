@@ -7,10 +7,11 @@ import com.squareup.picasso.Picasso;
 
 public class ImageHelper {
 
-    private ImageHelper(){}
+    private ImageHelper() {
+    }
 
     public static void loadImage(@NonNull ImageView imageView,
-                                 @NonNull String url){
+                                 @NonNull String url) {
         Picasso.with(imageView.getContext())
                 .load(url)
                 .noFade()

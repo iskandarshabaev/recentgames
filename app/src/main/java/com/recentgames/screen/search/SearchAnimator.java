@@ -25,16 +25,16 @@ public class SearchAnimator {
     @NonNull
     public static AnimatorSet fade(@NonNull View view, Action anim) {
 
-        float startY = (anim == Action.FADEIN ) ? -view.getHeight() : 0f;
+        float startY = (anim == Action.FADEIN) ? -view.getHeight() : 0f;
         float endY = (anim == Action.FADEIN) ? 0f : -view.getHeight();
         float startAlpha = (anim == Action.FADEIN) ? 0f : 1f;
         float endAlpha = (anim == Action.FADEIN) ? 1f : 0f;
 
-        return init(view,startY,endY,startAlpha,endAlpha);
+        return init(view, startY, endY, startAlpha, endAlpha);
     }
 
     @NonNull
-    private static AnimatorSet init(@NonNull View view,float startY,float endY, float startAlpha,float endAlpha) {
+    private static AnimatorSet init(@NonNull View view, float startY, float endY, float startAlpha, float endAlpha) {
         ObjectAnimator mover = ObjectAnimator.ofFloat(view, PROP_TRANSLATIONY, startY, endY);
         mover.setDuration(DURATION);
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(view, PROP_ALPHA, startAlpha, endAlpha);

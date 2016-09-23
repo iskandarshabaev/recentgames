@@ -12,7 +12,6 @@ import okhttp3.Response;
 public final class ApiKeyInterceptor implements Interceptor {
 
 
-
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();

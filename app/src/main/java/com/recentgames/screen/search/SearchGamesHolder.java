@@ -1,18 +1,15 @@
 package com.recentgames.screen.search;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.util.ImageHelper;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,8 +36,8 @@ public class SearchGamesHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull GamePreview game) {
 
-        if(game.getImage() != null && game.getImage().getMediumUrl() != null)
-            ImageHelper.loadImage(mImageView,game.getImage().getMediumUrl());
+        if (game.getImage() != null && game.getImage().getMediumUrl() != null)
+            ImageHelper.loadImage(mImageView, game.getImage().getMediumUrl());
 
         mTextView.setText(game.getName());
     }

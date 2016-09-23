@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.recentgames.GamesType;
 
-public class GameFragmentsAdapter  extends FragmentPagerAdapter {
+public class GameFragmentsAdapter extends FragmentPagerAdapter {
 
     private final int PAGES_COUNT = 3;
 

@@ -14,17 +14,17 @@ public class DefaultGiantBombRepositoryTest {
     private GiantBombRepository mRepository;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         RxSchedulersHooks.immediate();
         mRepository = RepositoryProvider.provideGiantBombRepository();
     }
 
     @Test
-    public void loadGameDescription(){
+    public void loadGameDescription() {
         int id = 5;
         mRepository.game(id)
                 .subscribe(
-                        game ->{
+                        game -> {
                             Assert.assertEquals(id, game.getId());
                         },
                         Assert::assertNull

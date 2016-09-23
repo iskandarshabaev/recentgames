@@ -38,9 +38,9 @@ public class GamesPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_game, parent, false);
-            return new GameViewHolder(itemView);
-        }
+        final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_game, parent, false);
+        return new GameViewHolder(itemView);
+    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {

@@ -1,6 +1,5 @@
 package com.recentgames.screen.details;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -31,7 +30,7 @@ public class ImagesViewPagerAdapter extends PagerAdapter {
         View view = inflater.inflate(R.layout.item_image, collection, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
         imageView.setOnClickListener(v -> {
-            if(mOnClickListener != null){
+            if (mOnClickListener != null) {
                 mOnClickListener.onClick(mImages.get(position));
             }
         });
@@ -45,7 +44,7 @@ public class ImagesViewPagerAdapter extends PagerAdapter {
         return 0.4f;
     }*/
 
-    public void changeDataSet(@NonNull List<Image> images){
+    public void changeDataSet(@NonNull List<Image> images) {
         mImages.clear();
         mImages.addAll(images);
         notifyDataSetChanged();
@@ -71,7 +70,7 @@ public class ImagesViewPagerAdapter extends PagerAdapter {
         return "";
     }
 
-    public interface OnImageClickListener{
+    public interface OnImageClickListener {
         void onClick(Image image);
     }
 }

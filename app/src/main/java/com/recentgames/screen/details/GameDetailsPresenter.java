@@ -37,7 +37,7 @@ public class GameDetailsPresenter {
         mRepository = repository;
     }
 
-    public void init(){
+    public void init() {
         int gameId = mGame.getId();
         mSubscription = mRepository.game(gameId)
                 .compose(mLifecycleHandler.load(R.id.game_details_id))
@@ -50,41 +50,41 @@ public class GameDetailsPresenter {
 
     }
 
-    public void unsubscribe(){
+    public void unsubscribe() {
         mSubscription.unsubscribe();
     }
 
-    public void clear(){
+    public void clear() {
         mLifecycleHandler.clear(R.id.game_details_id);
     }
 
-    private void showGameDescription(GameDescription description){
+    private void showGameDescription(GameDescription description) {
         mView.showPoster(description.getImage());
         mView.showPlatforms(description.getPlatforms());
         mView.showGenres(description.getGenres());
         mView.showDeck(description.getDeck());
         String releaseDate = description.getOriginalReleaseDate();
-        if(releaseDate != null) {
+        if (releaseDate != null) {
             showReleaseDate(releaseDate);
         }
         List<Rating> ratings = description.getOriginalGameRating();
-        if(ratings != null) {
+        if (ratings != null) {
             showRatings(ratings);
         }
-        if(description.getImages() != null) {
+        if (description.getImages() != null) {
             mView.showImages(description.getImages());
         }
         List<ReviewPreview> reviews = description.getReviews();
-        if(reviews != null) {
+        if (reviews != null) {
             mView.showReviews(reviews);
         }
         List<GamePreview> similarGames = description.getSimilarGames();
-        if(similarGames!= null) {
+        if (similarGames != null) {
             mView.showSimilarGames(similarGames);
         }
     }
 
-    private void showReleaseDate(@NonNull String dateString){
+    private void showReleaseDate(@NonNull String dateString) {
         /*2016-09-13 00:00:00*/
         SimpleDateFormat formatInput = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
                 Locale.getDefault());
@@ -99,23 +99,23 @@ public class GameDetailsPresenter {
         }
     }
 
-    private void showRatings(@NonNull List<Rating> ratings){
+    private void showRatings(@NonNull List<Rating> ratings) {
         Observable.from(ratings)
                 .map(Rating::getName)
                 .reduce((s, s2) -> s + ", " + s2)
                 .subscribe(mView::showRating, Throwable::printStackTrace);
     }
 
-    private void showException(Throwable throwable){
+    private void showException(Throwable throwable) {
         mView.showError();
         throwable.printStackTrace();
     }
 
-    private void showProgress(){
+    private void showProgress() {
         mView.showLoading();
     }
 
-    private void hideProgress(){
+    private void hideProgress() {
         mView.hideLoading();
     }
 

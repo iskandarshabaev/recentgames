@@ -9,7 +9,6 @@ import android.support.v4.content.Loader;
 
 import com.recentgames.model.content.GamePreviewCached;
 
-
 import rx.Observable;
 
 public class GamePreviewLoaderLifecycleHandler implements GamePreviewLifecycleHandler {

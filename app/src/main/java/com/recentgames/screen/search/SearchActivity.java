@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.screen.details.GameDetailsActivity;
+import com.recentgames.screen.search.SearchAnimator.Action;
 import com.recentgames.util.RxSearchView;
 
 import java.util.List;
@@ -28,8 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ru.arturvasilov.rxloader.LifecycleHandler;
 import ru.arturvasilov.rxloader.LoaderLifecycleHandler;
-
-import com.recentgames.screen.search.SearchAnimator.Action;
 
 public class SearchActivity extends AppCompatActivity implements SearchView, SearchAdapter.OnItemClickListener {
 
@@ -59,7 +58,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Sea
         initView();
 
         LifecycleHandler lifecycleHandler = LoaderLifecycleHandler.create(this, getSupportLoaderManager());
-        mPresenter = new SearchPresenter(this,lifecycleHandler);
+        mPresenter = new SearchPresenter(this, lifecycleHandler);
     }
 
     @Override
@@ -139,7 +138,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Sea
 
     @Override
     public void notifyIsNotFound() {
-        Toast.makeText(this,getString(R.string.game_not_found,mSearchText),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.game_not_found, mSearchText), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -156,6 +155,6 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Sea
 
     @Override
     public void onItemClick(@NonNull View view, @NonNull GamePreview game) {
-        GameDetailsActivity.showActivity(this,game);
+        GameDetailsActivity.showActivity(this, game);
     }
 }
