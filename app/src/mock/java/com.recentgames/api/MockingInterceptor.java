@@ -31,8 +31,9 @@ public class MockingInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         String path = request.url().encodedPath();
+        String query = request.url().encodedQuery();
         if (mHandlers.shouldIntercept(path)) {
-            Response response = mHandlers.proceed(request, path);
+            Response response = mHandlers.proceed(request, path, query);
             int stubDelay = 500 + mRandom.nextInt(2500);
             SystemClock.sleep(stubDelay);
             return response;

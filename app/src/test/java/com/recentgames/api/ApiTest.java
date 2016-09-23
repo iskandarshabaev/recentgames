@@ -1,5 +1,6 @@
 package com.recentgames.api;
 
+import com.recentgames.GamesType;
 import com.recentgames.model.response.GiantBombResponse;
 import com.recentgames.util.RxSchedulers;
 import com.recentgames.utils.RxSchedulersHooks;

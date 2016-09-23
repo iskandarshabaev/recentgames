@@ -1,20 +1,14 @@
 package com.recentgames.screen.details;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.action.ScrollToAction;
 import android.support.test.espresso.intent.Intents;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
-import android.support.test.filters.SmallTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.widget.NestedScrollView;
 
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.model.content.Image;
-import com.recentgames.screen.MainActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,16 +16,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Date;
+
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class DetailsActivityTest {
@@ -44,7 +36,7 @@ public class DetailsActivityTest {
 
     @Before
     public void setUp() throws Exception {
-
+        Intents.init();
     }
 
     @Test
@@ -59,10 +51,15 @@ public class DetailsActivityTest {
 
     private void launchActivity() {
         Image image = new Image("http://www.giantbomb.com/api/image/scale_medium/2669576-destiny%20v2.jpg");
-        mGame = new GamePreview(36067, image, "Destiny");
+        mGame = new GamePreview(36067, image, "Destiny",new Date());
         Intent intent = new Intent(InstrumentationRegistry.getContext(), GameDetailsActivity.class);
         intent.putExtra(GameDetailsActivity.GAME_PREVIEW_KEY, mGame);
         mActivityRule.launchActivity(intent);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        Intents.release();
     }
 
 }
