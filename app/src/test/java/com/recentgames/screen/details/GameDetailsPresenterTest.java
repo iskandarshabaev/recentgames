@@ -16,6 +16,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import ru.arturvasilov.rxloader.LifecycleHandler;
 import rx.Observable;
@@ -44,7 +46,7 @@ public class GameDetailsPresenterTest {
     public void setUp() throws Exception {
         RxSchedulersHooks.immediate();
         Image image = new Image("http://www.giantbomb.com/api/image/scale_medium/2669576-destiny%20v2.jpg");
-        mGame = new GamePreview(36067, image, "Destiny");
+        mGame = new GamePreview(36067, image, "Destiny",new Date());
         mLifecycleHandler = new MockLifecycleHandler();
         mView = mock(GameDetailsView.class);
         mRepository = mock(GiantBombRepository.class);

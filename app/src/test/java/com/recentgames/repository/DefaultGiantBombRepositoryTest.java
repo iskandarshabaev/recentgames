@@ -1,10 +1,17 @@
 package com.recentgames.repository;
 
+import com.recentgames.model.content.GamePreview;
 import com.recentgames.utils.RxSchedulersHooks;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 public class DefaultGiantBombRepositoryTest {
 
@@ -16,7 +23,7 @@ public class DefaultGiantBombRepositoryTest {
         mRepository = RepositoryProvider.provideGiantBombRepository();
     }
 
-    @Test
+    /*@Test
     public void loadGameDescription() {
         int id = 5;
         mRepository.game(id)
@@ -26,5 +33,18 @@ public class DefaultGiantBombRepositoryTest {
                         },
                         Assert::assertNull
                 );
+    }*/
+
+    @Test
+    public void searchGameByName() {
+        String name = "gta";
+        mRepository.search(name)
+                .flatMap(new Func1<List<GamePreview>, Observable<GamePreview>>() {
+                    @Override
+                    public Observable<GamePreview> call(List<GamePreview> gamePreviews) {
+                        return Observable.from(gamePreviews);
+                    }
+                })
+                .subscribe(Assert::assertNotNull,Assert::assertNull);
     }
 }
