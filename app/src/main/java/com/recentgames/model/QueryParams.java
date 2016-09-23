@@ -41,6 +41,10 @@ public class QueryParams {
             PLATFORMS + "," + GENRES + "," + RELEASE_DATE + "," +
             RATING + "," + REVIEWS + "," + SIMILAR_GAMES;
 
+    public static final String REVIEW_FIELD_LIST = ID + "," + NAME + "," + IMAGE + "," +
+            IMAGES + "," + DECK + "," + PLATFORMS + "," + GENRES + "," + RELEASE_DATE + "," +
+            RATING + "," + REVIEWS + "," + SIMILAR_GAMES;
+
     public static final String REVIEW_FILED_LIST = DESCRIPTION + "," + SCORE + "," + REVIEWER + "," +
             PUBLISH_DATE;
 

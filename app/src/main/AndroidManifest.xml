@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".screen.details.GameDetailsActivity"/>
+        <activity android:name=".screen.reviews.ReviewActivity"/>
         <activity
             android:name=".screen.search.SearchActivity"
             android:theme="@style/Theme.Transparent"/>
