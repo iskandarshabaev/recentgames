@@ -5,12 +5,14 @@ import android.support.annotation.NonNull;
 import com.recentgames.R;
 import com.recentgames.model.content.GameDescription;
 import com.recentgames.model.content.GamePreview;
+import com.recentgames.model.content.Image;
 import com.recentgames.model.content.Rating;
 import com.recentgames.model.content.ReviewPreview;
 import com.recentgames.repository.GiantBombRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -26,6 +28,7 @@ public class GameDetailsPresenter {
     private final LifecycleHandler mLifecycleHandler;
     private final GiantBombRepository mRepository;
     private Subscription mSubscription;
+    private List<Image> mImages;
 
     public GameDetailsPresenter(@NonNull GamePreview game,
                                 @NonNull GameDetailsView view,
@@ -78,6 +81,7 @@ public class GameDetailsPresenter {
         }
         if(description.getImages() != null) {
             mView.showImages(description.getImages());
+            mImages = new ArrayList<>(description.getImages());
         }
         List<ReviewPreview> reviews = description.getReviews();
         if(reviews != null) {
@@ -122,6 +126,10 @@ public class GameDetailsPresenter {
 
     private void hideProgress(){
         mView.hideLoading();
+    }
+
+    public List<Image> getImages(){
+        return mImages;
     }
 
 }

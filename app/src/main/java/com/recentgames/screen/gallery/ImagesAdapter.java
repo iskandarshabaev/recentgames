@@ -1,6 +1,5 @@
-package com.recentgames.screen.details;
+package com.recentgames.screen.gallery;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -14,36 +13,29 @@ import com.recentgames.util.ImageHelper;
 
 import java.util.List;
 
-public class ImagesViewPagerAdapter extends PagerAdapter {
+import uk.co.senab.photoview.PhotoViewAttacher;
+
+public class ImagesAdapter extends PagerAdapter {
 
     private List<Image> mImages;
-    private OnImageClickListener mOnClickListener;
 
-    public ImagesViewPagerAdapter(@NonNull List<Image> images,
-                                  @NonNull OnImageClickListener onClickListener) {
+    public ImagesAdapter(@NonNull List<Image> images) {
         mImages = images;
-        mOnClickListener = onClickListener;
     }
 
     @Override
     public Object instantiateItem(ViewGroup collection, int position) {
         LayoutInflater inflater = LayoutInflater.from(collection.getContext());
-        View view = inflater.inflate(R.layout.item_image, collection, false);
+        View view = inflater.inflate(R.layout.item_gallery_image, collection, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.image);
-        imageView.setOnClickListener(v -> {
-            if(mOnClickListener != null){
-                mOnClickListener.onClick(position, imageView);
-            }
-        });
-        ImageHelper.loadImage(imageView, mImages.get(position).getMediumUrl());
+        PhotoViewAttacher  mAttacher = new PhotoViewAttacher(imageView);
+        String url = mImages.get(position).getMediumUrl();
+        if(url != null) {
+            ImageHelper.loadImage(imageView, url, mAttacher);
+        }
         collection.addView(view);
         return view;
     }
-
-    /*@Override
-    public float getPageWidth(int position) {
-        return 0.4f;
-    }*/
 
     public void changeDataSet(@NonNull List<Image> images){
         mImages.clear();
@@ -72,6 +64,6 @@ public class ImagesViewPagerAdapter extends PagerAdapter {
     }
 
     public interface OnImageClickListener{
-        void onClick(int position, View view);
+        void onClick(Image image);
     }
 }
