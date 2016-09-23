@@ -25,8 +25,8 @@ public interface GiantBombService {
                                                            @Query("offset") int offset);
 
     @GET("review/{reviewId}")
-    Observable<GiantBombResponse<ReviewDescription>> review(@Path("reviewId") int reviewId,
-                                                            @Query("field_list") String fieldList);
+    Observable<GiantBombResponse<ReviewDescription>> review(@Path("reviewId") int reviewId/*,
+                                                            @Query("field_list") String fieldList*/);
 
     @GET("search/")
     Observable<GiantBombResponse<List<GamePreview>>> search(@Query("query") String query,

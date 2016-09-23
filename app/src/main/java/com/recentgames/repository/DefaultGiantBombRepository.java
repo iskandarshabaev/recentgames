@@ -84,7 +84,27 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
     }
 
     @Override
-    public Observable<ReviewDescription> review() {
-        return Observable.empty();
+    public Observable<ReviewDescription> review(int reviewId) {
+        return ApiFactory.getGiantBombService()
+                .review(reviewId/*, QueryParams.REVIEW_FIELD_LIST*/)
+                .map(GiantBombResponse::getResults)
+                .flatMap(review -> {
+                    review.setId(reviewId);
+                    Realm realmInstance = Realm.getDefaultInstance();
+                    realmInstance.executeTransaction(realm -> realm.insertOrUpdate(review));
+                    return Observable.just(review);
+                })
+                .onErrorResumeNext(throwable -> {
+                    Realm realmInstance = Realm.getDefaultInstance();
+                    ReviewDescription review = realmInstance.where(ReviewDescription.class)
+                            .equalTo("mId", reviewId)
+                            .findFirst();
+                    if(review != null) {
+                        return Observable.just(realmInstance.copyFromRealm(review));
+                    }else {
+                        return Observable.error(new Exception("Load failed"));
+                    }
+                })
+                .compose(RxSchedulers.async());
     }
 }
