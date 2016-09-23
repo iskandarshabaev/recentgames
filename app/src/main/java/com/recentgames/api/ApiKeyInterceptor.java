@@ -11,6 +11,7 @@ import okhttp3.Response;
 
 public final class ApiKeyInterceptor implements Interceptor {
 
+    private ApiKeyInterceptor(){}
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -20,5 +21,9 @@ public final class ApiKeyInterceptor implements Interceptor {
                 .build();
         request = request.newBuilder().url(url).build();
         return chain.proceed(request);
+    }
+
+    public static Interceptor create(){
+        return new ApiKeyInterceptor();
     }
 }

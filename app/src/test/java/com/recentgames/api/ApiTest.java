@@ -1,6 +1,5 @@
 package com.recentgames.api;
 
-import com.recentgames.GamesType;
 import com.recentgames.model.response.GiantBombResponse;
 import com.recentgames.util.RxSchedulers;
 import com.recentgames.utils.RxSchedulersHooks;
@@ -10,12 +9,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.recentgames.model.QueryParams.GAMES_FILED_LIST;
-import static com.recentgames.model.QueryParams.GAME_FILED_LIST;
-import static com.recentgames.model.QueryParams.LIMIT_COUNT;
-import static com.recentgames.model.QueryParams.RESOURCES;
-import static com.recentgames.model.QueryParams.REVIEW_FILED_LIST;
-import static com.recentgames.model.QueryParams.getFilter;
+import static com.recentgames.model.QueryParams.*;
 
 public class ApiTest {
 

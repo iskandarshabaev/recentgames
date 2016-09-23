@@ -6,9 +6,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Created by Iskandar on 18.09.2016.
- */
 public class DefaultGiantBombRepositoryTest {
 
     private GiantBombRepository mRepository;

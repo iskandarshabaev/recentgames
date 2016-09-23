@@ -48,8 +48,6 @@ import rx.Observable;
 public class GameDetailsActivity extends AppCompatActivity implements GameDetailsView {
 
     public static void showActivity(Context context, GamePreview game) {
-        //Bundle args = new Bundle();
-        //args.putSerializable(GAME_PREVIEW_KEY, game);
         Intent intent = new Intent(context, GameDetailsActivity.class);
         intent.putExtra(GAME_PREVIEW_KEY, game);
         context.startActivity(intent);
@@ -112,7 +110,7 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
 
         mSimilarGamesAdapter = new SimilarGamesAdapter(new ArrayList<>(), game -> {
             mPresenter.clear();
-            GameDetailsActivity.showActivity(this, game);
+            GameDetailsActivity.showActivity(GameDetailsActivity.this, game);
             finish();
         });
         initRecyclerView(mSimilarGamesRecyclerView, mSimilarGamesAdapter);
@@ -161,7 +159,7 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
         };
         mImagesAdapter = new ImagesViewPagerAdapter(new ArrayList<>(), listener);
         mImagesViewPager.setAdapter(mImagesAdapter);
-        //mImagesViewPager.setOffscreenPageLimit(4);
+        mImagesViewPager.setOffscreenPageLimit(4);
     }
 
     @Override

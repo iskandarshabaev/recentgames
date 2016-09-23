@@ -7,16 +7,16 @@ import com.google.gson.GsonBuilder;
 import com.recentgames.BuildConfig;
 
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class ApiFactory {
 
-    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+    private static final Gson GSON_DATE = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
     private static OkHttpClient sClient;
+    //private static OkHttpClient sClient;
 
     private static GiantBombService sService;
 
@@ -38,14 +38,14 @@ public final class ApiFactory {
     private static GiantBombService createService() {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.API_ENDPOINT)
-                .client(getClient())
-                .addConverterFactory(GsonConverterFactory.create(GSON))
+                .client(OkHttpProvider.provideClient())
+                .addConverterFactory(GsonConverterFactory.create(GSON_DATE))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build()
                 .create(GiantBombService.class);
     }
 
-    @NonNull
+    /*@NonNull
     private static OkHttpClient getClient() {
         OkHttpClient client = sClient;
         if (client == null) {
@@ -57,14 +57,14 @@ public final class ApiFactory {
             }
         }
         return client;
-    }
+    }*/
 
-    @NonNull
+   /* @NonNull
     private static OkHttpClient buildClient() {
         return new OkHttpClient.Builder()
-                .addInterceptor(new ApiKeyInterceptor())
-                .addInterceptor(new ApiFormatInterceptor())
+                    .addInterceptor(ApiKeyInterceptor.create())
+                    .addInterceptor(ApiFormatInterceptor.create())
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
                 .build();
-    }
+    }*/
 }

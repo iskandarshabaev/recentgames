@@ -11,10 +11,12 @@ import io.realm.rx.RealmObservableFactory;
 
 public class App extends Application {
 
+    private static App sApp;
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        sApp = this;
         Picasso picasso = new Picasso.Builder(this)
                 .downloader(new OkHttp3Downloader(this))
                 .build();
@@ -25,6 +27,10 @@ public class App extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(configuration);
+    }
+
+    public static App getContext(){
+        return sApp;
     }
 
 }
