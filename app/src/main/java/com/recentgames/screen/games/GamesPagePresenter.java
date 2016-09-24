@@ -54,6 +54,7 @@ class GamesPagePresenter {
                     } else {
                         mGamesPageView.showError();
                     }
+                    mLifecycleHandler.clear(QueryParams.getLoaderId(type));
                     hideLoading(offset);
                 });
     }
@@ -73,6 +74,7 @@ class GamesPagePresenter {
                     hideRefreshing();
                 }, throwable -> {
                     mGamesPageView.showErrorWithRetry();
+                    mLifecycleHandler.clear(QueryParams.getLoaderId(type));
                     hideRefreshing();
                 });
     }
