@@ -59,6 +59,36 @@ public class ApiTest {
     }
 
     @Test
+    public void testApiGetMonthGames() {
+        int limit = LIMIT_COUNT;
+        int offset = 0;
+        //String sort = QueryParams.GAME_SORT_BY_REVIEWS_COUNT;
+        String filter = getFilter(GamesType.MONTH);
+        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST, filter,/* sort,*/ limit, offset)
+                .map(GiantBombResponse::getResults)
+                .compose(RxSchedulers.async())
+                .subscribe(
+                        Assert::assertNotNull,
+                        Assert::assertNull
+                );
+    }
+
+    @Test
+    public void testApiGetYearGames() {
+        int limit = LIMIT_COUNT;
+        int offset = 0;
+        //String sort = QueryParams.GAME_SORT_BY_REVIEWS_COUNT;
+        String filter = getFilter(GamesType.YEAR);
+        ApiFactory.getGiantBombService().games(GAMES_FILED_LIST, filter,/* sort,*/ limit, offset)
+                .map(GiantBombResponse::getResults)
+                .compose(RxSchedulers.async())
+                .subscribe(
+                        Assert::assertNotNull,
+                        Assert::assertNull
+                );
+    }
+
+    @Test
     public void testApiGetGamesException() {
         int limit = LIMIT_COUNT;
         int invalidOffset = 999999999;

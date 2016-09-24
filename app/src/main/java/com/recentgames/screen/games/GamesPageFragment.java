@@ -1,5 +1,6 @@
 package com.recentgames.screen.games;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
+import com.recentgames.repository.RepositoryProvider;
 import com.recentgames.rxloader.GamePreviewLifecycleHandler;
 import com.recentgames.rxloader.GamePreviewLoaderLifecycleHandler;
 import com.recentgames.screen.details.GameDetailsActivity;
@@ -42,7 +44,8 @@ public class GamesPageFragment extends Fragment implements
     private static final String KEY_TYPE = "KEY_TYPE";
     private static final int TYPE_DEFAULT = -1;
     private int mType;
-    private int mSpanCount = 2;
+    private int mPortraitSpanCount = 2;
+    private int mLandscapeSpanCount = 3;
 
     public static GamesPageFragment newInstance(int type) {
 
@@ -61,18 +64,24 @@ public class GamesPageFragment extends Fragment implements
         ButterKnife.bind(this, layout);
         mType = getArguments().getInt(KEY_TYPE, TYPE_DEFAULT);
 
+        initRecycler();
+        initPresenter();
+        return layout;
+    }
+
+    private void initRecycler() {
         mGamesAdapter = new GamesPageAdapter(this);
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), mSpanCount);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? mPortraitSpanCount : mLandscapeSpanCount);
         mGamesPageRecyclerView.setLayoutManager(layoutManager);
         mGamesPageRecyclerView.setAdapter(mGamesAdapter);
         mSwipyRefreshLayout.setOnRefreshListener(this);
+        mSwipyRefreshLayout.setDistanceToTriggerSync(240);
+    }
+
+    private void initPresenter() {
         GamePreviewLifecycleHandler lifecycleHandler = GamePreviewLoaderLifecycleHandler.create(getContext(), getActivity().getSupportLoaderManager());
-        mGamesPagePresenter = new GamesPagePresenter(lifecycleHandler, this);
-
-        //move to mPresenter.init(type, offset);
-        mGamesPagePresenter.getGames(mType, mGamesAdapter.getItemCount());
-
-        return layout;
+        mGamesPagePresenter = new GamesPagePresenter(this, lifecycleHandler, RepositoryProvider.provideGiantBombRepository());
+        mGamesPagePresenter.init(mType);
     }
 
     @Override
@@ -87,7 +96,14 @@ public class GamesPageFragment extends Fragment implements
 
     @Override
     public void showError() {
-        Snackbar.make(mGamesPageRecyclerView, "Loading error", Snackbar.LENGTH_SHORT)
+        Snackbar.make(mGamesPageRecyclerView, R.string.loading_error, Snackbar.LENGTH_SHORT)
+                .show();
+    }
+
+    @Override
+    public void showErrorWithRetry() {
+        Snackbar.make(mGamesPageRecyclerView, R.string.loading_error, Snackbar.LENGTH_SHORT)
+                .setAction(getString(R.string.reload).toUpperCase(), v -> mGamesPagePresenter.onSnackbarClick(mType))
                 .show();
     }
 
@@ -141,4 +157,5 @@ public class GamesPageFragment extends Fragment implements
             mGamesPagePresenter.getGames(mType, mGamesAdapter.getItemCount());
         }
     }
+
 }
