@@ -10,9 +10,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethod;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import ru.arturvasilov.rxloader.LifecycleHandler;
 import ru.arturvasilov.rxloader.LoaderLifecycleHandler;
@@ -50,6 +56,8 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Sea
     private String mSearchText;
     private Unbinder mUnbinder;
 
+    private final static String SEARCH = "search";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +67,14 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Sea
 
         LifecycleHandler lifecycleHandler = LoaderLifecycleHandler.create(this, getSupportLoaderManager());
         mPresenter = new SearchPresenter(this, lifecycleHandler);
+
+        if(savedInstanceState != null) {
+            mSearchText = savedInstanceState.getString(SEARCH,"");
+            if(mSearchText.length() > 0) {
+                mPresenter.init(mSearchText);
+            }
+        }
+
     }
 
     @Override
@@ -69,11 +85,25 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Sea
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if(mSearchText != null && mSearchText.length() != 0)
+            outState.putString(SEARCH,mSearchText);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
 
         final MenuItem menuitem = menu.findItem(R.id.action_search);
         final RxSearchView rxSearchView = (RxSearchView) MenuItemCompat.getActionView(menuitem);
+
+        if (!TextUtils.isEmpty(mSearchText)) {
+            menuitem.expandActionView();
+            rxSearchView.setQuery(mSearchText, true);
+            rxSearchView.clearFocus();
+        }
 
         menuitem.expandActionView();
         MenuItemCompat.setOnActionExpandListener(menuitem, new OnActionExpandListenerImpl());
@@ -156,5 +186,22 @@ public class SearchActivity extends AppCompatActivity implements SearchView, Sea
     @Override
     public void onItemClick(@NonNull View view, @NonNull GamePreview game) {
         GameDetailsActivity.showActivity(this, game);
+    }
+
+    @Override
+    public void onItemTouch(@NonNull View v, @NonNull MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: // нажатие
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                break;
+            case MotionEvent.ACTION_MOVE: // движение
+                break;
+            case MotionEvent.ACTION_UP: // отпускание
+                v.performClick();
+            case MotionEvent.ACTION_CANCEL:
+                break;
+        }
     }
 }
