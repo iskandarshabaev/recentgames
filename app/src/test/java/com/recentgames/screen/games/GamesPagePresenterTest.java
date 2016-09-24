@@ -86,10 +86,6 @@ public class GamesPagePresenterTest {
         verify(mView).showLoading();
         verify(mView).hideLoading();
         verify(mView).updateAdapter(gamePreviewCached.getGamePreviews());
-        verify(mView, times(0)).showRefreshing();
-        verify(mView, times(0)).hideRefreshing();
-        verify(mView, times(0)).showError();
-        verify(mView, times(0)).deactivateBottomRefresh();
     }
 
     @Test
@@ -102,10 +98,6 @@ public class GamesPagePresenterTest {
         verify(mView).showRefreshing();
         verify(mView).hideRefreshing();
         verify(mView).updateAdapter(gamePreviewCached.getGamePreviews());
-        verify(mView, times(0)).showLoading();
-        verify(mView, times(0)).hideLoading();
-        verify(mView, times(0)).showError();
-        verify(mView, times(0)).deactivateBottomRefresh();
     }
 
     @Test
@@ -131,10 +123,6 @@ public class GamesPagePresenterTest {
         verify(mView, times(1)).showLoading();
         verify(mView, times(1)).hideLoading();
         verify(mView, times(1)).showError();
-
-        verify(mView, times(0)).updateAdapter(gamePreviewCached.getGamePreviews());
-        verify(mView, times(0)).showRefreshing();
-        verify(mView, times(0)).hideRefreshing();
     }
 
     @Test
@@ -147,11 +135,7 @@ public class GamesPagePresenterTest {
         verify(mView, times(1)).showRefreshing();
         verify(mView, times(1)).hideRefreshing();
         verify(mView, times(1)).deactivateBottomRefresh();
-
         verify(mView, times(0)).updateAdapter(gamePreviewCached.getGamePreviews());
-        verify(mView, times(0)).showLoading();
-        verify(mView, times(0)).hideLoading();
-        verify(mView, times(0)).showError();
 
     }
 
@@ -166,10 +150,6 @@ public class GamesPagePresenterTest {
         verify(mView).activateBottomRefresh(); //for example bottom refresh was lock so we should activate
         verify(mView).changeGames(gamePreviewCached.getGamePreviews());
         verify(mView, times(0)).showRefreshing(); //will show refreshing by himself
-        verify(mView, times(0)).showLoading();
-        verify(mView, times(0)).hideLoading();
-        verify(mView, times(0)).showError();
-        verify(mView, times(0)).deactivateBottomRefresh();
     }
 
     @Test
@@ -183,10 +163,6 @@ public class GamesPagePresenterTest {
         verify(mView).deactivateBottomRefresh(); //no more additional games for you
         verify(mView).changeGames(gamePreviewCached.getGamePreviews());
         verify(mView, times(0)).showRefreshing(); //will show refreshing by himself
-        verify(mView, times(0)).showLoading();
-        verify(mView, times(0)).hideLoading();
-        verify(mView, times(0)).showError();
-        verify(mView, times(0)).activateBottomRefresh();
     }
 
     @Test
@@ -198,11 +174,6 @@ public class GamesPagePresenterTest {
         verify(mView).hideRefreshing();
         verify(mView).showErrorWithRetry();
         verify(mView, times(0)).showRefreshing(); //will show refreshing by himself
-        verify(mView, times(0)).showLoading();
-        verify(mView, times(0)).hideLoading();
-        verify(mView, times(0)).changeGames(anyList());
-        verify(mView, times(0)).activateBottomRefresh();
-        verify(mView, times(0)).deactivateBottomRefresh();
     }
 
     @Test
