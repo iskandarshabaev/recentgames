@@ -2,6 +2,7 @@ package com.recentgames.screen.search;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +21,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchGamesHolder> {
         public void onClick(View view) {
             GamePreview game = (GamePreview) view.getTag();
             mOnItemClickListener.onItemClick(view, game);
+        }
+    };
+
+    private final View.OnTouchListener mInternalTouchListner = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            mOnItemClickListener.onItemTouch(v,event);
+            return true;
         }
     };
 
@@ -45,6 +54,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchGamesHolder> {
         holder.bind(game);
 
         holder.itemView.setOnClickListener(mInternalListener);
+        holder.itemView.setOnTouchListener(mInternalTouchListner);
         holder.itemView.setTag(game);
     }
 
@@ -56,6 +66,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchGamesHolder> {
     public interface OnItemClickListener {
 
         void onItemClick(@NonNull View view, @NonNull GamePreview game);
-
+        void onItemTouch(@NonNull View v, @NonNull MotionEvent event);
     }
 }

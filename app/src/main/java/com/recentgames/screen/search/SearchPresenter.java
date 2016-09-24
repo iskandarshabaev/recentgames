@@ -24,6 +24,15 @@ public class SearchPresenter {
         mLifecycleHandler = lifecycleHandler;
     }
 
+    public void init(String name) {
+        mSubscription = RepositoryProvider.provideGiantBombRepository()
+                .search(name)
+                .compose(mLifecycleHandler.load(R.id.search_toolbar))
+                .doOnSubscribe(mSearchView::showLoading)
+                .doAfterTerminate(mSearchView::hideLoading)
+                .subscribe(this::showGames, throwable -> mSearchView.showError());
+    }
+
     private void searchGame(String name) {
         mSubscription = RepositoryProvider.provideGiantBombRepository()
                 .search(name)
