@@ -1,6 +1,7 @@
 package com.recentgames.repository;
 
 import com.recentgames.api.ApiFactory;
+import com.recentgames.exception.EmptyCacheException;
 import com.recentgames.exception.LimitReachedException;
 import com.recentgames.exception.RefreshException;
 import com.recentgames.model.QueryParams;
@@ -58,21 +59,30 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
     }
 
     private Observable<GamePreviewCached> cacheGamePreviews(List<GamePreview> gamePreviews) {
-        if (gamePreviews.isEmpty()) throw new LimitReachedException("No more games for you guys");
+//        if (gamePreviews.isEmpty())
+//            throw new LimitReachedException("No more games for you guys");
         Realm realmInstance = Realm.getDefaultInstance();
         realmInstance.executeTransaction(realm -> realm.insertOrUpdate(gamePreviews));
-        return Observable.just(new GamePreviewCached(gamePreviews));
+        if (gamePreviews.isEmpty()) {
+            throw new LimitReachedException("No more games for you guys");
+        } else {
+            return Observable.just(new GamePreviewCached(gamePreviews));
+        }
     }
 
     private Observable<GamePreviewCached> getCachedGamePreviews(Throwable throwable, int offset, int type) {
-        if (throwable instanceof LimitReachedException)
-            throw new LimitReachedException("No more games for you guys");
-        if (offset != 0) throw new RefreshException("Useless cache");
+        //todo: find a better way to throw exception
+        if (throwable instanceof LimitReachedException) throw new LimitReachedException("No more games for you guys");
+        if (offset != 0) Observable.error(new RefreshException("Useless cache"));
         Realm realm = Realm.getDefaultInstance();
         RealmResults<GamePreview> repositories = realm.where(GamePreview.class)
                 .between("mReleaseDate", QueryParams.getStartDate(type), QueryParams.getCurrentDate())
                 .findAll();
-        return Observable.just(new GamePreviewCached(realm.copyFromRealm(repositories), true));
+        if (repositories.size() > 0) {
+            return Observable.just(new GamePreviewCached(realm.copyFromRealm(repositories), true));
+        } else {
+            return Observable.error(new EmptyCacheException("Cache is empty"));
+        }
     }
 
     @Override

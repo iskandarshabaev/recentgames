@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.recentgames.GamesType;
+import com.recentgames.model.QueryParams;
 
 public class GameFragmentsAdapter extends FragmentPagerAdapter {
 
@@ -30,13 +31,7 @@ public class GameFragmentsAdapter extends FragmentPagerAdapter {
     }
 
     private String getTypeName(int position) {
-        if (position == GamesType.WEEK) {
-            return "WEEK";
-        } else if (position == GamesType.MONTH) {
-            return "MONTH";
-        } else {
-            return "YEAR";
-        }
+        return QueryParams.getName(position);
     }
 
     private Fragment getFragment(@GamesType int position) {

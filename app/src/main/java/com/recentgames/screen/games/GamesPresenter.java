@@ -1,14 +1,16 @@
 package com.recentgames.screen.games;
 
-public class GamesPresenter {
+import android.support.annotation.NonNull;
+
+class GamesPresenter {
 
     private GamesView mGamesView;
 
-    public GamesPresenter(GamesView gamesView) {
+    GamesPresenter(@NonNull GamesView gamesView) {
         mGamesView = gamesView;
     }
 
-    public void onMenuSearchClick() {
+    void onMenuSearchClick() {
         mGamesView.openSearchScreen();
     }
 }
