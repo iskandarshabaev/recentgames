@@ -5,13 +5,15 @@ import com.recentgames.screen.LoadingView;
 
 import java.util.List;
 
-public interface GamesPageView extends LoadingView {
+interface GamesPageView extends LoadingView {
 
     void updateAdapter(List<GamePreview> gamePreviews);
 
     void changeGames(List<GamePreview> gamePreviews);
 
     void showError();
+
+    void showErrorWithRetry();
 
     void showRefreshing();
 

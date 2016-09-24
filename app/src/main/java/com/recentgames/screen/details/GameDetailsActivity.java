@@ -32,6 +32,7 @@ import com.recentgames.model.content.Image;
 import com.recentgames.model.content.Platform;
 import com.recentgames.model.content.ReviewPreview;
 import com.recentgames.repository.RepositoryProvider;
+import com.recentgames.screen.reviews.ReviewActivity;
 import com.recentgames.screen.gallery.GalleryActivity;
 import com.recentgames.util.ImageHelper;
 import com.recentgames.util.PlatformUtils;
@@ -105,7 +106,7 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
         initToolbar(mToolbar);
 
         mReviewsAdapter = new ReviewsAdapter(new ArrayList<>(), reviewPreview -> {
-
+            ReviewActivity.showActivity(this, reviewPreview);
         });
         initRecyclerView(mReviewsRecyclerView, mReviewsAdapter);
 
@@ -176,7 +177,6 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.unsubscribe();
         mUnbinder.unbind();
         paintStatusBar(R.color.colorPrimaryDark);
     }

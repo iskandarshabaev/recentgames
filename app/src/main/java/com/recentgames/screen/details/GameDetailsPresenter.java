@@ -27,7 +27,6 @@ public class GameDetailsPresenter {
     private final GameDetailsView mView;
     private final LifecycleHandler mLifecycleHandler;
     private final GiantBombRepository mRepository;
-    private Subscription mSubscription;
     private List<Image> mImages;
 
     public GameDetailsPresenter(@NonNull GamePreview game,
@@ -42,10 +41,7 @@ public class GameDetailsPresenter {
 
     public void init() {
         int gameId = mGame.getId();
-        if(mSubscription != null){
-            mSubscription.unsubscribe();
-        }
-        mSubscription = mRepository.game(gameId)
+        mRepository.game(gameId)
                 .compose(mLifecycleHandler.load(R.id.game_details_id))
                 .doOnSubscribe(this::showProgress)
                 .doAfterTerminate(this::hideProgress)
@@ -56,12 +52,6 @@ public class GameDetailsPresenter {
 
     }
 
-    public void unsubscribe(){
-        if(mSubscription != null) {
-            mSubscription.unsubscribe();
-        }
-    }
-
     public void clear() {
         mLifecycleHandler.clear(R.id.game_details_id);
     }
@@ -69,7 +59,9 @@ public class GameDetailsPresenter {
     private void showGameDescription(GameDescription description) {
         mView.showPoster(description.getImage());
         mView.showPlatforms(description.getPlatforms());
-        mView.showGenres(description.getGenres());
+        if(description.getGenres() != null) {
+            mView.showGenres(description.getGenres());
+        }
         mView.showDeck(description.getDeck());
         String releaseDate = description.getOriginalReleaseDate();
         if (releaseDate != null) {
@@ -116,6 +108,7 @@ public class GameDetailsPresenter {
     }
 
     private void showException(Throwable throwable) {
+        clear();
         mView.showError();
         throwable.printStackTrace();
     }

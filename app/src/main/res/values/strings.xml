@@ -3,6 +3,8 @@
 
     <!-- Games -->
     <string name="menu_search">Search</string>
+    <string name="loading_error">Loading error</string>
+    <string name="reload">Reload</string>
 
     <!--GameDetails-->
 

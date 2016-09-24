@@ -65,11 +65,13 @@ public class GalleryActivity extends AppCompatActivity {
         //prepareWindowForAnimation();
         initToolbar();
         Bundle bundle = getIntent().getExtras();
-        int position = bundle.getInt(POSITION_KEY);
-        Serializable serializable = bundle.getSerializable(IMAGES_KEY);
-        if(serializable instanceof ArrayList) {
-            ArrayList<Image> images = (ArrayList<Image>)serializable;
-            initViewPager(position, images);
+        if(bundle != null) {
+            int position = bundle.getInt(POSITION_KEY);
+            Serializable serializable = bundle.getSerializable(IMAGES_KEY);
+            if (serializable instanceof ArrayList) {
+                ArrayList<Image> images = (ArrayList<Image>) serializable;
+                initViewPager(position, images);
+            }
         }
         //ViewCompat.setTransitionName(mImagesViewPager, IMAGE);
     }

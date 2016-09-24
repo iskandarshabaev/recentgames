@@ -33,7 +33,6 @@
                         android:padding="@dimen/padding_medium"
                         android:textSize="@dimen/text.28"/>
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -124,7 +123,7 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="@dimen/padding_medium"
                             android:paddingRight="@dimen/padding_medium"
-                            android:text="@string/release_date"
+                            android:text="@string/rating"
                             android:textSize="@dimen/text.18"/>
 
                         <TextView

@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.recentgames.api.RequestsHandler;
 import com.recentgames.model.content.GameDescription;
 import com.recentgames.model.content.GamePreview;
+import com.recentgames.model.content.ReviewDescription;
 
 import org.junit.After;
 import org.junit.Before;
@@ -34,14 +35,6 @@ public class GiantBombRepositoryTest {
     }
 
     @Test
-    public void testGameDescriptionLoad()throws Exception{
-        int id = ID;
-        GameDescription gameDescription = mRepository.game(id).toBlocking().first();
-        assertNotNull(gameDescription);
-        assertEquals(gameDescription.getId(), id);
-    }
-
-    @Test
     public void testGameSearch()throws Exception{
         String name = "gta";
         List<GamePreview> list = mRepository.search(name).toBlocking().first();
@@ -55,39 +48,6 @@ public class GiantBombRepositoryTest {
         List<GamePreview> list = mRepository.search(name).toBlocking().first();
         assertNotNull(list);
         assertEquals(0,list.size());
-    }
-
-    @Test
-    public void testGameDescriptionSaved()throws Exception{
-        int id = ID;
-        mRepository.game(id).subscribe();
-        GameDescription gameDescription = Realm.getDefaultInstance()
-                .where(GameDescription.class)
-                .equalTo("mId", id)
-                .findFirst();
-        assertNotNull(gameDescription);
-        assertEquals(gameDescription.getId(), id);
-    }
-
-    @Test
-    public void testGameDescriptionNotFound()throws Exception{
-        int id = 999778769;
-        TestSubscriber<GameDescription> testSubscriber = new TestSubscriber<>();
-        mRepository.game(id).subscribe(testSubscriber);
-        testSubscriber.assertNotCompleted();
-    }
-
-    @Test
-    public void testGameDescriptionLoadedFromCache()throws Exception{
-        int id = ID;
-        mRepository.game(id).subscribe();
-        RequestsHandler.setGenerateException(true);
-
-        TestSubscriber<GameDescription> testSubscriber = new TestSubscriber<>();
-        mRepository.game(id).subscribe(testSubscriber);
-        testSubscriber.assertNoErrors();
-
-        RequestsHandler.setGenerateException(false);
     }
 
     @After

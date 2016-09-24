@@ -57,7 +57,7 @@ public class GameDescription extends RealmObject {
         return mPlatforms;
     }
 
-    @NonNull
+    @Nullable
     public RealmList<Genre> getGenres() {
         return mGenres;
     }

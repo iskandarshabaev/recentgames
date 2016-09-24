@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.recentgames.widget.SquareImageView
         android:id="@+id/game_cover"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:layout_gravity="center"
         tools:ignore="ContentDescription"/>
@@ -17,7 +17,12 @@
         android:id="@+id/game_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text.16"
         android:textColor="@color/white"
+        android:paddingStart="@dimen/padding_small"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingTop="@dimen/padding_xsmall"
+        android:paddingBottom="@dimen/padding_xsmall"
         android:layout_gravity="bottom|center_horizontal"
         android:background="@color/black_half_transparent"/>
 

@@ -8,6 +8,9 @@ import io.realm.RealmObject;
 
 public class ReviewDescription extends RealmObject {
 
+    @SerializedName("id")
+    private int mId;
+
     @SerializedName("score")
     private int mScore;
 
@@ -19,6 +22,9 @@ public class ReviewDescription extends RealmObject {
 
     @SerializedName("description")
     private String mDescription;
+
+    @SerializedName("deck")
+    private String mDeck;
 
     public ReviewDescription() {
     }
@@ -39,5 +45,37 @@ public class ReviewDescription extends RealmObject {
 
     public String getDescription() {
         return mDescription;
+    }
+
+    public void setScore(int score) {
+        mScore = score;
+    }
+
+    public void setReviewer(String reviewer) {
+        mReviewer = reviewer;
+    }
+
+    public void setPublishDate(String publishDate) {
+        mPublishDate = publishDate;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public String getDeck() {
+        return mDeck;
+    }
+
+    public void setDeck(String deck) {
+        mDeck = deck;
+    }
+
+    public int getId() {
+        return mId;
+    }
+
+    public void setId(int id) {
+        mId = id;
     }
 }

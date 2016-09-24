@@ -34,11 +34,14 @@ public class QueryParams {
     public static final String SIMILAR_GAMES = "similar_games";
     public static final String RESOURCES = "game";
 
-    //todo:  add release_date and filter date at cache
     public static final String GAMES_FILED_LIST = ID + "," + NAME + "," + IMAGE + "," + RELEASE_DATE;
 
     public static final String GAME_FILED_LIST = ID + "," + NAME + "," + IMAGE + "," + IMAGES + "," + DECK + "," +
             PLATFORMS + "," + GENRES + "," + RELEASE_DATE + "," +
+            RATING + "," + REVIEWS + "," + SIMILAR_GAMES;
+
+    public static final String REVIEW_FIELD_LIST = ID + "," + NAME + "," + IMAGE + "," +
+            IMAGES + "," + DECK + "," + PLATFORMS + "," + GENRES + "," + RELEASE_DATE + "," +
             RATING + "," + REVIEWS + "," + SIMILAR_GAMES;
 
     public static final String REVIEW_FILED_LIST = DESCRIPTION + "," + SCORE + "," + REVIEWER + "," +
@@ -82,6 +85,16 @@ public class QueryParams {
             return R.id.get_games_month;
         } else { // year
             return R.id.get_games_year;
+        }
+    }
+
+    public static String getName(int position) { //position == GAME_TYPE
+        if (position == GamesType.WEEK) {
+            return "WEEK";
+        } else if (position == GamesType.MONTH) {
+            return "MONTH";
+        } else {
+            return "YEAR";
         }
     }
 
