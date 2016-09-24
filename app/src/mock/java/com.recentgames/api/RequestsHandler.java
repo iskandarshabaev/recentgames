@@ -20,12 +20,13 @@ public class RequestsHandler {
 
     public RequestsHandler() {
         mResponsesMap.put("/game", "game.json");
+        mResponsesMap.put("/review", "review.json");
         mResponsesMap.put("/search", "game_search.json");
     }
 
-    private static boolean sGenerateException;
+    private static volatile boolean sGenerateException;
 
-    public static void setGenerateException(boolean value){
+    public static synchronized void  setGenerateException(boolean value){
         sGenerateException = value;
     }
 
@@ -48,7 +49,9 @@ public class RequestsHandler {
         for (String interceptUrl : keys) {
             if(path.contains("game/") || path.contains("search/")){
                 return proceedGameRequest(request, path, query);
-            } else if (path.contains(interceptUrl)) {
+            }else if(path.contains("review/")){
+                return proceedReviewRequest(request, path, query);
+            }else if (path.contains(interceptUrl)) {
                 String mockResponsePath = mResponsesMap.get(interceptUrl);
                 return createResponseFromAssets(request, mockResponsePath);
             }
@@ -79,6 +82,14 @@ public class RequestsHandler {
             return createResponseFromAssets(request, "game_search.json");
         } else {
             return createResponseFromAssets(request, "game_not_found.json");
+        }
+    }
+
+    private Response proceedReviewRequest(@NonNull Request request, @NonNull String path, @NonNull String query){
+        if(path.contains("review/45")){
+            return createResponseFromAssets(request, "review.json");
+        } else {
+            return createResponseFromAssets(request, "review_not_found.json");
         }
     }
 }

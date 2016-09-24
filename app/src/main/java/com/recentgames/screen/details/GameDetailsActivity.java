@@ -177,7 +177,6 @@ public class GameDetailsActivity extends AppCompatActivity implements GameDetail
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.unsubscribe();
         mUnbinder.unbind();
         paintStatusBar(R.color.colorPrimaryDark);
     }

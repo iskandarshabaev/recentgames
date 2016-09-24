@@ -78,7 +78,6 @@ public class ReviewActivity extends AppCompatActivity implements ReviewView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.unsubscribe();
     }
 
     private void initToolbar(@NonNull Toolbar toolbar, @NonNull String title) {

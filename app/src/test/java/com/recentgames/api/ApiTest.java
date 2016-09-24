@@ -76,7 +76,7 @@ public class ApiTest {
     @Test
     public void testApiGetReview() {
         int reviewId = 5;
-        ApiFactory.getGiantBombService().review(reviewId, REVIEW_FILED_LIST)
+        ApiFactory.getGiantBombService().review(reviewId)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(
@@ -88,7 +88,7 @@ public class ApiTest {
     @Test
     public void testApiGetReviewNotFound() {
         int invalidReviewId = 589980890;
-        ApiFactory.getGiantBombService().review(invalidReviewId, REVIEW_FILED_LIST)
+        ApiFactory.getGiantBombService().review(invalidReviewId)
                 .map(GiantBombResponse::getResults)
                 .compose(RxSchedulers.async())
                 .subscribe(

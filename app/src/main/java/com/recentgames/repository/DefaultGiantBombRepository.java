@@ -30,6 +30,7 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
                     return Observable.just(game);
                 })
                 .onErrorResumeNext(throwable -> {
+                    throwable.printStackTrace();
                     Realm realmInstance = Realm.getDefaultInstance();
                     GameDescription game = realmInstance.where(GameDescription.class)
                             .equalTo("mId", gameId)
@@ -95,6 +96,7 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
                     return Observable.just(review);
                 })
                 .onErrorResumeNext(throwable -> {
+                    throwable.printStackTrace();
                     Realm realmInstance = Realm.getDefaultInstance();
                     ReviewDescription review = realmInstance.where(ReviewDescription.class)
                             .equalTo("mId", reviewId)
