@@ -14,7 +14,6 @@ public class ReviewPresenter {
     private ReviewView mView;
     private GiantBombRepository mRepository;
     private LifecycleHandler mLifecycleHandler;
-    private Subscription mSubscription;
 
     public ReviewPresenter(@NonNull ReviewView view,
                            @NonNull GiantBombRepository repository,
@@ -25,8 +24,7 @@ public class ReviewPresenter {
     }
 
     public void loadContent(int reviewId) {
-        unsubscribe();
-        mSubscription = mRepository.review(reviewId)
+        mRepository.review(reviewId)
                 .compose(mLifecycleHandler.load(R.id.review_id))
                 .doOnSubscribe(this::showProgress)
                 .doAfterTerminate(this::hideProgress)
@@ -42,6 +40,7 @@ public class ReviewPresenter {
     }
 
     private void showError(Throwable throwable) {
+        mLifecycleHandler.clear(R.id.review_id);
         throwable.printStackTrace();
         mView.showError();
     }
@@ -52,12 +51,6 @@ public class ReviewPresenter {
 
     private void hideProgress() {
         mView.hideLoading();
-    }
-
-    public void unsubscribe(){
-        if(mSubscription != null){
-            mSubscription.unsubscribe();
-        }
     }
 
     public void clear(){

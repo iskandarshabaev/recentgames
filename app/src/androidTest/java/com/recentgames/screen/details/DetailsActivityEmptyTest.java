@@ -28,9 +28,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class DetailsActivityTest {
+public class DetailsActivityEmptyTest {
 
-    private GamePreview mGame;
 
     @Rule
     public ActivityTestRule<GameDetailsActivity> mActivityRule =
@@ -43,30 +42,17 @@ public class DetailsActivityTest {
 
     @Test
     public void testOnHomeButtonClick(){
-        launchActivity(36067);
-        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
+        launchActivity();
     }
 
     @Test
     public void testCardsVisible(){
-        launchActivity(36067);
-        onView(withId(R.id.description_card)).check(matches(isDisplayed()));
-        onView(withId(R.id.game_name)).check(matches(withText(mGame.getName())));
-        onView(withId(R.id.poster)).perform(swipeUp());
-        onView(withId(R.id.images_card)).check(matches(isDisplayed()));
-        onView(withId(R.id.description_card)).perform(swipeUp());
+        launchActivity();
     }
 
-    @Test
-    public void testErrorShow(){
-        launchActivity(99999999);
-    }
-
-    private void launchActivity(int id) {
-        Image image = new Image("http://www.giantbomb.com/api/image/scale_medium/2669576-destiny%20v2.jpg");
-        mGame = new GamePreview(id, image, "Destiny",new Date());
-        Intent intent = new Intent(InstrumentationRegistry.getContext(), GameDetailsActivity.class);
-        intent.putExtra(GameDetailsActivity.GAME_PREVIEW_KEY, mGame);
+    private void launchActivity() {
+        Intent intent = new Intent(InstrumentationRegistry.getContext(),
+                GameDetailsActivity.class);
         mActivityRule.launchActivity(intent);
     }
 

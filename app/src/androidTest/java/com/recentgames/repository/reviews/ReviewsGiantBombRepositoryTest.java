@@ -1,11 +1,12 @@
-package com.recentgames.repository;
+package com.recentgames.repository.reviews;
 
 import android.support.test.runner.AndroidJUnit4;
 
 import com.recentgames.api.RequestsHandler;
-import com.recentgames.model.content.GameDescription;
 import com.recentgames.model.content.GamePreview;
 import com.recentgames.model.content.ReviewDescription;
+import com.recentgames.repository.DefaultGiantBombRepository;
+import com.recentgames.repository.GiantBombRepository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,9 +23,7 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class GiantBombRepositoryTest {
-
-    private final static int ID = 36067;
+public class ReviewsGiantBombRepositoryTest {
 
     private GiantBombRepository mRepository;
 
@@ -35,19 +34,18 @@ public class GiantBombRepositoryTest {
     }
 
     @Test
-    public void testGameSearch()throws Exception{
-        String name = "gta";
-        List<GamePreview> list = mRepository.search(name).toBlocking().first();
-        assertNotNull(list);
-        assertTrue(list.size() > 0);
-    }
-
-    @Test
-    public void testGameSearchNotFound()throws Exception{
-        String name = "UNKNOW";
-        List<GamePreview> list = mRepository.search(name).toBlocking().first();
-        assertNotNull(list);
-        assertEquals(0,list.size());
+    public void testReviewSaved()throws Exception{
+        int id = 45;
+        ReviewDescription reviewDescription =
+                mRepository.review(id).toBlocking().first();
+        ReviewDescription reviewDesrctiption = Realm.getDefaultInstance()
+                .where(ReviewDescription.class)
+                .equalTo("mId", id)
+                .findFirst();
+        ReviewDescription result = Realm.getDefaultInstance()
+                .copyFromRealm(reviewDesrctiption);
+        assertNotNull(result);
+        assertEquals(result.getId(), id);
     }
 
     @After

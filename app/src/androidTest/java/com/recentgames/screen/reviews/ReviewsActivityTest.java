@@ -1,4 +1,4 @@
-package com.recentgames.screen.details;
+package com.recentgames.screen.reviews;
 
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
@@ -8,7 +8,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.recentgames.R;
 import com.recentgames.model.content.GamePreview;
-import com.recentgames.model.content.Image;
+import com.recentgames.model.content.ReviewDescription;
+import com.recentgames.model.content.ReviewPreview;
+import com.recentgames.screen.details.GameDetailsActivity;
 
 import org.junit.After;
 import org.junit.Before;
@@ -23,18 +25,20 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeUp;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.recentgames.action.WaitAction.waitId;
 
 @RunWith(AndroidJUnit4.class)
-public class DetailsActivityTest {
+public class ReviewsActivityTest {
 
-    private GamePreview mGame;
+    private ReviewPreview mReview;
 
     @Rule
-    public ActivityTestRule<GameDetailsActivity> mActivityRule =
-            new ActivityTestRule<>(GameDetailsActivity.class, false, false);
+    public ActivityTestRule<ReviewActivity> mActivityRule =
+            new ActivityTestRule<>(ReviewActivity.class, false, false);
 
     @Before
     public void setUp() throws Exception {
@@ -42,31 +46,26 @@ public class DetailsActivityTest {
     }
 
     @Test
+    public void testContentLoadedVisible(){
+        launchActivity();
+        onView(withId(R.id.deck)).check(matches(isDisplayed()));
+        onView(withId(R.id.author_name)).check(matches(isDisplayed()));
+        onView(withId(R.id.publishDate)).check(matches(isDisplayed()));
+        onView(withId(R.id.deck)).perform(swipeUp());
+        onView(withId(R.id.content)).check(matches(isDisplayed()));
+        onView(isRoot()).perform(waitId(R.id.content, 6000));
+    }
+
+    @Test
     public void testOnHomeButtonClick(){
-        launchActivity(36067);
+        launchActivity();
         onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click());
     }
 
-    @Test
-    public void testCardsVisible(){
-        launchActivity(36067);
-        onView(withId(R.id.description_card)).check(matches(isDisplayed()));
-        onView(withId(R.id.game_name)).check(matches(withText(mGame.getName())));
-        onView(withId(R.id.poster)).perform(swipeUp());
-        onView(withId(R.id.images_card)).check(matches(isDisplayed()));
-        onView(withId(R.id.description_card)).perform(swipeUp());
-    }
-
-    @Test
-    public void testErrorShow(){
-        launchActivity(99999999);
-    }
-
-    private void launchActivity(int id) {
-        Image image = new Image("http://www.giantbomb.com/api/image/scale_medium/2669576-destiny%20v2.jpg");
-        mGame = new GamePreview(id, image, "Destiny",new Date());
+    private void launchActivity() {
+        mReview = new ReviewPreview(45, "review name");
         Intent intent = new Intent(InstrumentationRegistry.getContext(), GameDetailsActivity.class);
-        intent.putExtra(GameDetailsActivity.GAME_PREVIEW_KEY, mGame);
+        intent.putExtra(ReviewActivity.REVIEW_KEY, mReview);
         mActivityRule.launchActivity(intent);
     }
 

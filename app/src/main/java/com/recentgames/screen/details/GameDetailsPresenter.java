@@ -27,7 +27,6 @@ public class GameDetailsPresenter {
     private final GameDetailsView mView;
     private final LifecycleHandler mLifecycleHandler;
     private final GiantBombRepository mRepository;
-    private Subscription mSubscription;
     private List<Image> mImages;
 
     public GameDetailsPresenter(@NonNull GamePreview game,
@@ -42,10 +41,7 @@ public class GameDetailsPresenter {
 
     public void init() {
         int gameId = mGame.getId();
-        if(mSubscription != null){
-            mSubscription.unsubscribe();
-        }
-        mSubscription = mRepository.game(gameId)
+        mRepository.game(gameId)
                 .compose(mLifecycleHandler.load(R.id.game_details_id))
                 .doOnSubscribe(this::showProgress)
                 .doAfterTerminate(this::hideProgress)
@@ -54,12 +50,6 @@ public class GameDetailsPresenter {
                         this::showException
                 );
 
-    }
-
-    public void unsubscribe(){
-        if(mSubscription != null) {
-            mSubscription.unsubscribe();
-        }
     }
 
     public void clear() {
@@ -118,6 +108,7 @@ public class GameDetailsPresenter {
     }
 
     private void showException(Throwable throwable) {
+        clear();
         mView.showError();
         throwable.printStackTrace();
     }

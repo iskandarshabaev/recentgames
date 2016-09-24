@@ -38,9 +38,9 @@ public class GamesActivityTestNew {
                 allOf(withId(R.id.menu_search), withContentDescription("Search"), isDisplayed()));
         actionMenuItemView.perform(click());
 
-        ViewInteraction actionMenuItemView2 = onView(
+        /*ViewInteraction actionMenuItemView2 = onView(
                 allOf(withId(R.id.menu_search), withContentDescription("Search"), isDisplayed()));
-        actionMenuItemView2.perform(click());
+        actionMenuItemView2.perform(click());*/
 
         ViewInteraction searchAutoComplete = onView(
                 allOf(withId(R.id.search_src_text),
@@ -70,11 +70,11 @@ public class GamesActivityTestNew {
                         isDisplayed()));
         searchAutoComplete3.perform(replaceText("gta"), closeSoftKeyboard());
 
-        ViewInteraction recyclerView = onView(
+        /*ViewInteraction recyclerView = onView(
                 allOf(withId(R.id.recyclerView), isDisplayed()));
         recyclerView.perform(actionOnItemAtPosition(2, click()));
 
-        pressBack();
+        pressBack();*/
 
         ViewInteraction appCompatImageView2 = onView(
                 allOf(withId(R.id.search_close_btn), withContentDescription("Удалить запрос"),
