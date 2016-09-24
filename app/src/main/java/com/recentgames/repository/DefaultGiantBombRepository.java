@@ -65,14 +65,27 @@ public class DefaultGiantBombRepository implements GiantBombRepository {
     }
 
     private Observable<GamePreviewCached> getCachedGamePreviews(Throwable throwable, int offset, int type) {
+<<<<<<< refs/remotes/origin/task29
         if (throwable instanceof LimitReachedException)
             throw new LimitReachedException("No more games for you guys");
+=======
+        //todo: find a better way to throw exception
+        if (throwable instanceof LimitReachedException) throw new LimitReachedException("No more games for you guys");
+>>>>>>> local
         if (offset != 0) throw new RefreshException("Useless cache");
         Realm realm = Realm.getDefaultInstance();
         RealmResults<GamePreview> repositories = realm.where(GamePreview.class)
                 .between("mReleaseDate", QueryParams.getStartDate(type), QueryParams.getCurrentDate())
                 .findAll();
+<<<<<<< refs/remotes/origin/task29
         return Observable.just(new GamePreviewCached(realm.copyFromRealm(repositories), true));
+=======
+        if (repositories.size() > 0) {
+            return Observable.just(new GamePreviewCached(realm.copyFromRealm(repositories), true));
+        } else {
+            throw new EmptyCacheException("Cache is empty");
+        }
+>>>>>>> local
     }
 
     @Override

@@ -42,6 +42,11 @@ public class GamesPagePresenter {
                     } else {
                         mGamesPageView.showError();
                     }
+<<<<<<< refs/remotes/origin/task29
+=======
+                    mLifecycleHandler.clear(QueryParams.getLoaderId(type));
+                    hideLoading(offset);
+>>>>>>> local
                 });
     }
 
@@ -56,8 +61,14 @@ public class GamesPagePresenter {
                     mGamesPageView.changeGames(gamePreviews.getGamePreviews());
                     mGamesPageView.activateBottomRefresh();
                 }, throwable -> {
+<<<<<<< refs/remotes/origin/task29
                     throwable.printStackTrace();
                     mGamesPageView.showError();
+=======
+                    mGamesPageView.showErrorWithRetry();
+                    mLifecycleHandler.clear(QueryParams.getLoaderId(type));
+                    hideRefreshing();
+>>>>>>> local
                 });
     }
 
